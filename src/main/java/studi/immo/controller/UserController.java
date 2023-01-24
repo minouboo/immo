@@ -4,6 +4,7 @@ import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 
 import org.springframework.ui.Model;
@@ -18,6 +19,7 @@ import studi.immo.service.*;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @Controller
 @RequestMapping(value="user")
+@PreAuthorize("isAuthenticated()")
 
 public class UserController {
 

@@ -30,5 +30,12 @@ public class User extends GenericEntity{
     @ManyToOne
     private Address address;
 
+    @Column
+    @Enumerated (value = EnumType.STRING)
+    private Role role;
+
+    @Column (name = "enabled")
+    private Boolean isEnabled = true;
+
 
 }
