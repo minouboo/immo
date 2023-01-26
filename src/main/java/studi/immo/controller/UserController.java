@@ -38,20 +38,6 @@ public class UserController {
         this.advertisementService = advertisementService;
     }
 
-
-    @GetMapping (value = "/create-account")
-    public String pageCreateAccount(Model model){
-        User user = new User();
-        model.addAttribute("User", user);
-        return "CreateUser";
-    }
-
-    @PostMapping (value = "/new-account")
-    public String createUser(@ModelAttribute ("User") User user){
-        userService.saveUser(user);
-        return "Index";
-    }
-
     @GetMapping (value = "/create-accommodation")
     public String pageCreateAccommodation(Model model){
         Accommodation accommodation = new Accommodation();

@@ -1,6 +1,7 @@
-package studi.immo.auth;
+package studi.immo.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,10 +16,12 @@ import studi.immo.service.UserService;
 public class HomeController {
 
     private UserService userService;
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
-    public HomeController (UserService userService){
+    public HomeController (UserService userService, PasswordEncoder passwordEncoder){
         this.userService = userService;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @GetMapping ({"","/","/accueil"})
@@ -26,5 +29,18 @@ public class HomeController {
         return "Index";
     }
 
+    @GetMapping ({"/creation-compte"})
+    public String pageCreationDeCompte(Model model){
+        User user = new User();
+        model.addAttribute("User", user);
+        return "CreateUser";
+    }
+
+    @PostMapping (value = "/nouveau-compte")
+    public String createUser(@ModelAttribute ("User") User user){
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        userService.saveUser(user);
+        return "Index";
+    }
 
 }

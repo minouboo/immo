@@ -1,6 +1,6 @@
 package studi.immo.entity;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 import lombok.*;
 
 @Entity

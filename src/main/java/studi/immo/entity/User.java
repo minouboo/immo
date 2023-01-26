@@ -1,8 +1,11 @@
 package studi.immo.entity;
 
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 import lombok.*;
+
+import java.util.HashSet;
+import java.util.Set;
 
 
 @Entity
@@ -30,9 +33,11 @@ public class User extends GenericEntity{
     @ManyToOne
     private Address address;
 
-    @Column
+    @ElementCollection (targetClass = Role.class, fetch = FetchType.EAGER)
+    @CollectionTable (name="user_role")
+    @Column (name="role")
     @Enumerated (value = EnumType.STRING)
-    private Role role;
+    private Set<Role> roles = new HashSet<>();
 
     @Column (name = "enabled")
     private Boolean isEnabled = true;

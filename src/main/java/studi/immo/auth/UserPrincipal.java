@@ -7,6 +7,7 @@ import studi.immo.entity.User;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class UserPrincipal implements UserDetails {
 
@@ -18,8 +19,8 @@ public class UserPrincipal implements UserDetails {
     }
 
     @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+    public String getUsername() {
+        return user.getUserName();
     }
 
     @Override
@@ -28,8 +29,15 @@ public class UserPrincipal implements UserDetails {
     }
 
     @Override
-    public String getUsername() {
-        return user.getEmail();
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        List< SimpleGrantedAuthority> authorities = user.getRoles().stream()
+                .map(role -> new SimpleGrantedAuthority("ROLE_" + role)).collect(Collectors.toList());
+        return authorities;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return user.getIsEnabled();
     }
 
     @Override
@@ -47,8 +55,5 @@ public class UserPrincipal implements UserDetails {
         return true;
     }
 
-    @Override
-    public boolean isEnabled() {
-        return user.getIsEnabled();
-    }
+
 }

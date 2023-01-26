@@ -1,7 +1,8 @@
 package studi.immo.entity;
 
-import jakarta.persistence.*;
 import lombok.*;
+
+import javax.persistence.*;
 
 @Entity
 @Setter
@@ -9,7 +10,7 @@ import lombok.*;
 public class Address extends GenericEntity{
 
 
-    @Column
+
     private Long streetNumber;
 
     @Column
