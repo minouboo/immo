@@ -1,5 +1,8 @@
 package studi.immo.service.implement;
 
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import studi.immo.entity.User;
 import studi.immo.repository.UserRepository;
@@ -18,6 +21,15 @@ public class UserServiceImplement implements UserService {
     @Override
     public User saveUser(User user) {
         return userRepository.save(user);
+    }
+
+    @Override
+    public User getCurrentUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (! (authentication instanceof AnonymousAuthenticationToken)) {
+            return this.userRepository.findByUserName(authentication.getName()).orElse(null);
+        }
+        return null;
     }
 
 }

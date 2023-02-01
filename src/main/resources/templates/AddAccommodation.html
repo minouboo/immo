@@ -13,7 +13,7 @@
     <div class="container-fluid">
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
 
-            <a class="nav-link active" id="menu" aria-current="page" th:href = "@{/user/accueil}">Immo</a>
+            <a class="nav-link active" id="menu" aria-current="page" th:href = "@{/accueil}">Immo</a>
 
             <div id="bouton-nav">
                 <a th:href = "@{/user/create-accommodation}" class="btn" id="bouton">Poster votre annonce dès maintenant</a>
@@ -55,6 +55,43 @@
                     type="text"
                     class="form-control"
                     th:field = "*{rooms}">
+            </div>
+            <div class="mb-3" >
+                <label class="form-label">Loyer mensuel (en €)</label>
+                <input
+                        type="text"
+                        class="form-control"
+                        th:field = "*{rentalPrice}">
+            </div>
+            <div class="mb-3" >
+                <label class="form-label">Charges mensuel (en €)</label>
+                <input
+                        type="text"
+                        class="form-control"
+                        th:field = "*{charges}">
+            </div>
+            <div class="mb-3" >
+                <label class="form-label">Caution (en €)</label>
+                <input
+                        type="text"
+                        class="form-control"
+                        th:field = "*{deposit}">
+            </div>
+            <div class="mb-3" >
+                <label class="form-label">Frais d'agence (en €)</label>
+                <input
+                        type="text"
+                        class="form-control"
+                        th:field = "*{agencyFees}">
+            </div>
+            <div class="mb-3" >
+                <label class="form-label">Description</label>
+                <textarea
+                        class = "form-control"
+                        rows = "6"
+                        th:field = "*{description}"
+                        placeholder="Entrer la description"
+                ></textarea>
             </div>
             <div id="bouton-container">
                 <button type="submit" class="btn" id="bouton-form">Submit</button>

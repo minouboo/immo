@@ -10,13 +10,13 @@ import javax.persistence.*;
 public class Address extends GenericEntity{
 
 
-
+    @Column
     private Long streetNumber;
 
     @Column
     private String streetName;
 
-    @ManyToOne
+    @ManyToOne (cascade = CascadeType.ALL)
     private City city;
 
 }

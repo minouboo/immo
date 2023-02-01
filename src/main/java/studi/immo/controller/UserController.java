@@ -12,8 +12,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import studi.immo.api.CityApiResponse;
 import studi.immo.entity.*;
+import studi.immo.form.AccommodationForm;
+import studi.immo.form.AddressForm;
 import studi.immo.service.*;
+
+import java.util.List;
 
 @Log
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
@@ -29,51 +34,62 @@ public class UserController {
     private AddressService addressService;
     private AdvertisementService advertisementService;
 
+    private CityApiClientService cityApiClientService;
+
     @Autowired
-    public UserController (UserService userService, AccommodationService accommodationService, CityService cityService, AddressService addressService, AdvertisementService advertisementService){
+    public UserController (UserService userService, AccommodationService accommodationService, CityService cityService, AddressService addressService, AdvertisementService advertisementService, CityApiClientService cityApiClient, CityApiClientService cityApiClient1, CityApiClientService cityApiClientService){
         this.userService= userService;
         this.accommodationService = accommodationService;
         this.cityService = cityService;
         this.addressService = addressService;
         this.advertisementService = advertisementService;
+        this.cityApiClientService = cityApiClientService;
     }
 
     @GetMapping (value = "/create-accommodation")
     public String pageCreateAccommodation(Model model){
-        Accommodation accommodation = new Accommodation();
-        model.addAttribute("Accommodation", accommodation);
+        AccommodationForm accommodationForm = new AccommodationForm();
+        model.addAttribute("Accommodation", accommodationForm);
         return "AddAccommodation";
     }
 
     @PostMapping (value = "/new-accommodation")
-    public String createAccommodation(@ModelAttribute("Accommodation") Accommodation accommodation){
-        accommodationService.saveAccommodation(accommodation);
-        return "redirect:/user/create-city";
-    }
-
-    @GetMapping (value = "/create-city")
-    public String pageCreateCity(Model model){
-        City city = new City();
-        model.addAttribute("City", city);
-        return "AddCity";
-    }
-
-    @PostMapping (value = "/new-city")
-    public String createCity(@ModelAttribute("City") City city){
-        cityService.saveCity(city);
+    public String createAccommodation(@ModelAttribute("Accommodation") AccommodationForm accommodation){
+        Accommodation a = new Accommodation();
+        User user = userService.getCurrentUser();
+        a.setRooms(accommodation.getRooms());
+        a.setSquareMeter(accommodation.getSquareMeter());
+        a.setUser(user);
+        accommodationService.saveAccommodation(a);
+        Advertisement adv = new Advertisement();
+        adv.setAccommodation(a);
+        adv.setRentalPrice(accommodation.getRentalPrice());
+        adv.setCharges(accommodation.getCharges());
+        adv.setDeposit(accommodation.getDeposit());
+        adv.setAgencyFees(accommodation.getAgencyFees());
+        adv.setDescription(accommodation.getDescription());
+        advertisementService.saveAdvertisement(adv);
         return "redirect:/user/create-address";
     }
 
-    @GetMapping (value = "/create-address")
-    public String pageCreateAddress(Model model){
-        Address address = new Address();
-        model.addAttribute("Address", address);
+    @GetMapping (value="/create-address")
+    public String pageCreateAddress (Model model){
+        AddressForm addressForm = new AddressForm();
+        model.addAttribute("Address", addressForm);
         return "AddAddress";
     }
 
     @PostMapping (value = "/new-address")
-    public String createAddress (@ModelAttribute("Address") Address address){
-        addressService.saveAddress(address);
+    public String createAddress (@ModelAttribute("Address") AddressForm address){
+        City c = new City();
+        c.setName(address.getCityName());
+        c.setZipCode(address.getZipCode());
+        c = cityService.saveCity(c);
+        Address ad = new Address();
+        ad.setStreetNumber(address.getStreetNumber());
+        ad.setStreetName(address.getStreetName());
+        ad.setCity(c);
+        addressService.saveAddress(ad);
         return "redirect:/user/create-advertisement";
     }
 
@@ -89,4 +105,14 @@ public class UserController {
         advertisementService.saveAdvertisement(advertisement);
         return "Index";
     }
+
+    @GetMapping (value = "/create-city")
+    public String pageCreateCity(Model model){
+        City city = new City();
+        model.addAttribute("City", city);
+        List<CityApiResponse> cityList = cityApiClientService.getCity(null,"Paris");
+        return "AddCity";
+    }
+
+
 }

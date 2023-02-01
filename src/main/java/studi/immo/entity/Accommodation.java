@@ -4,6 +4,7 @@ package studi.immo.entity;
 
 import lombok.*;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
