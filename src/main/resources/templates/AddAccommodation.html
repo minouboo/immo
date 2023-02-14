@@ -16,15 +16,25 @@
             <a class="nav-link active" id="menu" aria-current="page" th:href = "@{/accueil}">Immo</a>
 
             <div id="bouton-nav">
-                <a th:href = "@{/user/create-accommodation}" class="btn" id="bouton">Poster votre annonce dès maintenant</a>
+                <a th:href = "@{/user/create-address}" class="btn" id="bouton">Poster votre annonce dès maintenant</a>
             </div>
 
             <ul class="navbar-nav me-auto mb-2 mb-lg-0" id="onglet">
-                <li class="nav-item">
-                    <a class="nav-link active" id="menu" aria-current="page" th:href = "@{/user/create-account}">Mon compte</a>
+                <li class="nav-item dropdown" >
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" id="menu">Mes compte</a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        <li><a class="dropdown-item" href="#">Mon portefeuille</a></li>
+                        <li><a class="dropdown-item" th:href = "@{/user/mes-annonces}">Mes annonces</a></li>
+                        <li><a class="dropdown-item" href="#">Mes messages</a></li>
+                        <li><a class="dropdown-item" href="#">Me déconnecter</a></li>
+                    </ul>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link active" id="menu" aria-current="page" href="AddAccomodation.html"> Mes Contrats</a>
+                <li class="nav-item dropdown" >
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" id="menu">Mes contrats</a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        <li><a class="dropdown-item" href="#">Location</a></li>
+                        <li><a class="dropdown-item" href="#">Propriétaire</a></li>
+                    </ul>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link active" id="menu" aria-current="page" href="listeappartements.html">Admin</a>
@@ -41,7 +51,14 @@
 
         <h2 id="titre">Mon bien</h2>
 
-        <form th:action = "@{/user/new-accommodation}" th:object = "${Accommodation}" method = "POST">
+        <form th:action = "@{/user/new-accommodation/id={id} (id=${address.id})}" th:object = "${Accommodation}" method = "POST">
+            <div class="mb-3" >
+                <label class="form-label">Titre de votre annonce</label>
+                <input
+                        type="text"
+                        class="form-control"
+                        th:field = "*{title}">
+            </div>
             <div class="mb-3" >
                 <label class="form-label">Surface</label>
                 <input
@@ -91,7 +108,7 @@
                         rows = "6"
                         th:field = "*{description}"
                         placeholder="Entrer la description"
-                ></textarea>
+                />
             </div>
             <div id="bouton-container">
                 <button type="submit" class="btn" id="bouton-form">Submit</button>

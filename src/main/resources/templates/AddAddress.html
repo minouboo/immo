@@ -5,6 +5,10 @@
     <title>Votre Bien</title>
     <link th:href="@{/styles/cssandjs/main.css}" rel="stylesheet" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+    <script src="/webjars/jquery/3.1.1/jquery.min.js"></script>
+    <script type="text/javascript" th:src="@{/styles/cssandjs/apicity.js}"></script>
+
 </head>
 
 <body>
@@ -13,7 +17,7 @@
     <div class="container-fluid">
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
 
-            <a class="nav-link active" id="menu" aria-current="page" th:href = "@{/accueil}">Immo</a>
+            <a class="nav-link active" id="menu" aria-current="page" th:href = "@{/user/accueil}">Immo</a>
 
             <div id="bouton-nav">
                 <a th:href = "@{/user/create-accommodation}" class="btn" id="bouton">Poster votre annonce dès maintenant</a>
@@ -57,18 +61,23 @@
                         th:field = "*{streetName}">
             </div>
             <div class="mb-3" >
-                <label class="form-label">Ville</label>
-                <input
-                        type="text"
-                        class="form-control"
-                        th:field = "*{cityName}">
+                <label for="zipcode" class="form-label">Code Postal</label>
+                <input type="text"
+                       name="zipcode"
+                       class="form-control"
+                       placeholder="Code postal"
+                       id="zipcode"
+                       th:field = "*{zipCode}">
+                <div style="display: none; color: #f55;" id="error-message"></div>
             </div>
             <div class="mb-3" >
-                <label class="form-label">Code Postal</label>
-                <input
-                        type="text"
+                <label for="city" class="form-label">Ville</label>
+                <select
                         class="form-control"
-                        th:field = "*{zipCode}">
+                        name="city"
+                        id="city"
+                        th:field = "*{cityName}"
+                ></select>
             </div>
             <div id="bouton-container">
                 <button type="submit" class="btn" id="bouton-form">Submit</button>

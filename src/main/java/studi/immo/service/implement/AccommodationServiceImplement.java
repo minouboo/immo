@@ -19,4 +19,11 @@ public class AccommodationServiceImplement implements AccommodationService {
     public Accommodation saveAccommodation(Accommodation accommodation) {
         return accomodationRepository.save(accommodation);
     }
+
+    @Override
+    public Accommodation getAccommodationById(Long id) {
+        return accomodationRepository.findById(id).get();
+    }
+
+
 }

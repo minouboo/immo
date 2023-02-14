@@ -8,14 +8,12 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import studi.immo.api.CityApiResponse;
 import studi.immo.entity.*;
 import studi.immo.form.AccommodationForm;
 import studi.immo.form.AddressForm;
+import studi.immo.repository.AccomodationRepository;
 import studi.immo.service.*;
 
 import java.util.List;
@@ -23,8 +21,9 @@ import java.util.List;
 @Log
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @Controller
-@RequestMapping(value="user")
 @PreAuthorize("isAuthenticated()")
+@RequestMapping(value="user")
+
 
 public class UserController {
 
@@ -46,36 +45,11 @@ public class UserController {
         this.cityApiClientService = cityApiClientService;
     }
 
-    @GetMapping (value = "/create-accommodation")
-    public String pageCreateAccommodation(Model model){
-        AccommodationForm accommodationForm = new AccommodationForm();
-        model.addAttribute("Accommodation", accommodationForm);
-        return "AddAccommodation";
-    }
-
-    @PostMapping (value = "/new-accommodation")
-    public String createAccommodation(@ModelAttribute("Accommodation") AccommodationForm accommodation){
-        Accommodation a = new Accommodation();
-        User user = userService.getCurrentUser();
-        a.setRooms(accommodation.getRooms());
-        a.setSquareMeter(accommodation.getSquareMeter());
-        a.setUser(user);
-        accommodationService.saveAccommodation(a);
-        Advertisement adv = new Advertisement();
-        adv.setAccommodation(a);
-        adv.setRentalPrice(accommodation.getRentalPrice());
-        adv.setCharges(accommodation.getCharges());
-        adv.setDeposit(accommodation.getDeposit());
-        adv.setAgencyFees(accommodation.getAgencyFees());
-        adv.setDescription(accommodation.getDescription());
-        advertisementService.saveAdvertisement(adv);
-        return "redirect:/user/create-address";
-    }
-
     @GetMapping (value="/create-address")
-    public String pageCreateAddress (Model model){
+    public String pageCreateAddress ( Model model){
         AddressForm addressForm = new AddressForm();
         model.addAttribute("Address", addressForm);
+
         return "AddAddress";
     }
 
@@ -90,29 +64,73 @@ public class UserController {
         ad.setStreetName(address.getStreetName());
         ad.setCity(c);
         addressService.saveAddress(ad);
-        return "redirect:/user/create-advertisement";
+        return "redirect:/user/create-accommodation/id="+ad.getId();
     }
 
-    @GetMapping (value = "/create-advertisement")
-    public String pageCreateAdvertisement (Model model){
-        Advertisement advertisement = new Advertisement();
-        model.addAttribute("Advertisement", advertisement);
-        return "AddAdvertisement";
+    @GetMapping (value = "/create-accommodation/id={id}")
+    public String pageCreateAccommodation(@PathVariable Long id, Model model){
+        AccommodationForm accommodationForm = new AccommodationForm();
+        model.addAttribute("Accommodation", accommodationForm);
+        model.addAttribute("address", addressService.getAddressByID(id));
+        return "AddAccommodation";
     }
 
-    @PostMapping (value = "/new-advertisement")
-    public String createAdvertisement (@ModelAttribute("Advertisement")Advertisement advertisement){
-        advertisementService.saveAdvertisement(advertisement);
-        return "Index";
+    @PostMapping (value = "/new-accommodation/id={id}")
+    public String createAccommodation(@PathVariable Long id, @ModelAttribute("Accommodation") AccommodationForm accommodation){
+        Address existingAddress = addressService.getAddressByID(id);
+        Accommodation a = new Accommodation();
+        User user = userService.getCurrentUser();
+        a.setRooms(accommodation.getRooms());
+        a.setSquareMeter(accommodation.getSquareMeter());
+        a.setUser(user);
+        a.setAddress(existingAddress);
+        accommodationService.saveAccommodation(a);
+        Advertisement adv = new Advertisement();
+        adv.setAccommodation(a);
+        adv.setTitle(accommodation.getTitle());
+        adv.setRentalPrice(accommodation.getRentalPrice());
+        adv.setCharges(accommodation.getCharges());
+        adv.setDeposit(accommodation.getDeposit());
+        adv.setAgencyFees(accommodation.getAgencyFees());
+        adv.setDescription(accommodation.getDescription());
+        advertisementService.saveAdvertisement(adv);
+        return "redirect:/user/mes-annonces";
     }
 
-    @GetMapping (value = "/create-city")
-    public String pageCreateCity(Model model){
-        City city = new City();
-        model.addAttribute("City", city);
-        List<CityApiResponse> cityList = cityApiClientService.getCity(null,"Paris");
-        return "AddCity";
+    @GetMapping (value = "/mes-annonces")
+    public String myAdvertisements (Model model){
+        User user = userService.getCurrentUser();
+        model.addAttribute("MyAdvertisements",advertisementService.getAdvertisementAccommodationByUserId(user.getId()));
+        return "MyAdvertisements";
     }
+
+    @GetMapping (value="/modification-mon-annonce/{id}")
+    public String modifyMyAdvertisement (@PathVariable Long id, Model model){
+        model.addAttribute("MyAccommodation", advertisementService.getAdverttisementById(id));
+        return "ModifyAdvertisement";
+    }
+
+    @PostMapping (value = "/annonce-modifie/{id}")
+    public String updateMyAdvertisement (@PathVariable Long id, @ModelAttribute("MyAccommodation") AccommodationForm accommodation){
+        Advertisement updateAd = advertisementService.getAdverttisementById(id);
+        updateAd.setTitle(accommodation.getTitle());
+        updateAd.setDescription(accommodation.getDescription());
+        updateAd.setRentalPrice(accommodation.getRentalPrice());
+        updateAd.setCharges(accommodation.getCharges());
+        updateAd.setAgencyFees(accommodation.getAgencyFees());
+        updateAd.setDeposit(accommodation.getDeposit());
+        updateAd.setDescription(accommodation.getDescription());
+        advertisementService.saveAdvertisement(updateAd);
+        return "redirect:/user/mes-annonces" ;
+    }
+
+    @GetMapping(value = "/mon-portefeuille")
+    public String myWallet (){
+        return "MyWallet";
+    }
+
+
+
 
 
 }

@@ -11,6 +11,8 @@ public class AccommodationForm {
 
     private static final long serialVersionUID = 1L;
 
+    private String title;
+
     private Double squareMeter;
 
     private Integer rooms;
@@ -24,6 +26,10 @@ public class AccommodationForm {
     private BigDecimal deposit;
 
     private BigDecimal agencyFees;
+
+    private Long userId;
+
+    private Long addressId;
 
 
 }

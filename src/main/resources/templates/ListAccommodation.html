@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Immo</title>
+    <link th:href="@{/styles/cssandjs/main.css}" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+</head>
+
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-light" id="navigation" >
+    <div class="container-fluid">
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+            <a class="nav-link active" id="menu" aria-current="page" th:href = "@{/accueil}">Immo</a>
+
+            <div id="bouton-nav">
+                <a th:href = "@{/user/create-accommodation}" class="btn" id="bouton">Poster votre annonce dès maintenant</a>
+            </div>
+
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0" id="onglet">
+                <li class="nav-item">
+                    <a class="nav-link active" id="menu" aria-current="page" th:href = "@{/user/create-account}">Mon compte</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" id="menu" aria-current="page" href="AddAccomodation.html"> Mes Contrats</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" id="menu" aria-current="page" href="listeappartements.html">Admin</a>
+                </li>
+
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<main>
+
+    <form class="d-flex" id="search">
+        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+        <button class="btn " id="bouton" type="submit">Search</button>
+    </form>
+
+
+    <div class="row" id="option">
+        <div class="card"  id="card-accomodation" th:each="Advertisement : ${Advertisement}">
+            <img class="card-img-top" src="apartments-sample.jpeg" alt="Card image cap">
+            <div class="card-body">
+                <h4 class="card-title" th:text="${Advertisement.title}"/>
+                <p class="card-text" id="subtitle"><small class="text-muted" th:text="'à '+ ${Advertisement.accommodation.address.city.name} +' '+ ${Advertisement.accommodation.address.city.zipCode}"/></p>
+                <ul class="list-group list-group-horizontal">
+                    <li class="list-group-item" id="data-accommodation">Loyer (en €)</li>
+                    <li class="list-group-item" id="data-accommodation">Surface (en m²) </li>
+                </ul>
+                <ul class="list-group list-group-horizontal">
+                    <li class="list-group-item" id="data-accommodation" th:text="${Advertisement.rentalPrice}"/>
+                    <li class="list-group-item" id="data-accommodation" th:text="${Advertisement.accommodation.squareMeter}"/>
+                </ul>
+                <a th:href = "@{/logement/{id}(id=${Advertisement.id})}"
+                   class="btn "
+                   id="bouton-secondaire">Voir l'annonce</a>
+                <a th:href="@{/admin/annonce/suppression/{id} (id=${Advertisement.id})}"
+                   class="btn"
+                   id="bouton-secondaire">Supprimer l'annonce</a>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+</main>
+
+
+
+
+</body>
+
+</html>

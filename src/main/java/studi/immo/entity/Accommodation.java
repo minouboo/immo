@@ -4,10 +4,7 @@ package studi.immo.entity;
 
 import lombok.*;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
 @Entity
 @Setter
@@ -21,6 +18,7 @@ public class Accommodation extends GenericEntity {
     private Integer rooms;
 
     @ManyToOne
+    @JoinColumn (name="user_id")
     private User user;
 
     @ManyToOne

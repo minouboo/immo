@@ -25,18 +25,14 @@
                 <li class="nav-item dropdown" >
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" id="menu">Mes compte</a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                        <li><a class="dropdown-item" th:href = "@{/user/mon-portefeuille}">Mon portefeuille</a></li>
-                        <li><a class="dropdown-item" th:href = "@{/user/mes-annonces}">Mes annonces</a></li>
+                        <li><a class="dropdown-item" href="#">Mon Portefeuille</a></li>
                         <li><a class="dropdown-item" href="#">Mes messages</a></li>
-                        <li>
-                            <a class="dropdown-item" th:href = "@{/login}" sec:authorize="isAnonymous()">Je me connecte</a>
-                            <a class="dropdown-item" th:href = "@{/logout}" sec:authorize="isAuthenticated()">Déconnexion</a>
-                        </li>
                     </ul>
                 </li>
                 <li class="nav-item dropdown" >
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" id="menu">Mes contrats</a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        <li><a class="dropdown-item" href="#">Mes annonces</a></li>
                         <li><a class="dropdown-item" href="#">Location</a></li>
                         <li><a class="dropdown-item" href="#">Propriétaire</a></li>
                     </ul>
@@ -52,26 +48,28 @@
 
 <main>
 
-    <h2 id="titre">Bienvenu sur IMMO</h2>
+    <div class="row" id="option">
 
-    <div class="grid" >
-        <div class="col-sm-6" id="option">
-            <div class="card">
-                <div class="card-body">
-                    <h3 class="card-title">Locataire</h3 >
-                    <p class="card-text">Vous recherchez un logement à louer ou à acheter? </p>
-                    <a th:href = "@{/liste-de-logement}" class="btn" id="bouton" >Consulter les annonces</a>
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-6" id="option">
-            <div class="card">
-                <div class="card-body">
-                    <h3 class="card-title">Propriétaire</h3>
-                    <p class="card-text">Vous possédez un bien que vous souhaiteriez proposer à la location?</p>
-                    <a th:href = "@{/creation-compte}" class="btn" id="bouton" sec:authorize="isAnonymous()">Créer votre Compte et déposer votre annonce</a>
-                    <a th:href = "@{/user/create-address}" class="btn" id="bouton" sec:authorize="isAuthenticated()">Poster votre annonce</a>
-                </div>
+        <h2 id="titre">Mes annonces</h2>
+
+        <div class="card"  id="card-accomodation" th:each="MyAdvertisements : ${MyAdvertisements}">
+            <img class="card-img-top" src="apartments-sample.jpeg" alt="Card image cap">
+            <div class="card-body">
+                <h4 class="card-title" th:text="${MyAdvertisements.title}"/>
+                <ul class="list-group list-group-horizontal">
+                    <li class="list-group-item" id="data-accommodation">Loyer (en €)</li>
+                    <li class="list-group-item" id="data-accommodation">Surface (en m²) </li>
+                </ul>
+                <ul class="list-group list-group-horizontal">
+                    <li class="list-group-item" id="data-accommodation" th:text="${MyAdvertisements.rentalPrice}"/>
+                    <li class="list-group-item" id="data-accommodation" th:text="${MyAdvertisements.accommodation.squareMeter}"/>
+                </ul>
+                <a th:href = "@{/logement/{id}(id=${MyAdvertisements.id})}"
+                   class="btn "
+                   id="bouton-secondaire">Modifier mon annonce</a>
+                <a th:href="@{/admin/annonce/suppression/{id} (id=${MyAdvertisements.id})}"
+                   class="btn"
+                   id="bouton-secondaire">Supprimer l'annonce</a>
             </div>
         </div>
     </div>

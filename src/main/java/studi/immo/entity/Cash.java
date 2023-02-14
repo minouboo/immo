@@ -14,6 +14,6 @@ public class Cash extends GenericEntity {
     private BigDecimal amount;
 
     @OneToOne
-    private Tenant tenant;
+    private User user;
 
 }

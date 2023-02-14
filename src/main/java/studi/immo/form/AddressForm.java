@@ -17,5 +17,4 @@ public class AddressForm {
 
     private Long zipCode;
 
-
 }

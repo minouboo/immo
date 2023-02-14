@@ -6,4 +6,6 @@ public interface AddressService {
 
     Address saveAddress (Address address);
 
+    Address getAddressByID (Long id);
+
 }

@@ -13,7 +13,13 @@ import java.util.List;
 @FeignClient (value = "APIVille", url="https://geo.api.gouv.fr/")
 public interface CityApiClientService {
 
-        @RequestMapping(method = RequestMethod.GET, value="communes?fields=nom,codesPostaux&format=json")
-        List<CityApiResponse> getCity (@RequestParam ("codesPostaux") String codesPostaux,@RequestParam("nom") String nom);
+        @RequestMapping(method = RequestMethod.GET, value="communes")
+        List<CityApiResponse> getCity (@RequestParam ("codesPostaux") String codesPostaux,
+                                       @RequestParam("nom") String nom,
+                                       @RequestParam ("fields") String fields,
+                                       @RequestParam ("format") String format
+                                       );
 
 }
+
+

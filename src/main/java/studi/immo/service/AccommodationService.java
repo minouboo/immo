@@ -6,4 +6,8 @@ public interface AccommodationService {
 
     Accommodation saveAccommodation (Accommodation accommodation);
 
+    Accommodation getAccommodationById (Long id);
+
+
+
 }

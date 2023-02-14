@@ -36,8 +36,27 @@
     background-color: #1abc9c;
 }
 
+#bouton-secondaire{
+    color: black;
+    background-color: #F3ECB0;
+    font-style: bold;
+    border-radius: 15px;
+    margin-top: 9px;
+}
+
+#bouton-container{
+    text-align:center;
+}
+
+#bouton-form {
+    color: white;
+    background-color: #1abc9c;
+    width: 50%;
+}
+
 #search {
     padding: 10px;
+    margin-top: 3%;
     margin-left: 20%;
     margin-right: 20%;
     border-color: #1abc9c;
@@ -45,14 +64,24 @@
     border-style: solid;
 }
 
-#list{
-    padding: 3%;
-}
 
 #card-accomodation{
-    width: 18rem;
-    height: 21rem;
+    width: 21rem;
+    height: 27rem;
     padding: 1%;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 1%;
+}
+
+#accommodation{
+    width: 80%;
+    padding: 1%;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 1%;
 }
 
 #form {
@@ -68,22 +97,18 @@
     box-shadow: 3px 3px 3px lightblue;
 }
 
-#bouton-container{
-    text-align:center;
-}
-
-#bouton-form {
-    color: white;
-    background-color: #1abc9c;
-    width: 50%;
-}
-
 .form-label {
     color: white;
 }
 
 .form-check-label {
     color: white;
+}
+
+#data-accommodation{
+   color: #1abc9c;
+    width: 50%;
+    font-size: 12px;
 }
 
 #menu {
@@ -96,7 +121,7 @@ h2 {
     text-transform: uppercase;
     padding: 15px;
     text-align: center;
-    color: White;
+    color: #1abc9c;
 }
 
 h3 {
@@ -106,6 +131,25 @@ h3 {
     padding: 12px;
     text-align: center;
     color: #1abc9c;
+}
+
+h4 {
+    font-weight: bold;
+    color: #1abc9c;
+}
+
+#subtitle {
+    margin-top: 15px;
+    margin-bottom: 12px;
+
+}
+
+#portefeuille{
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 30px;
+    background-color: #1abc9c;
 }
 
 

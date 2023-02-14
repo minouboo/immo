@@ -33,6 +33,9 @@ public class User extends GenericEntity{
     @ManyToOne
     private Address address;
 
+    @OneToOne
+    private Cash cash;
+
     @ElementCollection (targetClass = Role.class, fetch = FetchType.EAGER)
     @CollectionTable (name="user_role")
     @Column (name="role")
@@ -41,6 +44,8 @@ public class User extends GenericEntity{
 
     @Column (name = "enabled")
     private Boolean isEnabled = true;
+
+
 
 
 }

@@ -18,7 +18,5 @@ public class Tenant extends User {
     @ManyToOne
     private Agreement agreement;
 
-    @OneToOne
-    private Cash cash;
 
 }
