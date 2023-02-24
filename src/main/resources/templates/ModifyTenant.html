@@ -1,16 +1,12 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
     <meta charset="UTF-8">
-    <title>Votre Bien</title>
+    <title>Immo</title>
     <link th:href="@{/styles/cssandjs/main.css}" rel="stylesheet" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
-
-    <script src="/webjars/jquery/3.1.1/jquery.min.js"></script>
-    <script type="text/javascript" th:src="@{/styles/cssandjs/apicity.js}"></script>
-
 </head>
 
 <body>
@@ -37,7 +33,7 @@
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                             <li><a class="dropdown-item" th:href = "@{/user/mon-portefeuille}">Mon portefeuille</a></li>
                             <li><a class="dropdown-item" th:href = "@{/user/mes-annonces}">Mes annonces</a></li>
-                            <li><a class="dropdown-item" href="#">Mes messages</a></li>
+                            <li><a class="dropdown-item" th:href = "@{/chat/mes-conversations}">Mes messages</a></li>
                             <li>
                                 <a class="dropdown-item" th:href = "@{/login}" sec:authorize="isAnonymous()">Je me connecte</a>
                                 <a class="dropdown-item" th:href = "@{/logout}" sec:authorize="isAuthenticated()">Déconnexion</a>
@@ -66,51 +62,26 @@
 
     <div id="form">
 
-        <h2 id="titre">A quelle adresse se trouve votre bien</h2>
+        <h2 id="titre">Vos informations Locataire </h2>
 
-        <form th:action = "@{/user/new-address}" th:object = "${Address}" method = "POST">
+        <form th:action = "@{/user/locataire-modifie}" th:object = "${CurrentTenant}" method = "POST">
             <div class="mb-3" >
-                <label class="form-label">Numéro de rue</label>
+
+                <label  class="form-label">Vos revenus mensuelles (en €)</label>
                 <input
                         type="text"
                         class="form-control"
-                        th:field = "*{streetNumber}">
+                        th:field = "*{revenues}"
+                        placeholder="Entrer vos revenus">
             </div>
-            <div class="mb-3" >
-                <label class="form-label">Voirie</label>
-                <input
-                        type="text"
-                        class="form-control"
-                        th:field = "*{streetName}">
-            </div>
-            <div class="mb-3" >
-                <label for="zipcode" class="form-label">Code Postal</label>
-                <input type="text"
-                       name="zipcode"
-                       class="form-control"
-                       placeholder="Code postal"
-                       id="zipcode"
-                       th:field = "*{zipCode}">
-                <div style="display: none; color: #f55;" id="error-message"></div>
-            </div>
-            <div class="mb-3" >
-                <label for="city" class="form-label">Ville</label>
-                <select
-                        class="form-control"
-                        name="city"
-                        id="city"
-                        th:field = "*{cityName}"
-                ></select>
-            </div>
+
+
             <div id="bouton-container">
                 <button type="submit" class="btn" id="bouton-form">Submit</button>
             </div>
         </form>
+
     </div>
-
-
-
-
 
 </main>
 

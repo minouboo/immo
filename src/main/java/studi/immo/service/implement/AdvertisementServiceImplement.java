@@ -33,7 +33,7 @@ public class AdvertisementServiceImplement implements AdvertisementService {
     }
 
     @Override
-    public Advertisement getAdvertisementAccommodationId(Long advertisementId) {
+    public Advertisement getAdvertisementAccommodationById(Long advertisementId) {
         return advertisementRepository.getAdvertisementAccommodationById(advertisementId);
     }
 
@@ -48,7 +48,7 @@ public class AdvertisementServiceImplement implements AdvertisementService {
     }
 
     @Override
-    public Advertisement getAdverttisementById(Long id) {
+    public Advertisement getAdvertisementById(Long id) {
         return advertisementRepository.findById(id).get();
     }
 

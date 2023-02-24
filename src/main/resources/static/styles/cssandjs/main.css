@@ -19,7 +19,7 @@
 }
 
 #onglet{
-    align-items: center;
+    align-items:flex-start;
     align-self: stretch;
     display: flex;
     flex: 1;
@@ -52,6 +52,7 @@
     color: white;
     background-color: #1abc9c;
     width: 50%;
+    margin: 10px;
 }
 
 #search {
@@ -135,7 +136,7 @@ h3 {
 
 h4 {
     font-weight: bold;
-    color: #1abc9c;
+    color: black;
 }
 
 #subtitle {
@@ -153,6 +154,17 @@ h4 {
 }
 
 
+#message{
+    margin-left: 100px;
+    margin-right: 100px;
+    margin-bottom: 50px;
+}
 
+#message-received{
+    border-color: #1abc9c;
+    border-width: 1px;
+    border-style: solid;
+    padding: 3px;
+}
 
 

@@ -57,7 +57,7 @@
       <div class="card">
         <div class="card-body">
           <h3 class="card-title">Mon solde actuel</h3 >
-          <p class="card-text">100€</p>
+          <p class="card-text" th:text="${MyCash.amount}"/>
         </div>
       </div>
     </div>
@@ -65,10 +65,10 @@
 
       <h2 id="titre">Réapprovisionner mon portefeuille</h2>
 
-      <form>
+      <form th:action = "@{/user/reappro-portefeuille}" th:object = "${AddCash}" method = "POST">
         <div class="mb-3" >
           <label class="form-label">Montant</label>
-          <input type="text" class="form-control">
+          <input type="text" class="form-control" th:field = "*{amount}">
         </div>
         <div id="bouton-container">
           <button class="btn" id="bouton-form" href="addcity.html">Valider mon montant</button>

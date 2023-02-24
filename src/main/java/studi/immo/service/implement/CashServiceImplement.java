@@ -19,4 +19,11 @@ public class CashServiceImplement implements CashService {
     public Cash saveCash(Cash cash) {
         return cashRepository.save(cash);
     }
+
+    @Override
+    public Cash getCashByUserID(Long userId) {
+        return cashRepository.getCashByUserId(userId);
+    }
+
+
 }

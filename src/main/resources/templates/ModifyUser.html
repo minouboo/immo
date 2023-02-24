@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
     <meta charset="UTF-8">
     <title>Immo</title>
@@ -41,9 +41,9 @@
 
     <div id="form">
 
-        <h2 id="titre">Je crée mon compte </h2>
+        <h2 id="titre">Modifier mon compte</h2>
 
-        <form th:action = "@{/nouveau-compte}" th:object = "${NewUser}" method = "POST">
+        <form th:action = "@{/user/compte-modifie}" th:object = "${CurrentUser}" method = "POST">
             <div class="mb-3" >
                 <label for="exampleInputEmail1" class="form-label">Prénom</label>
                 <input
@@ -55,56 +55,52 @@
             <div class="mb-3" >
                 <label for="exampleInputEmail1" class="form-label">Nom</label>
                 <input
-                    type="text"
-                    class="form-control"
-                    th:field = "*{lastName}"
-                    placeholder="Entrer votre Nom">
+                        type="text"
+                        class="form-control"
+                        th:field = "*{lastName}"
+                        placeholder="Entrer votre Nom">
             </div>
             <div class="mb-3" >
                 <label for="exampleInputEmail1" class="form-label">Pseudo</label>
                 <input
-                    type="text"
-                    class="form-control"
-                    th:field = "*{userName}"
-                    placeholder="Entrer votre Pseudo">
+                        type="text"
+                        class="form-control"
+                        th:field = "*{userName}"
+                        placeholder="Entrer votre Pseudo">
             </div>
             <div class="mb-3" >
                 <label for="exampleInputEmail1" class="form-label">Adresse e-mail</label>
                 <input
-                    type="email"
-                    class="form-control"
-                    id="exampleInputEmail1"
-                    aria-describedby="emailHelp"
-                    th:field = "*{email}"
-                    placeholder="Entrer votre adresse email">
+                        type="email"
+                        class="form-control"
+                        id="exampleInputEmail1"
+                        aria-describedby="emailHelp"
+                        th:field = "*{email}"
+                        placeholder="Entrer votre adresse email">
 
             </div>
             <div class="mb-3" >
                 <label for="exampleInputPassword1" class="form-label">Mot de passe</label>
                 <input
-                    type="password"
-                    class="form-control"
-                    id="exampleInputPassword1"
-                    th:field = "*{password}"
-                    placeholder="Entrer votre mot de passe">
+                        type="password"
+                        class="form-control"
+                        id="exampleInputPassword1"
+                        th:field = "*{password}"
+                        placeholder="Entrer votre mot de passe">
             </div>
-            <div class="mb-3" >
-                <label for="exampleInputPassword1" class="form-label">Je suis</label>
-                <select name="Role" th:field = "*{roles}">
-                    <option th:value="'LANDLORD'" th:text="Propriétaire"></option>
-                    <option th:value="'TENANT'" th:text="Locataire"></option>
-                    <option th:value="'AGENCY'" th:text="Agence"></option>
-                </select>
-            </div>
-            <!--<div th:if="${User.roles.name() == 'TENANT'}">
-                <label for="exampleInputEmail1" class="form-label">Locataire</label>
-            </div>-->
-
 
             <div id="bouton-container">
-                <button type="submit" class="btn" id="bouton-form">Je valide mes informations</button>
+                <button type="submit" class="btn" id="bouton-form">Je modifie mon compte</button>
             </div>
         </form>
+
+        <div id="bouton-container">
+            <a th:if= "${IsTenant}" th:href="@{/user/modifier-locataire}" type="submit" class="btn" id="bouton-form">Modifier mon compte Locataire</a>
+            <a th:if= "${IsAgency}" th:href="@{/user/modifier-agence}" type="submit" class="btn" id="bouton-form">Modifier mon compte d'agence</a>
+        </div>
+
+
+
 
     </div>
 

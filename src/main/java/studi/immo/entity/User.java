@@ -34,6 +34,7 @@ public class User extends GenericEntity{
     private Address address;
 
     @OneToOne
+    @JoinColumn (name = "cash_id")
     private Cash cash;
 
     @ElementCollection (targetClass = Role.class, fetch = FetchType.EAGER)

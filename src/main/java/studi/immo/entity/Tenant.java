@@ -9,8 +9,7 @@ import java.math.BigDecimal;
 @Setter
 @Getter
 @Entity
-@PrimaryKeyJoinColumn( name = "userId")
-public class Tenant extends User {
+public class Tenant extends GenericEntity{
 
     @Column
     private BigDecimal revenues;
@@ -18,5 +17,7 @@ public class Tenant extends User {
     @ManyToOne
     private Agreement agreement;
 
+    @OneToOne
+    private User user;
 
 }

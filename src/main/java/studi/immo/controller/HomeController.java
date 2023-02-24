@@ -5,11 +5,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import studi.immo.entity.Advertisement;
-import studi.immo.entity.Cash;
-import studi.immo.entity.User;
+import studi.immo.entity.*;
 import studi.immo.service.AdvertisementService;
 import studi.immo.service.CashService;
+import studi.immo.service.TenantService;
 import studi.immo.service.UserService;
 
 import java.math.BigDecimal;
@@ -22,13 +21,15 @@ public class HomeController {
     private PasswordEncoder passwordEncoder;
     private AdvertisementService advertisementService;
     private CashService cashService;
+    private TenantService tenantService;
 
     @Autowired
-    public HomeController (UserService userService, PasswordEncoder passwordEncoder, AdvertisementService advertisementService, CashService cashService){
+    public HomeController (UserService userService, PasswordEncoder passwordEncoder, AdvertisementService advertisementService, CashService cashService, TenantService tenantService){
         this.userService = userService;
         this.passwordEncoder = passwordEncoder;
         this.advertisementService = advertisementService;
         this.cashService = cashService;
+        this.tenantService = tenantService;
     }
 
     @GetMapping ({"","/","/accueil"})
@@ -37,22 +38,32 @@ public class HomeController {
     }
 
     @GetMapping ({"/creation-compte"})
-    public String pageCreationDeCompte(Model model){
+    public String pageCreateUser(Model model){
         User user = new User();
-        model.addAttribute("User", user);
+        model.addAttribute("NewUser", user);
         return "CreateUser";
     }
 
     @PostMapping (value = "/nouveau-compte")
-    public String createUser(@ModelAttribute ("User") User user){
+    public String createUser(@ModelAttribute ("NewUser") User user){
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userService.saveUser(user);
+        User currentUser = user;
         Cash cash = new Cash();
         cash.setUser(user);
         cash.setAmount(BigDecimal.valueOf(0));
+        user.setCash(cash);
         cashService.saveCash(cash);
+        if (currentUser.getRoles().contains(Role.TENANT)){
+            return "redirect:/user/creation-locataire";
+        }
+        if (currentUser.getRoles().contains(Role.AGENCY)){
+            return "redirect:/user/creation-agence";
+        }
         return "Index";
     }
+
+
 
     @GetMapping (value = "/liste-de-logement")
     public String listAccommodation (Model model){
@@ -63,7 +74,7 @@ public class HomeController {
 
     @GetMapping (value = "/logement/{id}")
     public String showAccommodation (@PathVariable Long id, Model model){
-        Advertisement advertisementByUser = advertisementService.getAdvertisementAccommodationId(id);
+        Advertisement advertisementByUser = advertisementService.getAdvertisementAccommodationById(id);
         User targetUser = userService.getCurrentUser();
         boolean IsOwner = false;
         if (targetUser !=null){
@@ -78,6 +89,10 @@ public class HomeController {
         model.addAttribute("Advertisement", advertisementByUser);
         return "ShowAccommodation";
     }
+
+
+
+
 
 
 

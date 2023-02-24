@@ -6,4 +6,8 @@ public interface CashService {
 
     Cash saveCash (Cash cash);
 
+    Cash getCashByUserID (Long userId);
+
+
+
 }

@@ -12,12 +12,12 @@ public interface AdvertisementService {
 
     List<Advertisement> getAllAdvertisementAccommodation();
 
-    Advertisement getAdvertisementAccommodationId (Long advertisementId);
+    Advertisement getAdvertisementAccommodationById (Long advertisementId);
 
     void deleteAdvertisementById (Long id);
 
     List<Advertisement> getAdvertisementAccommodationByUserId (Long userId);
 
-    Advertisement getAdverttisementById (Long id);
+    Advertisement getAdvertisementById (Long id);
 
 }

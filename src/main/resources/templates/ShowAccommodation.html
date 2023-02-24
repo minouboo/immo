@@ -53,13 +53,10 @@
     <div>
         <div class="card mb-3" id="accommodation">
             <h3 class="card-title" th:text="${Advertisement.title}"/>
+            <p class="card-text" id="subtitle"><small class="text-muted" th:text="'à '+ ${Advertisement.accommodation.address.city.name} +' '+ ${Advertisement.accommodation.address.city.zipCode}"/></p>
             <!--<img src="apartments-sample.jpeg" class="card-img-top" alt="...">-->
             <div class="card-body">
                 <p class="card-text" alt="..." th:text="${Advertisement.description}"/>
-                <p class="card-text" alt="..." th:text="${Advertisement.accommodation.address.city.name}"/>
-                <p class="card-text" alt="..." th:text="${Advertisement.accommodation.address.city.zipCode}"/>
-                <p class="card-text" alt="..." th:text="${Advertisement.accommodation.address.streetNumber}"/>
-                <p class="card-text" alt="..." th:text="${Advertisement.accommodation.address.streetName}"/>
                 <ul class="list-group list-group-horizontal">
                     <li class="list-group-item" id="data-accommodation">Loyer (en €)</li>
                     <li class="list-group-item" id="data-accommodation">Surface (en m²) </li>
@@ -84,9 +81,12 @@
                 <a th:href="@{/admin/annonce/suppression/{id} (id=${Advertisement.id})}"
                    class="btn"
                    id="bouton-secondaire">Supprimer l'annonce</a>
+                <a th:href="@{/admin/annonce/suppression/{id} (id=${Advertisement.id})}"
+                   class="btn"
+                   id="bouton-secondaire">Créer un contrat</a>
                 </div>
-                <a th:if= "${NotOwner}" href="ShowAccommodation.html" class="btn " id="bouton-secondaire" >Demander un rendez-vous!</a>
-                <a sec:authorize="isAnonymous()" href="ShowAccommodation.html" class="btn " id="bouton-secondaire" >Demander un rendez-vous!</a>
+                <a th:if= "${NotOwner}" th:href="@{/chat/message/{id} (id=${Advertisement.accommodation.id})}" class="btn " id="bouton-secondaire" >Demander un rendez-vous!</a>
+                <a sec:authorize="isAnonymous()" th:href="@{/user/message/{id} (id=${Advertisement.accommodation.id})}" class="btn " id="bouton-secondaire" >Demander un rendez-vous!</a>
             </div>
         </div>
     </div>
