@@ -60,7 +60,7 @@ public class HomeController {
         if (currentUser.getRoles().contains(Role.AGENCY)){
             return "redirect:/user/creation-agence";
         }
-        return "Index";
+        return "redirect:/user/create-address";
     }
 
 
@@ -89,11 +89,5 @@ public class HomeController {
         model.addAttribute("Advertisement", advertisementByUser);
         return "ShowAccommodation";
     }
-
-
-
-
-
-
 
 }

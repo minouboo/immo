@@ -11,6 +11,7 @@ import javax.persistence.*;
 @Getter
 public class Accommodation extends GenericEntity {
 
+
     @Column
     private Double squareMeter;
 

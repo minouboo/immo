@@ -236,16 +236,4 @@ public class UserController {
         return "redirect:/user/mon-portefeuille";
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
 }

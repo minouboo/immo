@@ -5,6 +5,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -14,15 +15,16 @@ import java.util.Set;
 public class ChatRoom extends GenericEntity{
 
     @ManyToOne
-    private User userTenant;
-
-    @ManyToOne
-    private User userLandlord;
-
-    @ManyToOne
     private Accommodation accommodation;
 
-    @OneToMany (mappedBy = "message", cascade = CascadeType.ALL)
+    @ManyToMany
+    @JoinTable(
+            name = "chat_room_user",
+            joinColumns = @JoinColumn (name = "chat_room_id"),
+            inverseJoinColumns = @JoinColumn (name = "user_id"))
+    private Set<User> users = new HashSet<>();
+
+    @OneToMany (mappedBy = "message")
     private Set<Message> messages;
 
 }

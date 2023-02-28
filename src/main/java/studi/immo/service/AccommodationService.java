@@ -8,6 +8,8 @@ public interface AccommodationService {
 
     Accommodation getAccommodationById (Long id);
 
+    Accommodation getAccommodationAndUserById (Long accommodationId);
+
 
 
 }

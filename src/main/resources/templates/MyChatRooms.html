@@ -69,8 +69,9 @@
         <div class="card"  id="card-accomodation" th:each="MyChatRoom : ${MyChatRoom}">
             <img class="card-img-top" src="apartments-sample.jpeg" alt="Card image cap">
             <div class="card-body">
-                <h4 class="card-title" th:text="${MyChatRoom.userLandlord.userName}"/>
-                <p class="card-text" id="subtitle"><small class="text-muted" th:text="'Logement à '+ ${MyChatRoom.accommodation.address.city.name} +' '+ ${MyChatRoom.accommodation.address.city.zipCode}"/></p>
+                <small class="text-muted" >Discussion avec</small>
+                <h4 class="card-title" th:text="${MyChatRoom.accommodation.user.userName}"/>
+                <p class="card-text" id="subtitle"><small class="text-muted" th:text="'Pour un logement à '+ ${MyChatRoom.accommodation.address.city.name} +' '+ ${MyChatRoom.accommodation.address.city.zipCode}"/></p>
                 <ul class="list-group list-group-horizontal">
                     <li class="list-group-item" id="data-accommodation">Nombre de pièce</li>
                     <li class="list-group-item" id="data-accommodation">Surface (en m²) </li>
@@ -79,7 +80,8 @@
                     <li class="list-group-item" id="data-accommodation" th:text="${MyChatRoom.accommodation.rooms}"/>
                     <li class="list-group-item" id="data-accommodation" th:text="${MyChatRoom.accommodation.squareMeter}"/>
                 </ul>
-                <a th:href = "@{/user/message/{id}(id=${MyChatRoom.id})}" class="btn " id="bouton-secondaire">Voir la discussion</a>
+                <a th:href = "@{/chat/conversation-message/{id}(id=${MyChatRoom.id})}" class="btn " id="bouton-secondaire">Voir la discussion</a>
+                <a th:href = "@{/chat/conversation/suppression/{id}(id=${MyChatRoom.id})}" class="btn " id="bouton-secondaire">Supprimer la discussion</a>
             </div>
         </div>
     </div>

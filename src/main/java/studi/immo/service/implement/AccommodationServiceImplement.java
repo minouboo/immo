@@ -25,5 +25,10 @@ public class AccommodationServiceImplement implements AccommodationService {
         return accomodationRepository.findById(id).get();
     }
 
+    @Override
+    public Accommodation getAccommodationAndUserById(Long accommodationId) {
+        return accomodationRepository.getAccommodationAndUserById(accommodationId);
+    }
+
 
 }

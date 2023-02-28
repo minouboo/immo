@@ -7,17 +7,17 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import studi.immo.entity.Accommodation;
-import studi.immo.entity.ChatRoom;
-import studi.immo.entity.Message;
-import studi.immo.entity.User;
+import studi.immo.entity.*;
 import studi.immo.form.ChatForm;
-import studi.immo.service.AccommodationService;
-import studi.immo.service.ChatRoomService;
-import studi.immo.service.MessageService;
-import studi.immo.service.UserService;
+import studi.immo.service.*;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Log
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
@@ -30,56 +30,90 @@ public class MessageController {
     private MessageService messageService;
     private UserService userService;
     private ChatRoomService chatRoomService;
+    private AdvertisementService advertisementService;
 
-    public MessageController(AccommodationService accommodationService, MessageService messageService, UserService userService, ChatRoomService chatRoomService) {
+    public MessageController(AccommodationService accommodationService, MessageService messageService, UserService userService, ChatRoomService chatRoomService, AdvertisementService advertisementService) {
         this.accommodationService = accommodationService;
         this.messageService = messageService;
         this.userService = userService;
         this.chatRoomService = chatRoomService;
+        this.advertisementService = advertisementService;
     }
 
 
-    @GetMapping(value = "/message/{id}")
-    public String myMessage (@PathVariable Long id, Model model){
-        Accommodation accommodation = accommodationService.getAccommodationById(id);
-        List<Message> myMessages = messageService.getMessageByChatRoomId(id);
+    @GetMapping(value = "/nouveau-message/{id}")
+    public String myNewMessage (@PathVariable Long id, Model model){
+        Accommodation accommodation = accommodationService.getAccommodationAndUserById(id);
         ChatForm chatForm = new ChatForm();
         model.addAttribute("SendMessage", chatForm);
-        model.addAttribute("accommodation", accommodation);
-        model.addAttribute("MyMessage",myMessages);
-        return "Message";
+        model.addAttribute("Accommodation", accommodation);
+        return "NewMessage";
 
     }
 
-    @PostMapping(value = "/envoyer-message/{id}")
-    public String sendMessage (@PathVariable Long id,
+    @PostMapping(value = "/envoyer-nouveau-message/{id}")
+    public String sendNewMessage (@PathVariable Long id,
                                @ModelAttribute("SendMessage") ChatForm chatForm){
-        User userFrom = userService.getCurrentUser();
+        User userTenant = userService.getCurrentUser();
         Accommodation a = accommodationService.getAccommodationById(id);
-        User userTo = a.getUser();
+        User userLandlord = a.getUser();
+        LocalDateTime localDateTime = LocalDateTime.now();
+        ZonedDateTime currentDate = ZonedDateTime.of(localDateTime, ZoneId.of("UTC"));
+        Set groupUser = new HashSet<>();
+        groupUser.add(userTenant);
+        groupUser.add(userLandlord);
         ChatRoom chatRoom = new ChatRoom();
-        chatRoom.setUserLandlord(userTo);
-        chatRoom.setUserTenant(userFrom);
         chatRoom.setAccommodation(a);
+        chatRoom.getUsers().addAll(groupUser);
         chatRoomService.saveChatRoom(chatRoom);
         Message message = new Message();
-        message.setUserFrom(userFrom);
-        message.setUserTo(userTo);
-        message.setAccommodation(a);
         message.setMessage(chatForm.getMessage());
         message.setChatRoom(chatRoom);
+        message.setUserFrom(userTenant);
+        /*message.setUserTo(userLandlord);*/
+        message.setSendingDate(currentDate);
         messageService.saveMessage(message);
-
-
-        return "redirect:/chat/message/{id}";
+        return "redirect:/chat/mes-conversations";
     }
 
     @GetMapping (value = "/mes-conversations")
     public String myChatRooms (Model model){
         User user = userService.getCurrentUser();
-        List<ChatRoom> myChatRoom = chatRoomService.getChatRoomByUserTenantId(user.getId());
-        model.addAttribute("MyChatRoom", myChatRoom);
+        List<ChatRoom> myChatRooms = chatRoomService.getChatRoomByUserTenantId(user.getId());
+        model.addAttribute("MyChatRoom", myChatRooms);
         return "MyChatRooms";
+    }
+
+    @GetMapping (value = "/conversation-message/{id}")
+    public String messageChatRoom (@PathVariable Long id, Model model){
+        List<Message> messagesChatRoom = messageService.getMessageByChatRoomId(id);
+        model.addAttribute("MessagesChatRoom", messagesChatRoom);
+        Message message = new Message();
+        model.addAttribute("SendMessage", message);
+        ChatRoom chatRoom = chatRoomService.getChatRoomById(id);
+        model.addAttribute("ChatRoom", chatRoom);
+        return "MessageChatRoom";
+    }
+
+    @PostMapping (value = "/envoyer-message-conversation/{id}")
+    public String sendMessageChatRoom (@PathVariable Long id, @ModelAttribute("SendMessage")ChatForm chatForm){
+        User userFrom = userService.getCurrentUser();
+        ChatRoom chatRoom = chatRoomService.getChatRoomById(id);
+        LocalDateTime localDateTime = LocalDateTime.now();
+        ZonedDateTime currentDate = ZonedDateTime.of(localDateTime, ZoneId.of("UTC"));
+        Message message = new Message();
+        message.setUserFrom(userFrom);
+        message.setMessage(chatForm.getMessage());
+        message.setChatRoom(chatRoom);
+        message.setSendingDate(currentDate);
+        messageService.saveMessage(message);
+        return "redirect:/chat/conversation-message/"+chatRoom.getId();
+    }
+
+    @GetMapping(value="/conversation/suppression/{id}")
+    public String deleteChatRoom (@PathVariable Long id){
+        chatRoomService.deleteChatRoombyId(id);
+        return "redirect:/chat/mes-conversations";
     }
 
 }

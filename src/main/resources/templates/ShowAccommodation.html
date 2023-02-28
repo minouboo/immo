@@ -85,8 +85,8 @@
                    class="btn"
                    id="bouton-secondaire">Créer un contrat</a>
                 </div>
-                <a th:if= "${NotOwner}" th:href="@{/chat/message/{id} (id=${Advertisement.accommodation.id})}" class="btn " id="bouton-secondaire" >Demander un rendez-vous!</a>
-                <a sec:authorize="isAnonymous()" th:href="@{/user/message/{id} (id=${Advertisement.accommodation.id})}" class="btn " id="bouton-secondaire" >Demander un rendez-vous!</a>
+                <a th:if= "${NotOwner}" th:href="@{/chat/nouveau-message/{id} (id=${Advertisement.accommodation.id})}" class="btn " id="bouton-secondaire" >Demander un rendez-vous!</a>
+                <a sec:authorize="isAnonymous()" th:href="@{/chat/nouveau-message/{id} (id=${Advertisement.accommodation.id})}" class="btn " id="bouton-secondaire" >Demander un rendez-vous!</a>
             </div>
         </div>
     </div>

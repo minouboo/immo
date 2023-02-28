@@ -157,7 +157,8 @@ h4 {
 #message{
     margin-left: 100px;
     margin-right: 100px;
-    margin-bottom: 50px;
+    margin-bottom: 18px;
+    margin-top: 15px;
 }
 
 #message-received{

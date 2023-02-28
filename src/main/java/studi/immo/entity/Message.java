@@ -8,6 +8,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import java.time.ZonedDateTime;
 import java.util.Date;
 
 @Entity
@@ -21,9 +22,6 @@ public class Message extends GenericEntity {
     @ManyToOne
     private User userTo;
 
-    @ManyToOne
-    private Accommodation accommodation;
-
     @Column
     private String message;
 
@@ -31,8 +29,8 @@ public class Message extends GenericEntity {
     @JoinColumn (name = "chat_room_id")
     private ChatRoom chatRoom;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Date date;
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private ZonedDateTime sendingDate;
 
 
 }

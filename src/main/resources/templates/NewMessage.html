@@ -62,20 +62,10 @@
 
 <main>
 
-    <h2 id="titre">Vos messages</h2>
-
-    <div class="grid">
-        <div class="form-group" id="message" th:each="MyMessage : ${MyMessage}">
-            <p class="card-text" id="subtitle"><small class="text-muted">Par vous le 21/11/2022 à 20h00</small></p>
-            <div id="message-received">
-                <p th:text = "*{MyMessage.message}" />
-            </div>
-
-        </div>
-    </div>
+    <h2 id="titre" th:text="'Envoyer votre message à  '+ ${Accommodation.user.userName}"/>
     <div class="grid">
         <div class="form-group" id="message">
-            <form th:action = "@{/chat/envoyer-message/{id} (id=${accommodation.id})}" th:object = "${SendMessage}" method = "POST">
+            <form th:action = "@{/chat/envoyer-nouveau-message/{id} (id=${Accommodation.id})}" th:object = "${SendMessage}" method = "POST">
                 <textarea th:field = "*{message}" class="form-control" rows="5" id="comment" placeholder="Ecrivez votre message"/>
                 <div id="bouton-container">
                     <button type="submit" class="btn" id="bouton-form">Submit</button>
