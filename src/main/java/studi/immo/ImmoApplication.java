@@ -12,4 +12,6 @@ public class ImmoApplication {
 		SpringApplication.run(ImmoApplication.class, args);
 	}
 
+	
+
 }

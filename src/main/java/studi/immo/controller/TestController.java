@@ -1,5 +1,8 @@
 package studi.immo.controller;
 
+import com.itextpdf.kernel.pdf.PdfDocument;
+import com.itextpdf.kernel.pdf.PdfWriter;
+import com.itextpdf.layout.Document;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,6 +18,7 @@ import studi.immo.service.AdvertisementService;
 import studi.immo.service.CityApiClientService;
 import studi.immo.service.CityService;
 
+import java.io.FileNotFoundException;
 import java.util.List;
 
 @Controller
@@ -72,6 +76,25 @@ public class TestController {
         model.addAttribute("City", city);
         List<CityApiResponse> cityList = cityApiClientService.getCity(null,"Paris","nom,codesPostaux","json");
         return "AddCity";
+    }
+
+
+    @GetMapping (value = "itextpage")
+    public String itextPage(){
+        return "Test";
+    }
+
+    @PostMapping (value = "/itext")
+    public String testItext() throws FileNotFoundException {
+        String path = "/Users/minhbuu/Desktop//FirstPdf.pdf";
+        PdfWriter pdfWriter = new PdfWriter(path);
+        PdfDocument pdfDocument = new PdfDocument(pdfWriter);
+        pdfDocument.addNewPage();
+        Document document = new Document(pdfDocument);
+
+        document.close();
+
+        return null;
     }
 
 }
