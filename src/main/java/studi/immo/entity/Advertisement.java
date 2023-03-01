@@ -13,9 +13,6 @@ import java.math.BigDecimal;
 public class Advertisement extends GenericEntity{
 
     @Column
-    private String title;
-
-    @Column
     private String description;
 
     @Column

@@ -67,7 +67,6 @@ public class HomeController {
 
     @GetMapping (value = "/liste-de-logement")
     public String listAccommodation (Model model){
-
         model.addAttribute("Advertisement", advertisementService.getAllAdvertisementAccommodation());
         return "ListAccommodation";
     }

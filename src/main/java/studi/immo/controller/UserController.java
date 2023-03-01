@@ -176,10 +176,10 @@ public class UserController {
         a.setSquareMeter(accommodation.getSquareMeter());
         a.setUser(user);
         a.setAddress(existingAddress);
+        a.setTitle(accommodation.getTitle());
         accommodationService.saveAccommodation(a);
         Advertisement adv = new Advertisement();
         adv.setAccommodation(a);
-        adv.setTitle(accommodation.getTitle());
         adv.setRentalPrice(accommodation.getRentalPrice());
         adv.setCharges(accommodation.getCharges());
         adv.setDeposit(accommodation.getDeposit());
@@ -205,7 +205,6 @@ public class UserController {
     @PostMapping (value = "/annonce-modifie/{id}")
     public String updateMyAdvertisement (@PathVariable Long id, @ModelAttribute("MyAccommodation") AccommodationForm accommodation){
         Advertisement updateAd = advertisementService.getAdvertisementById(id);
-        updateAd.setTitle(accommodation.getTitle());
         updateAd.setDescription(accommodation.getDescription());
         updateAd.setRentalPrice(accommodation.getRentalPrice());
         updateAd.setCharges(accommodation.getCharges());
@@ -235,5 +234,7 @@ public class UserController {
         cashService.saveCash(updateCash);
         return "redirect:/user/mon-portefeuille";
     }
+
+
 
 }

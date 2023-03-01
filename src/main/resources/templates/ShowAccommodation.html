@@ -52,7 +52,7 @@
 <main>
     <div>
         <div class="card mb-3" id="accommodation">
-            <h3 class="card-title" th:text="${Advertisement.title}"/>
+            <h3 class="card-title" th:text="${Advertisement.accommodation.title}"/>
             <p class="card-text" id="subtitle"><small class="text-muted" th:text="'à '+ ${Advertisement.accommodation.address.city.name} +' '+ ${Advertisement.accommodation.address.city.zipCode}"/></p>
             <!--<img src="apartments-sample.jpeg" class="card-img-top" alt="...">-->
             <div class="card-body">
@@ -86,7 +86,7 @@
                    id="bouton-secondaire">Créer un contrat</a>
                 </div>
                 <a th:if= "${NotOwner}" th:href="@{/chat/nouveau-message/{id} (id=${Advertisement.accommodation.id})}" class="btn " id="bouton-secondaire" >Demander un rendez-vous!</a>
-                <a sec:authorize="isAnonymous()" th:href="@{/chat/nouveau-message/{id} (id=${Advertisement.accommodation.id})}" class="btn " id="bouton-secondaire" >Demander un rendez-vous!</a>
+                <a sec:authorize="isAnonymous()" th:href="@{/creation-compte}" class="btn " id="bouton-secondaire" >Demander un rendez-vous!</a>
             </div>
         </div>
     </div>
