@@ -33,7 +33,9 @@ public class HomeController {
     }
 
     @GetMapping ({"","/","/accueil"})
-    public String pageHome (){
+    public String pageHome (Model model) {
+        User currentUser = userService.getCurrentUser();
+        model.addAttribute("User",currentUser);
         return "Index";
     }
 

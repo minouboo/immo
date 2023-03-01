@@ -63,7 +63,8 @@
 
 <main>
 
-    <h2 id="titre">Bienvenu sur IMMO</h2>
+    <h2 sec:authorize="isAnonymous()" id="titre">Bienvenu sur IMMO</h2>
+    <h2 sec:authorize="isAuthenticated()" id="titre" th:text="'Bienvenu '+ ${User.userName}"/>
 
     <div class="grid" >
         <div class="col-sm-6" id="option">
