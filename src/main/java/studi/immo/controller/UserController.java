@@ -16,6 +16,7 @@ import studi.immo.form.AddressForm;
 import studi.immo.service.*;
 
 import java.math.BigDecimal;
+import java.util.Set;
 
 @Log
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
@@ -35,10 +36,12 @@ public class UserController {
     private CashService cashService;
     private TenantService tenantService;
     private PasswordEncoder passwordEncoder;
+    private ChatRoomService chatRoomService;
+
 
 
     @Autowired
-    public UserController (UserService userService, AccommodationService accommodationService, CityService cityService, AddressService addressService, AdvertisementService advertisementService, CityApiClientService cityApiClient, CityApiClientService cityApiClient1, CityApiClientService cityApiClientService, CashService cashService, TenantService tenantService, MessageService messageService, ChatRoomService chatRoomService, AgencyService agencyService, PasswordEncoder passwordEncoder){
+    public UserController (UserService userService, AccommodationService accommodationService, CityService cityService, AddressService addressService, AdvertisementService advertisementService, CashService cashService, TenantService tenantService, AgencyService agencyService, PasswordEncoder passwordEncoder, ChatRoomService chatRoomService){
         this.userService= userService;
         this.accommodationService = accommodationService;
         this.cityService = cityService;
@@ -48,6 +51,7 @@ public class UserController {
         this.tenantService = tenantService;
         this.agencyService = agencyService;
         this.passwordEncoder = passwordEncoder;
+        this.chatRoomService = chatRoomService;
     }
 
     @GetMapping (value = "/modifier-compte")
@@ -234,7 +238,6 @@ public class UserController {
         cashService.saveCash(updateCash);
         return "redirect:/user/mon-portefeuille";
     }
-
 
 
 }

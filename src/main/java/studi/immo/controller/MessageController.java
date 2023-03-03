@@ -92,6 +92,12 @@ public class MessageController {
         model.addAttribute("SendMessage", message);
         ChatRoom chatRoom = chatRoomService.getChatRoomById(id);
         model.addAttribute("ChatRoom", chatRoom);
+        User landLordUser = userService.getCurrentUser();
+        boolean IsLandLord=false;
+        if (landLordUser != null){
+            IsLandLord =  landLordUser.getId().equals(chatRoom.getAccommodation().getUser().getId());
+        }
+        model.addAttribute("IsLandLord",IsLandLord);
         return "MessageChatRoom";
     }
 

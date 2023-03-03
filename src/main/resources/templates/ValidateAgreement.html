@@ -46,7 +46,6 @@
                     <li class="nav-item dropdown" >
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" id="menu">Mes contrats</a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                            <li><a class="dropdown-item" th:href = "@{/contrat/mes-contrats}">Mes Contrats</a></li>
                             <li><a class="dropdown-item" href="#">Location</a></li>
                             <li><a class="dropdown-item" href="#">Propriétaire</a></li>
                         </ul>
@@ -63,32 +62,51 @@
 </nav>
 
 <main>
+    <div>
+        <div class="card mb-3" id="accommodation">
+            <h3 class="card-title" th:text="${Agreement.accommodation.title}"/>
+            <p class="card-text" id="subtitle"><small class="text-muted" th:text="'à '+ ${Agreement.accommodation.address.city.name} +' '+ ${Agreement.accommodation.address.city.zipCode}"/></p>
+            <!--<img src="apartments-sample.jpeg" class="card-img-top" alt="...">-->
+            <div class="card-body">
+                <ul class="list-group list-group-horizontal">
+                    <li class="list-group-item" id="data-accommodation">Loyer (en €)</li>
+                    <li class="list-group-item" id="data-accommodation">Surface (en m²) </li>
+                    <li class="list-group-item" id="data-accommodation">Nombre de pièces </li>
+                    <li class="list-group-item" id="data-accommodation">Charges (en €)  </li>
+                    <li class="list-group-item" id="data-accommodation">Caution (en €) </li>
+                </ul>
+                <ul class="list-group list-group-horizontal">
+                    <li class="list-group-item" id="data-accommodation" th:text="${Agreement.rentalPrice}"/>
+                    <li class="list-group-item" id="data-accommodation" th:text="${Agreement.accommodation.squareMeter}"/>
+                    <li class="list-group-item" id="data-accommodation" th:text="${Agreement.accommodation.rooms}"/>
+                    <li class="list-group-item" id="data-accommodation" th:text="${Agreement.charges}"/>
+                    <li class="list-group-item" id="data-accommodation" th:text="${Agreement.deposit}"/>
+                </ul>
 
-    <h2 sec:authorize="isAnonymous()" id="titre">Bienvenu sur IMMO</h2>
-    <h2 sec:authorize="isAuthenticated()" id="titre" th:text="'Bienvenu '+ ${User.userName}"/>
+                <p class="card-text" id="subtitle">
+                    <small class="text-muted">Contrat entre:</small>
+                <ul class="text-muted" th:each="users : ${Agreement.users}">
+                    <li th:text="${users.userName}"></li>
+                </ul>
+                </p>
 
-    <div class="grid" >
-        <div class="col-sm-6" id="option">
-            <div class="card">
-                <div class="card-body">
-                    <h3 class="card-title">Locataire</h3 >
-                    <p class="card-text">Vous recherchez un logement à louer ou à acheter? </p>
-                    <a th:href = "@{/liste-de-logement}" class="btn" id="bouton" >Consulter les annonces</a>
+                <div>
+                    <div th:if= "${IsOwner}">
+                        <a th:href = "@{/contrat/modifier-contrat/{id} (id=${Agreement.id})}"
+                           class="btn"
+                           id="bouton-secondaire" >Modifier le bail</a>
+                        <a th:href = "@{/contrat/etat-des-lieux-entree/{id} (id=${Inventory.id})}"
+                           class="btn"
+                           id="bouton-secondaire" >Effectuer/modifier l'état des lieux</a>
+                    </div>
+                    <a class="btn" id="bouton-secondaire" >Valider le contrat</a>
+                    <a class="btn" id="bouton-secondaire" >État des lieux en PDF</a>
+                    <a class="btn" id="bouton-secondaire" >Le bail en PDF</a>
                 </div>
-            </div>
-        </div>
-        <div class="col-sm-6" id="option">
-            <div class="card">
-                <div class="card-body">
-                    <h3 class="card-title">Propriétaire</h3>
-                    <p class="card-text">Vous possédez un bien que vous souhaiteriez proposer à la location?</p>
-                    <a th:href = "@{/creation-compte}" class="btn" id="bouton" sec:authorize="isAnonymous()">Créer votre Compte et déposer votre annonce</a>
-                    <a th:href = "@{/user/create-address}" class="btn" id="bouton" sec:authorize="isAuthenticated()">Poster votre annonce</a>
-                </div>
+
             </div>
         </div>
     </div>
-
 </main>
 
 

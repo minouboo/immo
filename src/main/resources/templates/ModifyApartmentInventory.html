@@ -46,7 +46,6 @@
                     <li class="nav-item dropdown" >
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" id="menu">Mes contrats</a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                            <li><a class="dropdown-item" th:href = "@{/contrat/mes-contrats}">Mes Contrats</a></li>
                             <li><a class="dropdown-item" href="#">Location</a></li>
                             <li><a class="dropdown-item" href="#">Propriétaire</a></li>
                         </ul>
@@ -64,29 +63,25 @@
 
 <main>
 
-    <h2 sec:authorize="isAnonymous()" id="titre">Bienvenu sur IMMO</h2>
-    <h2 sec:authorize="isAuthenticated()" id="titre" th:text="'Bienvenu '+ ${User.userName}"/>
+    <div id="form">
 
-    <div class="grid" >
-        <div class="col-sm-6" id="option">
-            <div class="card">
-                <div class="card-body">
-                    <h3 class="card-title">Locataire</h3 >
-                    <p class="card-text">Vous recherchez un logement à louer ou à acheter? </p>
-                    <a th:href = "@{/liste-de-logement}" class="btn" id="bouton" >Consulter les annonces</a>
+        <h2 id="titre">État des lieux d'entrée</h2>
+        <form th:action = "@{/contrat/valider-etat-des-lieux-entree/{id} (id=${Inventory.id})}" th:object = "${Inventory}" method = "POST">
+            <div class="mb-3">
+                <label class="form-label">Date d'état des lieux d'entrée</label>
+                <div class="input-group date">
+                    <input type="date" class="form-control" th:field="*{dateInventory}"/>
                 </div>
             </div>
-        </div>
-        <div class="col-sm-6" id="option">
-            <div class="card">
-                <div class="card-body">
-                    <h3 class="card-title">Propriétaire</h3>
-                    <p class="card-text">Vous possédez un bien que vous souhaiteriez proposer à la location?</p>
-                    <a th:href = "@{/creation-compte}" class="btn" id="bouton" sec:authorize="isAnonymous()">Créer votre Compte et déposer votre annonce</a>
-                    <a th:href = "@{/user/create-address}" class="btn" id="bouton" sec:authorize="isAuthenticated()">Poster votre annonce</a>
-                </div>
+            <div class="mb-3" >
+                <label class="form-label">Commentaire état des lieux d'entrée</label>
+                <textarea class = "form-control" rows = "6"  th:field = "*{comment}"></textarea>
             </div>
-        </div>
+            <div id="bouton-container">
+                <button type="submit" class="btn" id="bouton-form">Envoyer le contrat</button>
+            </div>
+        </form>
+
     </div>
 
 </main>

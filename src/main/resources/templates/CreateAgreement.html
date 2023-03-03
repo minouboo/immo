@@ -46,7 +46,6 @@
                     <li class="nav-item dropdown" >
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" id="menu">Mes contrats</a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                            <li><a class="dropdown-item" th:href = "@{/contrat/mes-contrats}">Mes Contrats</a></li>
                             <li><a class="dropdown-item" href="#">Location</a></li>
                             <li><a class="dropdown-item" href="#">Propriétaire</a></li>
                         </ul>
@@ -64,29 +63,70 @@
 
 <main>
 
-    <h2 sec:authorize="isAnonymous()" id="titre">Bienvenu sur IMMO</h2>
-    <h2 sec:authorize="isAuthenticated()" id="titre" th:text="'Bienvenu '+ ${User.userName}"/>
+    <div id="form">
 
-    <div class="grid" >
-        <div class="col-sm-6" id="option">
-            <div class="card">
-                <div class="card-body">
-                    <h3 class="card-title">Locataire</h3 >
-                    <p class="card-text">Vous recherchez un logement à louer ou à acheter? </p>
-                    <a th:href = "@{/liste-de-logement}" class="btn" id="bouton" >Consulter les annonces</a>
+        <h2 id="titre">Contrat de location</h2>
+        <p class="card-text" id="subtitle">
+            <small class="form-label">Entre:</small>
+            <ul class="form-label" th:each="users : ${ChatRoom.users}">
+                <li th:text="${users.userName}"></li>
+            </ul>
+        </p>
+
+        <form th:action = "@{/contrat/nouveau-contrat/{id} (id=${ChatRoom.id})}" th:object = "${Agreement}" method = "POST">
+            <div class="mb-3" >
+                <label class="form-label">Loyer mensuel (en €)</label>
+                <input class="form-control"
+                       type="number"
+                       min="0.00"
+                       max="10000.00"
+                       step="0.01"
+                       th:field = "*{rentalPrice}"
+                       >
+            </div>
+            <div class="mb-3" >
+                <label class="form-label">Charges mensuel (en €)</label>
+                <input class="form-control"
+                       type="number"
+                       min="0.00"
+                       max="10000.00"
+                       step="0.01"
+                       th:field = "*{charges}"
+                >
+            </div>
+            <div class="mb-3" >
+                <label class="form-label">Caution (en €)</label>
+                <input class="form-control"
+                       type="number"
+                       min="0.00"
+                       max="10000.00"
+                       step="0.01"
+                       th:field = "*{deposit}"
+                >
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Date d'entrée</label>
+                <div class="input-group date">
+                    <input type="date" class="form-control" th:field="*{startAgreementDate}"/>
                 </div>
             </div>
-        </div>
-        <div class="col-sm-6" id="option">
-            <div class="card">
-                <div class="card-body">
-                    <h3 class="card-title">Propriétaire</h3>
-                    <p class="card-text">Vous possédez un bien que vous souhaiteriez proposer à la location?</p>
-                    <a th:href = "@{/creation-compte}" class="btn" id="bouton" sec:authorize="isAnonymous()">Créer votre Compte et déposer votre annonce</a>
-                    <a th:href = "@{/user/create-address}" class="btn" id="bouton" sec:authorize="isAuthenticated()">Poster votre annonce</a>
-                </div>
+            <div class="mb-3" >
+                <label class="form-label">Frais d'agence (en €)</label>
+                <input class="form-control"
+                       type="number"
+                       min="0.00"
+                       max="10000.00"
+                       step="0.01"
+                       th:field = "*{agencyFees}"
+                >
             </div>
-        </div>
+
+
+            <div id="bouton-container">
+                <button type="submit" class="btn" id="bouton-form">Envoyer le contrat</button>
+            </div>
+        </form>
+
     </div>
 
 </main>

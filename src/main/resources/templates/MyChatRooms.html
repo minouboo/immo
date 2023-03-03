@@ -29,11 +29,14 @@
 
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0" id="onglet">
                     <li class="nav-item dropdown" >
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" id="menu">Mes compte</a>
+                        <a class="nav-link dropdown-toggle"  role="button" data-bs-toggle="dropdown" aria-expanded="false" id="menu">Mes compte</a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                            <li><a class="dropdown-item" th:href = "@{/user/modifier-compte}">Mon profil</a></li>
                             <li><a class="dropdown-item" th:href = "@{/user/mon-portefeuille}">Mon portefeuille</a></li>
                             <li><a class="dropdown-item" th:href = "@{/user/mes-annonces}">Mes annonces</a></li>
-                            <li><a class="dropdown-item" href="#">Mes messages</a></li>
+                            <li><a class="dropdown-item" th:href = "@{/chat/mes-conversations}">Mes messages</a></li>
+
+
                             <li>
                                 <a class="dropdown-item" th:href = "@{/login}" sec:authorize="isAnonymous()">Je me connecte</a>
                                 <a class="dropdown-item" th:href = "@{/logout}" sec:authorize="isAuthenticated()">Déconnexion</a>
@@ -43,6 +46,7 @@
                     <li class="nav-item dropdown" >
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" id="menu">Mes contrats</a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                            <li><a class="dropdown-item" th:href = "@{/contrat/mes-contrats}">Mes Contrats</a></li>
                             <li><a class="dropdown-item" href="#">Location</a></li>
                             <li><a class="dropdown-item" href="#">Propriétaire</a></li>
                         </ul>
@@ -58,8 +62,8 @@
     </div>
 </nav>
 
-<main>
 
+<main>
 
 
     <div class="row" id="option">
@@ -70,7 +74,12 @@
             <img class="card-img-top" src="apartments-sample.jpeg" alt="Card image cap">
             <div class="card-body">
                 <h4 class="card-title" th:text="${MyChatRoom.accommodation.title}"/>
-                <p class="card-text" id="subtitle"><small class="text-muted" th:text="'Discussion avec '+ ${MyChatRoom.accommodation.user.userName}"/></p>
+                <p class="card-text" id="subtitle">
+                    <small class="text-muted">Discussion entre:</small>
+                <ul class="text-muted" th:each="users : ${MyChatRoom.users}">
+                    <li th:text="${users.userName}"></li>
+                </ul>
+                </p>
                 <p class="card-text" id="subtitle"><small class="text-muted" th:text="'Pour un logement à '+ ${MyChatRoom.accommodation.address.city.name} +' '+ ${MyChatRoom.accommodation.address.city.zipCode}"/></p>
                 <ul class="list-group list-group-horizontal">
                     <li class="list-group-item" id="data-accommodation">Nombre de pièce</li>
@@ -86,14 +95,7 @@
         </div>
     </div>
 
-
-
-
-
 </main>
-
-
-
 
 </body>
 

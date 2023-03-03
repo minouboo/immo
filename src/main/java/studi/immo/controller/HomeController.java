@@ -21,7 +21,7 @@ public class HomeController {
     private PasswordEncoder passwordEncoder;
     private AdvertisementService advertisementService;
     private CashService cashService;
-    private TenantService tenantService;
+
 
     @Autowired
     public HomeController (UserService userService, PasswordEncoder passwordEncoder, AdvertisementService advertisementService, CashService cashService, TenantService tenantService){
@@ -29,7 +29,6 @@ public class HomeController {
         this.passwordEncoder = passwordEncoder;
         this.advertisementService = advertisementService;
         this.cashService = cashService;
-        this.tenantService = tenantService;
     }
 
     @GetMapping ({"","/","/accueil"})
@@ -81,6 +80,7 @@ public class HomeController {
         if (targetUser !=null){
             IsOwner = targetUser.getId().equals(advertisementByUser.getAccommodation().getUser().getId());
         }
+
         boolean NotOwner = false;
         if (targetUser!=null){
             NotOwner =! targetUser.getId().equals(advertisementByUser.getAccommodation().getUser().getId());

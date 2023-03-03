@@ -62,37 +62,40 @@
     </div>
 </nav>
 
+
 <main>
 
-    <h2 sec:authorize="isAnonymous()" id="titre">Bienvenu sur IMMO</h2>
-    <h2 sec:authorize="isAuthenticated()" id="titre" th:text="'Bienvenu '+ ${User.userName}"/>
 
-    <div class="grid" >
-        <div class="col-sm-6" id="option">
-            <div class="card">
-                <div class="card-body">
-                    <h3 class="card-title">Locataire</h3 >
-                    <p class="card-text">Vous recherchez un logement à louer ou à acheter? </p>
-                    <a th:href = "@{/liste-de-logement}" class="btn" id="bouton" >Consulter les annonces</a>
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-6" id="option">
-            <div class="card">
-                <div class="card-body">
-                    <h3 class="card-title">Propriétaire</h3>
-                    <p class="card-text">Vous possédez un bien que vous souhaiteriez proposer à la location?</p>
-                    <a th:href = "@{/creation-compte}" class="btn" id="bouton" sec:authorize="isAnonymous()">Créer votre Compte et déposer votre annonce</a>
-                    <a th:href = "@{/user/create-address}" class="btn" id="bouton" sec:authorize="isAuthenticated()">Poster votre annonce</a>
-                </div>
+    <div class="row" id="option">
+
+        <h2 id="titre">Mes contrats</h2>
+
+        <div class="card"  id="card-accomodation" th:each="MyAgreements : ${MyAgreements}">
+            <img class="card-img-top" src="apartments-sample.jpeg" alt="Card image cap">
+            <div class="card-body">
+                <h4 class="card-title" th:text="${MyAgreements.accommodation.title}"/>
+                <p class="card-text" id="subtitle">
+                    <small class="text-muted">Contrat de bail entre:</small>
+                <ul class="text-muted" th:each="users : ${MyAgreements.users}">
+                    <li th:text="${users.userName}"></li>
+                </ul>
+                </p>
+                <p class="card-text" id="subtitle"><small class="text-muted" th:text="'Pour un logement à '+ ${MyAgreements.accommodation.address.city.name} +' '+ ${MyAgreements.accommodation.address.city.zipCode}"/></p>
+                <ul class="list-group list-group-horizontal">
+                    <li class="list-group-item" id="data-accommodation">Nombre de pièce</li>
+                    <li class="list-group-item" id="data-accommodation">Surface (en m²) </li>
+                </ul>
+                <ul class="list-group list-group-horizontal">
+                    <li class="list-group-item" id="data-accommodation" th:text="${MyAgreements.accommodation.rooms}"/>
+                    <li class="list-group-item" id="data-accommodation" th:text="${MyAgreements.accommodation.squareMeter}"/>
+                </ul>
+                <a th:href = "@{/contrat/valider-contrat/{id}(id=${MyAgreements.id})}" class="btn " id="bouton-secondaire">Voir la contrat</a>
+                <!--<a th:href = "@{/chat/conversation/suppression/{id}(id=${MyChatRoom.id})}" class="btn " id="bouton-secondaire">Supprimer la discussion</a>-->
             </div>
         </div>
     </div>
 
 </main>
-
-
-
 
 </body>
 

@@ -84,6 +84,9 @@
                     <button type="submit" class="btn" id="bouton-form">Submit</button>
                 </div>
             </form>
+            <div id="bouton-container-message" th:if= "${IsLandLord}">
+                <a th:href = "@{/contrat/creation-contrat/{id}(id=${ChatRoom.id})}" class="btn" id="bouton">Proposer un contrat</a>
+            </div>
         </div>
     </div>
 
