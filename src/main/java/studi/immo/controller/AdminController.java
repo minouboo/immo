@@ -23,10 +23,6 @@ public class AdminController {
         this.advertisementService = advertisementService;
     }
 
-    @GetMapping(value="/annonce/suppression/{id}")
-    public String deleteAdvertisement (@PathVariable Long id){
-        advertisementService.deleteAdvertisementById(id);
-        return "redirect:/liste-de-logement";
-    }
+
 
 }

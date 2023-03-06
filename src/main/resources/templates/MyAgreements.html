@@ -89,7 +89,7 @@
                     <li class="list-group-item" id="data-accommodation" th:text="${MyAgreements.accommodation.rooms}"/>
                     <li class="list-group-item" id="data-accommodation" th:text="${MyAgreements.accommodation.squareMeter}"/>
                 </ul>
-                <a th:href = "@{/contrat/valider-contrat/{id}(id=${MyAgreements.id})}" class="btn " id="bouton-secondaire">Voir la contrat</a>
+                <a th:href = "@{/contrat/mon-contrat/{id}(id=${MyAgreements.id})}" class="btn " id="bouton-secondaire">Voir le contrat</a>
                 <!--<a th:href = "@{/chat/conversation/suppression/{id}(id=${MyChatRoom.id})}" class="btn " id="bouton-secondaire">Supprimer la discussion</a>-->
             </div>
         </div>

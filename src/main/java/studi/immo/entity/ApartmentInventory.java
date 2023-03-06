@@ -22,6 +22,7 @@ public class ApartmentInventory extends GenericEntity{
     private String comment;
 
     @ManyToOne
+    @JoinColumn (name="agreement_id")
     private Agreement agreement;
 
     @ElementCollection (targetClass = InventoryType.class, fetch = FetchType.EAGER)

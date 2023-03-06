@@ -16,6 +16,7 @@ import studi.immo.form.AddressForm;
 import studi.immo.service.*;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Set;
 
 @Log
@@ -197,12 +198,13 @@ public class UserController {
     public String myAdvertisements (Model model){
         User user = userService.getCurrentUser();
         model.addAttribute("MyAdvertisements",advertisementService.getAdvertisementAccommodationByUserId(user.getId()));
+        model.addAttribute("MyAccommodations",accommodationService.getAccommodationByUserId(user.getId()));
         return "MyAdvertisements";
     }
 
     @GetMapping (value="/modification-mon-annonce/{id}")
     public String modifyMyAdvertisement (@PathVariable Long id, Model model){
-        model.addAttribute("MyAccommodation", advertisementService.getAdvertisementById(id));
+        model.addAttribute("MyAdvertisement", advertisementService.getAdvertisementById(id));
         return "ModifyAdvertisement";
     }
 
@@ -217,6 +219,18 @@ public class UserController {
         updateAd.setDescription(accommodation.getDescription());
         advertisementService.saveAdvertisement(updateAd);
         return "redirect:/user/mes-annonces" ;
+    }
+
+    @GetMapping(value="/annonce/suppression/{id}")
+    public String deleteAdvertisement (@PathVariable Long id){
+        advertisementService.deleteAdvertisementById(id);
+        return "redirect:/liste-de-logement";
+    }
+
+    @GetMapping (value = "/logement/suppression/{id}")
+    public String deleteAccommodation (@PathVariable Long id){
+        accommodationService.deleteAccommodationById(id);
+        return "redirect:/user/mes-annonces";
     }
 
     @GetMapping(value = "/mon-portefeuille")

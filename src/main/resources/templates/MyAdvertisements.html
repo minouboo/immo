@@ -67,9 +67,35 @@
                 <a th:href = "@{/logement/{id}(id=${MyAdvertisements.id})}"
                    class="btn "
                    id="bouton-secondaire">Modifier mon annonce</a>
-                <a th:href="@{/admin/annonce/suppression/{id} (id=${MyAdvertisements.id})}"
+                <a th:href="@{/user/annonce/suppression/{id} (id=${MyAdvertisements.id})}"
                    class="btn"
                    id="bouton-secondaire">Supprimer l'annonce</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="row" id="option">
+
+        <h2 id="titre">Mes logements</h2>
+
+        <div class="card"  id="card-accomodation" th:each="MyAccommodations : ${MyAccommodations}">
+            <img class="card-img-top" src="apartments-sample.jpeg" alt="Card image cap">
+            <div class="card-body">
+                <h4 class="card-title" th:text="${MyAccommodations.title}"/>
+                <ul class="list-group list-group-horizontal">
+                    <li class="list-group-item" id="data-accommodation">Nombre de pièces</li>
+                    <li class="list-group-item" id="data-accommodation">Surface (en m²) </li>
+                </ul>
+                <ul class="list-group list-group-horizontal">
+                    <li class="list-group-item" id="data-accommodation" th:text="${MyAccommodations.rooms}"/>
+                    <li class="list-group-item" id="data-accommodation" th:text="${MyAccommodations.squareMeter}"/>
+                </ul>
+                <!--<a th:href = "@{/logement/{id}(id=${MyAdvertisements.id})}"
+                   class="btn "
+                   id="bouton-secondaire">Modifier mon annonce</a>-->
+                <a th:href="@{/user/logement/suppression/{id} (id=${MyAccommodations.id})}"
+                   class="btn"
+                   id="bouton-secondaire">Supprimer le logement</a>
             </div>
         </div>
     </div>

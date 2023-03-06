@@ -85,7 +85,7 @@
 
                 <p class="card-text" id="subtitle">
                     <small class="text-muted">Contrat entre:</small>
-                <ul class="text-muted" th:each="users : ${Agreement.users}">
+                <ul class="text-muted" id="list-group" th:each="users : ${Agreement.users}">
                     <li th:text="${users.userName}"></li>
                 </ul>
                 </p>
@@ -98,6 +98,9 @@
                         <a th:href = "@{/contrat/etat-des-lieux-entree/{id} (id=${Inventory.id})}"
                            class="btn"
                            id="bouton-secondaire" >Effectuer/modifier l'état des lieux</a>
+                        <a th:href = "@{/contrat/supprimer-contrat/{id} (id=${Agreement.id})}"
+                           class="btn"
+                           id="bouton-secondaire" >Supprimer le contrat</a>
                     </div>
                     <a class="btn" id="bouton-secondaire" >Valider le contrat</a>
                     <a class="btn" id="bouton-secondaire" >État des lieux en PDF</a>

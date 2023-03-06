@@ -33,4 +33,9 @@ public class AgreementServiceImplement implements AgreementService {
     public List<Agreement> getMyAgreementsByUserId(Long userId) {
         return agreementRepository.getMyAgreementsByUserId(userId);
     }
+
+    @Override
+    public void deleteAgreementById(Long id) {
+        agreementRepository.deleteById(id);
+    }
 }

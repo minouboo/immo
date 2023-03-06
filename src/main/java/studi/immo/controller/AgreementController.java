@@ -63,11 +63,11 @@ public class AgreementController {
         newApartmentInventory.setAgreement(newAgreement);
         newApartmentInventory.setType(Collections.singleton(InventoryType.ENTRY));
         apartmentInventoryService.saveApartmentInventory(newApartmentInventory);
-        return "redirect:/contrat/valider-contrat/"+newAgreement.getId();
+        return "redirect:/contrat/mon-contrat/"+newAgreement.getId();
 
     }
 
-    @GetMapping (value = "/valider-contrat/{id}")
+    @GetMapping (value = "/mon-contrat/{id}")
     public String validateAgreement (@PathVariable Long id, Model model){
         Agreement validatingAgreement = agreementService.getAgreementById(id);
         model.addAttribute("Agreement", validatingAgreement);
@@ -79,6 +79,7 @@ public class AgreementController {
         model.addAttribute("IsOwner", IsOwner);
         ApartmentInventory apartmentInventory = apartmentInventoryService.getApartmentInventoryByAgreementId(id);
         model.addAttribute("Inventory", apartmentInventory);
+
 
         return "ValidateAgreement";
     }
@@ -99,7 +100,7 @@ public class AgreementController {
         currentAgreement.setEntryDate(agreement.getEntryDate());
         currentAgreement.setAgencyFees(agreement.getAgencyFees());
         agreementService.saveAgreement(currentAgreement);
-        return "redirect:/contrat/valider-contrat/"+currentAgreement.getId();
+        return "redirect:/contrat/mon-contrat/"+currentAgreement.getId();
     }
 
     @GetMapping (value = "/etat-des-lieux-entree/{id}")
@@ -115,7 +116,7 @@ public class AgreementController {
         updateApartmentInventory.setDateInventory(apartmentInventory.getDateInventory());
         updateApartmentInventory.setComment(apartmentInventory.getComment());
         apartmentInventoryService.saveApartmentInventory(updateApartmentInventory);
-        return "redirect:/contrat/valider-contrat/id="+updateApartmentInventory.getAgreement().getId();
+        return "redirect:/contrat/mon-contrat/id="+updateApartmentInventory.getAgreement().getId();
     }
 
 
@@ -126,5 +127,21 @@ public class AgreementController {
         model.addAttribute("MyAgreements",myAgreements);
         return "MyAgreements";
     }
+
+    @PostMapping (value = "/valider-contrat/{id}")
+    public String validateAgreement (@PathVariable Long id){
+        Agreement validateAgreement = agreementService.getAgreementById(id);
+        validateAgreement.setTenantValidate(Boolean.TRUE);
+        agreementService.saveAgreement(validateAgreement);
+        return "redirect:/contrat/mon-contrat/"+validateAgreement.getId();
+    }
+
+    @GetMapping (value = "/supprimer-contrat/{id}")
+    public String deleteAgreement (@PathVariable Long id){
+        agreementService.deleteAgreementById(id);
+        return "redirect:/contrat/mon-contrat";
+    }
+
+
 
 }

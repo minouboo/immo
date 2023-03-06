@@ -5,6 +5,8 @@ import studi.immo.entity.Accommodation;
 import studi.immo.repository.AccomodationRepository;
 import studi.immo.service.AccommodationService;
 
+import java.util.List;
+
 @Service
 public class AccommodationServiceImplement implements AccommodationService {
 
@@ -28,6 +30,16 @@ public class AccommodationServiceImplement implements AccommodationService {
     @Override
     public Accommodation getAccommodationAndUserById(Long accommodationId) {
         return accomodationRepository.getAccommodationAndUserById(accommodationId);
+    }
+
+    @Override
+    public List<Accommodation> getAccommodationByUserId(Long userId) {
+        return accomodationRepository.getAccomodationByUserId(userId);
+    }
+
+    @Override
+    public void deleteAccommodationById(Long id) {
+        accomodationRepository.deleteById(id);
     }
 
 

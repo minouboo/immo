@@ -6,9 +6,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Setter
@@ -46,6 +44,9 @@ public class Agreement extends GenericEntity{
 
     @Column (columnDefinition = "boolean default false")
     private Boolean LandlordValidate = false;
+
+    @OneToMany (mappedBy = "agreement", cascade = CascadeType.ALL)
+    private List<ApartmentInventory> apartmentInventory = new ArrayList<>();
 
 
 

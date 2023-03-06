@@ -10,5 +10,5 @@ public interface AgreementService {
     Agreement getAgreementById (Long id);
     List<Agreement> getMyAgreementsByUserId (Long userId);
 
-
+    void deleteAgreementById (Long id);
 }

@@ -69,7 +69,7 @@ public class HomeController {
     @GetMapping (value = "/liste-de-logement")
     public String listAccommodation (Model model){
         model.addAttribute("Advertisement", advertisementService.getAllAdvertisementAccommodation());
-        return "ListAccommodation";
+        return "ListAdvertisement";
     }
 
     @GetMapping (value = "/logement/{id}")
@@ -88,7 +88,7 @@ public class HomeController {
         model.addAttribute("IsOwner", IsOwner);
         model.addAttribute("NotOwner", NotOwner);
         model.addAttribute("Advertisement", advertisementByUser);
-        return "ShowAccommodation";
+        return "ShowAdvertisement";
     }
 
 }

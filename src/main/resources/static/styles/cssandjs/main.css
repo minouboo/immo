@@ -45,7 +45,12 @@
 }
 
 #bouton-container{
-    text-align:center;
+    text-align: center;
+}
+
+#bouton-container-message{
+    text-align: end;
+    margin: 3px;
 }
 
 #bouton-form {
@@ -166,6 +171,14 @@ h4 {
     border-width: 1px;
     border-style: solid;
     padding: 3px;
+}
+
+#list-group{
+
+    display : inline-block;
+    margin :auto;
+    text-align:left;
+
 }
 
 

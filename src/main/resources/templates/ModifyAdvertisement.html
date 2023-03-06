@@ -51,7 +51,7 @@
   <div id="form">
     <h2 id="titre">Modifier mon bien</h2>
 
-    <form th:action = "@{/user/annonce-modifie/{id} (id=${MyAccommodation.id})}" th:object = "${MyAccommodation}" method = "POST">
+    <form th:action = "@{/user/annonce-modifie/{id} (id=${MyAdvertisement.id})}" th:object = "${MyAdvertisement}" method = "POST">
       <div class="mb-3" >
         <label class="form-label">Loyer mensuel (en €)</label>
         <input
