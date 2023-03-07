@@ -116,7 +116,7 @@ public class AgreementController {
         updateApartmentInventory.setDateInventory(apartmentInventory.getDateInventory());
         updateApartmentInventory.setComment(apartmentInventory.getComment());
         apartmentInventoryService.saveApartmentInventory(updateApartmentInventory);
-        return "redirect:/contrat/mon-contrat/id="+updateApartmentInventory.getAgreement().getId();
+        return "redirect:/contrat/mon-contrat/"+updateApartmentInventory.getAgreement().getId();
     }
 
 
@@ -124,16 +124,9 @@ public class AgreementController {
     public String myAgreements (Model model){
         User currentUser = userService.getCurrentUser();
         List<Agreement> myAgreements = agreementService.getMyAgreementsByUserId(currentUser.getId());
+        /*List<Agreement> myAgreementsValidated = */
         model.addAttribute("MyAgreements",myAgreements);
-        return "MyAgreements";
-    }
-
-    @PostMapping (value = "/valider-contrat/{id}")
-    public String validateAgreement (@PathVariable Long id){
-        Agreement validateAgreement = agreementService.getAgreementById(id);
-        validateAgreement.setTenantValidate(Boolean.TRUE);
-        agreementService.saveAgreement(validateAgreement);
-        return "redirect:/contrat/mon-contrat/"+validateAgreement.getId();
+        return "ListAgreements";
     }
 
     @GetMapping (value = "/supprimer-contrat/{id}")
@@ -141,6 +134,26 @@ public class AgreementController {
         agreementService.deleteAgreementById(id);
         return "redirect:/contrat/mon-contrat";
     }
+
+    @PostMapping (value = "/valider-contrat/{id}")
+    public String validateAgreement (@PathVariable Long id, @ModelAttribute ("AgreementValidation")Agreement agreement){
+        User currentUser = userService.getCurrentUser();
+        Agreement validateAgreement = agreementService.getAgreementById(id);
+        boolean validation = agreement.getLandlordValidate();
+        if (currentUser.getId().equals(validateAgreement.getAccommodation().getUser().getId())){
+            validateAgreement.setLandlordValidate(Boolean.TRUE);
+        } else {
+            validateAgreement.setTenantValidate(Boolean.TRUE);
+        }
+        agreementService.saveAgreement(validateAgreement);
+        return "redirect:/contrat/mon-contrat/"+validateAgreement.getId();
+    }
+
+
+
+
+
+
 
 
 

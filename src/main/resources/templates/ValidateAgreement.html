@@ -102,9 +102,16 @@
                            class="btn"
                            id="bouton-secondaire" >Supprimer le contrat</a>
                     </div>
-                    <a class="btn" id="bouton-secondaire" >Valider le contrat</a>
-                    <a class="btn" id="bouton-secondaire" >État des lieux en PDF</a>
+
+                    <a class="btn" id="bouton-secondaire" th:href = "@{/pdf/create}">État des lieux en PDF</a>
                     <a class="btn" id="bouton-secondaire" >Le bail en PDF</a>
+                    <form th:action = "@{/contrat/valider-contrat/{id} (id=${Agreement.id})}"
+                          th:object = "${AgreementValidation}" method = "POST">
+                        <button
+                                class="btn"
+                                type = "submit"
+                                id="bouton-secondaire" >Valider le contrat</button>
+                    </form>
                 </div>
 
             </div>
