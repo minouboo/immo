@@ -9,7 +9,7 @@ public interface ChatRoomService {
 
     ChatRoom saveChatRoom (ChatRoom chatRoom);
 
-    List<ChatRoom> getChatRoomByUserTenantId (Long userTenantId);
+    List<ChatRoom> getAllChatRoomByUserTenantId (Long userTenantId);
 
     ChatRoom getChatRoomById (Long id);
 

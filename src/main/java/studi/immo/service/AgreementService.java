@@ -9,6 +9,6 @@ public interface AgreementService {
     Agreement saveAgreement (Agreement agreement);
     Agreement getAgreementById (Long id);
     List<Agreement> getMyAgreementsByUserId (Long userId);
-
+    List<Agreement> getMyAgreementsValidatedByUserId (Long userId);
     void deleteAgreementById (Long id);
 }

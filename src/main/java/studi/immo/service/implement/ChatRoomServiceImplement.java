@@ -23,8 +23,8 @@ public class ChatRoomServiceImplement implements ChatRoomService {
     }
 
     @Override
-    public List<ChatRoom> getChatRoomByUserTenantId(Long userTenantId) {
-        return chatRoomRepository.getChatRoomByUserTenantId(userTenantId);
+    public List<ChatRoom> getAllChatRoomByUserTenantId(Long userTenantId) {
+        return chatRoomRepository.getAllChatRoomByUserTenantId(userTenantId);
     }
 
     @Override

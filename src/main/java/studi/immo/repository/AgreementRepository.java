@@ -12,7 +12,7 @@ import java.util.List;
 @Repository
 public interface AgreementRepository extends JpaRepository <Agreement, Long> {
 
-    @Query(value = "select * from agreement_user au join agreement a on a.id = au.agreement_id  where tenant_validate = false and landlord_validate = false and  user_id = :userid", nativeQuery = true)
+    @Query(value = "select * from agreement_user au join agreement a on a.id = au.agreement_id  where user_id = :userid and (tenant_validate = false or landlord_validate = false) ", nativeQuery = true)
     List<Agreement> getMyAgreementsByUserId (@Param("userid")Long userId);
 
     @Query (value = "select * from agreement_user au join agreement a on a.id = au.agreement_id  where tenant_validate = true and landlord_validate = true and  user_id = :userid", nativeQuery = true)

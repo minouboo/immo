@@ -83,13 +83,18 @@
                     <li class="list-group-item" id="data-accommodation" th:text="${Agreement.deposit}"/>
                 </ul>
 
-                <p class="card-text" id="subtitle">
+                <p id="subtitle">
                     <small class="text-muted">Contrat entre:</small>
                 <ul class="text-muted" id="list-group" th:each="users : ${Agreement.users}">
                     <li th:text="${users.userName}"></li>
                 </ul>
                 </p>
-
+                <div th:if= "${IsTenantValidated}">
+                    <small class="text-muted">Contrat validé par le locataire</small>
+                </div>
+                <div th:if= "${IsLandLordValidated}">
+                    <small class="text-muted">Contrat validé par le propriétaire</small>
+                </div>
                 <div>
                     <div th:if= "${IsOwner}">
                         <a th:href = "@{/contrat/modifier-contrat/{id} (id=${Agreement.id})}"
@@ -104,14 +109,34 @@
                     </div>
 
                     <a class="btn" id="bouton-secondaire" th:href = "@{/pdf/create}">État des lieux en PDF</a>
+
                     <a class="btn" id="bouton-secondaire" >Le bail en PDF</a>
-                    <form th:action = "@{/contrat/valider-contrat/{id} (id=${Agreement.id})}"
-                          th:object = "${AgreementValidation}" method = "POST">
-                        <button
-                                class="btn"
-                                type = "submit"
-                                id="bouton-secondaire" >Valider le contrat</button>
-                    </form>
+
+                    <div>
+                        <a th:if= "${IsValidated and !IsOwner}" class="btn" id="bouton-secondaire" >Payer le Loyer</a>
+                        <div th:if= "${!IsValidated}">
+                            <form
+                                  th:action = "@{/contrat/valider-contrat/{id} (id=${Agreement.id})}"
+                                  th:object = "${AgreementValidation}" method = "POST">
+
+                                <button
+                                        class="btn"
+                                        type = "submit"
+                                        id="bouton-secondaire" >Valider le contrat</button>
+                            </form>
+                            <form
+                                    th:action = "@{/contrat/invalider-contrat/{id} (id=${Agreement.id})}"
+                                    th:object = "${AgreementValidation}" method = "POST">
+
+                                <button
+                                        class="btn"
+                                        type = "submit"
+                                        id="bouton-secondaire" >Invalider contrat</button>
+                            </form>
+                        </div>
+
+                    </div>
+
                 </div>
 
             </div>

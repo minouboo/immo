@@ -44,6 +44,8 @@ public class MessageController {
     @GetMapping(value = "/nouveau-message/{id}")
     public String myNewMessage (@PathVariable Long id, Model model){
         Accommodation accommodation = accommodationService.getAccommodationAndUserById(id);
+        User currentUser = userService.getCurrentUser();
+
         ChatForm chatForm = new ChatForm();
         model.addAttribute("SendMessage", chatForm);
         model.addAttribute("Accommodation", accommodation);
@@ -79,7 +81,7 @@ public class MessageController {
     @GetMapping (value = "/mes-conversations")
     public String myChatRooms (Model model){
         User user = userService.getCurrentUser();
-        List<ChatRoom> myChatRooms = chatRoomService.getChatRoomByUserTenantId(user.getId());
+        List<ChatRoom> myChatRooms = chatRoomService.getAllChatRoomByUserTenantId(user.getId());
         model.addAttribute("MyChatRoom", myChatRooms);
         return "MyChatRooms";
     }

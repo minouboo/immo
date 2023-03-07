@@ -15,6 +15,7 @@ import studi.immo.service.ChatRoomService;
 import studi.immo.service.UserService;
 
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -69,17 +70,40 @@ public class AgreementController {
 
     @GetMapping (value = "/mon-contrat/{id}")
     public String validateAgreement (@PathVariable Long id, Model model){
+        User targetUser = userService.getCurrentUser();
+
         Agreement validatingAgreement = agreementService.getAgreementById(id);
         model.addAttribute("Agreement", validatingAgreement);
-        User targetUser = userService.getCurrentUser();
+
+        ApartmentInventory apartmentInventory = apartmentInventoryService.getApartmentInventoryByAgreementId(id);
+        model.addAttribute("Inventory", apartmentInventory);
+
         boolean IsOwner = false;
         if (targetUser!=null){
             IsOwner = targetUser.getId().equals(validatingAgreement.getAccommodation().getUser().getId());
         }
         model.addAttribute("IsOwner", IsOwner);
-        ApartmentInventory apartmentInventory = apartmentInventoryService.getApartmentInventoryByAgreementId(id);
-        model.addAttribute("Inventory", apartmentInventory);
 
+        boolean landlordValidate = validatingAgreement.getLandlordValidate().equals(Boolean.TRUE);
+        boolean tenantValidate = validatingAgreement.getTenantValidate().equals(Boolean.TRUE);
+
+        boolean IsTenantValidated = false;
+        if (tenantValidate){
+            IsTenantValidated = true;
+        }
+        model.addAttribute("IsTenantValidated", IsTenantValidated);
+
+        boolean IsLandLordValidated = false;
+        if (landlordValidate){
+            IsLandLordValidated = true;
+        }
+        model.addAttribute("IsLandLordValidated",IsLandLordValidated);
+
+        boolean IsValidated = false;
+        if (landlordValidate & tenantValidate ){
+            IsValidated = true;
+        }
+        model.addAttribute("IsValidated",IsValidated);
 
         return "ValidateAgreement";
     }
@@ -124,8 +148,9 @@ public class AgreementController {
     public String myAgreements (Model model){
         User currentUser = userService.getCurrentUser();
         List<Agreement> myAgreements = agreementService.getMyAgreementsByUserId(currentUser.getId());
-        /*List<Agreement> myAgreementsValidated = */
+        List<Agreement> myAgreementsValidated = agreementService.getMyAgreementsValidatedByUserId(currentUser.getId());
         model.addAttribute("MyAgreements",myAgreements);
+        model.addAttribute("MyAgreementsValidated", myAgreementsValidated);
         return "ListAgreements";
     }
 
@@ -139,7 +164,6 @@ public class AgreementController {
     public String validateAgreement (@PathVariable Long id, @ModelAttribute ("AgreementValidation")Agreement agreement){
         User currentUser = userService.getCurrentUser();
         Agreement validateAgreement = agreementService.getAgreementById(id);
-        boolean validation = agreement.getLandlordValidate();
         if (currentUser.getId().equals(validateAgreement.getAccommodation().getUser().getId())){
             validateAgreement.setLandlordValidate(Boolean.TRUE);
         } else {
@@ -149,7 +173,18 @@ public class AgreementController {
         return "redirect:/contrat/mon-contrat/"+validateAgreement.getId();
     }
 
-
+    @PostMapping (value = "/invalider-contrat/{id}")
+    public String unvalidateAgreement (@PathVariable Long id, @ModelAttribute ("AgreementValidation")Agreement agreement){
+        User currentUser = userService.getCurrentUser();
+        Agreement validateAgreement = agreementService.getAgreementById(id);
+        if (currentUser.getId().equals(validateAgreement.getAccommodation().getUser().getId())){
+            validateAgreement.setLandlordValidate(Boolean.FALSE);
+        } else {
+            validateAgreement.setTenantValidate(Boolean.FALSE);
+        }
+        agreementService.saveAgreement(validateAgreement);
+        return "redirect:/contrat/mon-contrat/"+validateAgreement.getId();
+    }
 
 
 

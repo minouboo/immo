@@ -64,37 +64,66 @@
 
 
 <main>
+    <div class="column">
 
+        <div class="row" id="option">
 
-    <div class="row" id="option">
+            <h2 id="titre">Mes contrats à valider</h2>
 
-        <h2 id="titre">Mes contrats en cours</h2>
+            <div class="card"  id="card-accomodation" th:each="MyAgreements : ${MyAgreements}">
+                <img class="card-img-top" src="apartments-sample.jpeg" alt="Card image cap">
+                <div class="card-body">
+                    <h4 class="card-title" th:text="${MyAgreements.accommodation.title}"/>
+                    <p class="card-text" id="subtitle">
+                        <small class="text-muted">Contrat de bail entre:</small>
+                    <ul class="text-muted" th:each="users : ${MyAgreements.users}">
+                        <li th:text="${users.userName}"></li>
+                    </ul>
+                    </p>
+                    <p class="card-text" id="subtitle"><small class="text-muted" th:text="'Pour un logement à '+ ${MyAgreements.accommodation.address.city.name} +' '+ ${MyAgreements.accommodation.address.city.zipCode}"/></p>
+                    <ul class="list-group list-group-horizontal">
+                        <li class="list-group-item" id="data-accommodation">Nombre de pièce</li>
+                        <li class="list-group-item" id="data-accommodation">Surface (en m²) </li>
+                    </ul>
+                    <ul class="list-group list-group-horizontal">
+                        <li class="list-group-item" id="data-accommodation" th:text="${MyAgreements.accommodation.rooms}"/>
+                        <li class="list-group-item" id="data-accommodation" th:text="${MyAgreements.accommodation.squareMeter}"/>
+                    </ul>
+                    <a th:href = "@{/contrat/mon-contrat/{id}(id=${MyAgreements.id})}" class="btn " id="bouton-secondaire">Voir le contrat</a>
+                    <!--<a th:href = "@{/chat/conversation/suppression/{id}(id=${MyChatRoom.id})}" class="btn " id="bouton-secondaire">Supprimer la discussion</a>-->
+                </div>
+            </div>
+        </div>
 
-        <div class="card"  id="card-accomodation" th:each="MyAgreements : ${MyAgreements}">
-            <img class="card-img-top" src="apartments-sample.jpeg" alt="Card image cap">
-            <div class="card-body">
-                <h4 class="card-title" th:text="${MyAgreements.accommodation.title}"/>
-                <p class="card-text" id="subtitle">
-                    <small class="text-muted">Contrat de bail entre:</small>
-                <ul class="text-muted" th:each="users : ${MyAgreements.users}">
-                    <li th:text="${users.userName}"></li>
-                </ul>
-                </p>
-                <p class="card-text" id="subtitle"><small class="text-muted" th:text="'Pour un logement à '+ ${MyAgreements.accommodation.address.city.name} +' '+ ${MyAgreements.accommodation.address.city.zipCode}"/></p>
-                <ul class="list-group list-group-horizontal">
-                    <li class="list-group-item" id="data-accommodation">Nombre de pièce</li>
-                    <li class="list-group-item" id="data-accommodation">Surface (en m²) </li>
-                </ul>
-                <ul class="list-group list-group-horizontal">
-                    <li class="list-group-item" id="data-accommodation" th:text="${MyAgreements.accommodation.rooms}"/>
-                    <li class="list-group-item" id="data-accommodation" th:text="${MyAgreements.accommodation.squareMeter}"/>
-                </ul>
-                <a th:href = "@{/contrat/mon-contrat/{id}(id=${MyAgreements.id})}" class="btn " id="bouton-secondaire">Voir le contrat</a>
-                <!--<a th:href = "@{/chat/conversation/suppression/{id}(id=${MyChatRoom.id})}" class="btn " id="bouton-secondaire">Supprimer la discussion</a>-->
+        <div class="row" id="option">
+
+            <h2 id="titre">Mes contrats en cours</h2>
+
+            <div class="card"  id="card-accomodation" th:each="MyAgreementsValidated : ${MyAgreementsValidated}">
+                <img class="card-img-top" src="apartments-sample.jpeg" alt="Card image cap">
+                <div class="card-body">
+                    <h4 class="card-title" th:text="${MyAgreementsValidated.accommodation.title}"/>
+                    <p class="card-text" id="subtitle">
+                        <small class="text-muted">Contrat de bail entre:</small>
+                    <ul class="text-muted" th:each="users : ${MyAgreementsValidated.users}">
+                        <li th:text="${users.userName}"></li>
+                    </ul>
+                    </p>
+                    <p class="card-text" id="subtitle"><small class="text-muted" th:text="'Pour un logement à '+ ${MyAgreementsValidated.accommodation.address.city.name} +' '+ ${MyAgreementsValidated.accommodation.address.city.zipCode}"/></p>
+                    <ul class="list-group list-group-horizontal">
+                        <li class="list-group-item" id="data-accommodation">Nombre de pièce</li>
+                        <li class="list-group-item" id="data-accommodation">Surface (en m²) </li>
+                    </ul>
+                    <ul class="list-group list-group-horizontal">
+                        <li class="list-group-item" id="data-accommodation" th:text="${MyAgreementsValidated.accommodation.rooms}"/>
+                        <li class="list-group-item" id="data-accommodation" th:text="${MyAgreementsValidated.accommodation.squareMeter}"/>
+                    </ul>
+                    <a th:href = "@{/contrat/mon-contrat/{id}(id=${MyAgreementsValidated.id})}" class="btn " id="bouton-secondaire">Voir le contrat</a>
+                    <!--<a th:href = "@{/chat/conversation/suppression/{id}(id=${MyChatRoom.id})}" class="btn " id="bouton-secondaire">Supprimer la discussion</a>-->
+                </div>
             </div>
         </div>
     </div>
-
 </main>
 
 </body>
