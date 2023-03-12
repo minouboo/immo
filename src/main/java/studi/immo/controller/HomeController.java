@@ -88,10 +88,12 @@ public class HomeController {
         model.addAttribute("IsOwner", IsOwner);
         model.addAttribute("NotOwner", NotOwner);
         model.addAttribute("Advertisement", advertisementByUser);
+
         Photo mainPhoto = photoService.getMainPhotoByAdvertisementId(id);
         model.addAttribute("MainPhoto", mainPhoto);
         List<Photo> photosAdvertisement = photoService.getPhotosByAdvertisementId(id);
         model.addAttribute("Photo",photosAdvertisement);
+
         return "ShowAdvertisement";
     }
 
