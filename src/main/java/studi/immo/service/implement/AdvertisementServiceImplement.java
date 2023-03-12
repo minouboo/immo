@@ -1,10 +1,16 @@
 package studi.immo.service.implement;
 
+import org.apache.tomcat.jni.File;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import studi.immo.entity.Advertisement;
 import studi.immo.repository.AdvertisementRepository;
 import studi.immo.service.AdvertisementService;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
 @Service
@@ -51,6 +57,8 @@ public class AdvertisementServiceImplement implements AdvertisementService {
     public Advertisement getAdvertisementById(Long id) {
         return advertisementRepository.findById(id).get();
     }
+
+
 
 
 }

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
   <meta charset="UTF-8">
   <title>Votre Bien</title>
@@ -13,14 +13,24 @@
     <div class="row">
       <div class="col-md-8 mx-auto">
         <h2>Upload Image Example</h2>
-        <p th:text="${message}" th:if="${message ne null}" class="alert alert-primary"></p>
-        <form method="post" th:action="@{/pic/upload}" enctype="multipart/form-data">
+
+
+        <form method="post" th:action="@{/pic/upload-image}" enctype="multipart/form-data">
           <div class="form-group">
-            <input type="file" name="image" accept="image/*" class="form-control-file">
+            <input type="file" name="imageFile" accept="image/png, image/jpeg" class="form-control-file">
           </div>
           <button type="submit" class="btn btn-primary">Upload image</button>
         </form>
-        <span th:if="${msg != null}" th:text="${msg}"></span>
+
+        <div>
+        <!--<a th:href="${pageContext.request.contextPath}/image-upload/removeFile/${theEmployee.id}/${theEmployee.fileName}"/>-->
+        <!--<a th:href="/static/photos/${photo.fileName}"/>-->
+        <!--<img th:src="@{${'/src/main/resources/static/photos/' + photo.fileName}}" alt="Photo upload confirmation"/>-->
+        <img th:src="@{'/images/'+ ${photo.fileName}}"/>
+          <!--<small class="text-muted" th:text="'Logement proposé par '+ ${Advertisement.accommodation.user.userName}"/>-->
+          <img th:src="@{/images/apartments-sample.jpeg}"/>
+        </div>
+
       </div>
     </div>
   </div>

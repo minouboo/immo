@@ -47,8 +47,12 @@
 
     <div class="row" id="option">
         <div class="card"  id="card-accomodation" th:each="Advertisement : ${Advertisement}">
-            <img class="card-img-top" src="apartments-sample.jpeg" alt="Card image cap">
-            <div class="card-body">
+            <div th:each ="Photo:${Advertisement.photos}" >
+                <div th:if="${Photo.mainPhotos == true}">
+                    <img class="card-img-top" th:src="@{'/images/'+ ${Photo.fileName}}" id="thumbnail-image" alt="Card image cap">
+                </div>
+            </div>
+            <div class="card-body" id="card-info">
                 <h4 class="card-title" th:text="${Advertisement.accommodation.title}"/>
                 <p class="card-text" id="subtitle"><small class="text-muted" th:text="'à '+ ${Advertisement.accommodation.address.city.name} +' '+ ${Advertisement.accommodation.address.city.zipCode}"/></p>
                 <ul class="list-group list-group-horizontal">

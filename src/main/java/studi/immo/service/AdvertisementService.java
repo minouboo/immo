@@ -1,7 +1,9 @@
 package studi.immo.service;
 
+import org.springframework.web.multipart.MultipartFile;
 import studi.immo.entity.Advertisement;
 
+import java.io.IOException;
 import java.util.List;
 
 public interface AdvertisementService {
@@ -19,5 +21,6 @@ public interface AdvertisementService {
     List<Advertisement> getAdvertisementAccommodationByUserId (Long userId);
 
     Advertisement getAdvertisementById (Long id);
+
 
 }

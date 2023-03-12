@@ -6,12 +6,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import studi.immo.entity.*;
-import studi.immo.service.AdvertisementService;
-import studi.immo.service.CashService;
-import studi.immo.service.TenantService;
-import studi.immo.service.UserService;
+import studi.immo.service.*;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Controller
 @RequestMapping("/")
@@ -21,14 +19,16 @@ public class HomeController {
     private PasswordEncoder passwordEncoder;
     private AdvertisementService advertisementService;
     private CashService cashService;
+    private PhotoService photoService;
 
 
     @Autowired
-    public HomeController (UserService userService, PasswordEncoder passwordEncoder, AdvertisementService advertisementService, CashService cashService, TenantService tenantService){
+    public HomeController (UserService userService, PasswordEncoder passwordEncoder, AdvertisementService advertisementService, CashService cashService, TenantService tenantService, PhotoService photoService){
         this.userService = userService;
         this.passwordEncoder = passwordEncoder;
         this.advertisementService = advertisementService;
         this.cashService = cashService;
+        this.photoService = photoService;
     }
 
     @GetMapping ({"","/","/accueil"})
@@ -88,6 +88,10 @@ public class HomeController {
         model.addAttribute("IsOwner", IsOwner);
         model.addAttribute("NotOwner", NotOwner);
         model.addAttribute("Advertisement", advertisementByUser);
+        Photo mainPhoto = photoService.getMainPhotoByAdvertisementId(id);
+        model.addAttribute("MainPhoto", mainPhoto);
+        List<Photo> photosAdvertisement = photoService.getPhotosByAdvertisementId(id);
+        model.addAttribute("Photo",photosAdvertisement);
         return "ShowAdvertisement";
     }
 

@@ -6,6 +6,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.List;
 
 @Entity
 @Setter
@@ -29,6 +30,9 @@ public class Advertisement extends GenericEntity{
 
     @ManyToOne
     private Accommodation accommodation;
+
+    @OneToMany (mappedBy = "advertisement")
+    private List<Photo> photos;
 
 
 }
