@@ -94,12 +94,17 @@ public class MessageController {
         model.addAttribute("SendMessage", message);
         ChatRoom chatRoom = chatRoomService.getChatRoomById(id);
         model.addAttribute("ChatRoom", chatRoom);
-        User landLordUser = userService.getCurrentUser();
+        User currentUser = userService.getCurrentUser();
+        User landlordUser = chatRoom.getAccommodation().getUser();
         boolean IsLandLord=false;
-        if (landLordUser != null){
-            IsLandLord =  landLordUser.getId().equals(chatRoom.getAccommodation().getUser().getId());
+        if (currentUser != null ){
+            IsLandLord =  currentUser.getId().equals(landlordUser.getId());
+        }
+        if (currentUser != landlordUser){
+            User tenantUser = currentUser;
         }
         model.addAttribute("IsLandLord",IsLandLord);
+
         return "MessageChatRoom";
     }
 
@@ -122,6 +127,11 @@ public class MessageController {
     public String deleteChatRoom (@PathVariable Long id){
         chatRoomService.deleteChatRoombyId(id);
         return "redirect:/chat/mes-conversations";
+    }
+
+    @GetMapping(value = "/info-locataire")
+    public String showTenant(){
+        return null;
     }
 
 }
