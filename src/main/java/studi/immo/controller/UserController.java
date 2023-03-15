@@ -237,8 +237,9 @@ public class UserController {
     public String myWallet (Model model){
         User user = userService.getCurrentUser();
         Cash updateCash = cashService.getCashByUserID(user.getId());
-        model.addAttribute("MyCash", cashService.getCashByUserID(user.getId()));
-        model.addAttribute("AddCash",updateCash);
+        Cash newCash = new Cash();
+        model.addAttribute("MyCash", updateCash);
+        model.addAttribute("AddCash",newCash);
         return "MyWallet";
     }
 

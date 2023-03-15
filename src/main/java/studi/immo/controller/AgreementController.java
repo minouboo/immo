@@ -39,6 +39,7 @@ public class AgreementController {
     }
 
     @GetMapping(value = "/creation-contrat/{id}")
+    @PreAuthorize("hasRole('LANDLORD')")
     public String pageNewAgreement(@PathVariable Long id, Model model){
         ChatRoom agreementChatRoom = chatRoomService.getChatRoomById(id);
         model.addAttribute("ChatRoom",agreementChatRoom);
@@ -48,6 +49,7 @@ public class AgreementController {
     }
 
     @PostMapping(value = "/nouveau-contrat/{id}")
+    @PreAuthorize("hasRole('LANDLORD')")
     public String newAgreement (@PathVariable Long id, @ModelAttribute("Agreement") AgreementForm agreementForm){
         Accommodation agreementAccommodation = chatRoomService.getChatRoomById(id).getAccommodation();
         Set<User> agreementUser = chatRoomService.getChatRoomById(id).getUsers();
@@ -62,7 +64,7 @@ public class AgreementController {
         agreementService.saveAgreement(newAgreement);
         ApartmentInventory newApartmentInventory = new ApartmentInventory();
         newApartmentInventory.setAgreement(newAgreement);
-        newApartmentInventory.setType(Collections.singleton(InventoryType.ENTRY));
+        newApartmentInventory.setInventoryType(InventoryType.ENTRY);
         apartmentInventoryService.saveApartmentInventory(newApartmentInventory);
         return "redirect:/contrat/mon-contrat/"+newAgreement.getId();
 

@@ -11,8 +11,6 @@
 
 <body>
 
-<body>
-
 <nav class="navbar navbar-expand-lg navbar-light" id="navigation" >
     <div class="container-fluid">
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -31,11 +29,14 @@
 
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0" id="onglet">
                     <li class="nav-item dropdown" >
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" id="menu">Mes compte</a>
+                        <a class="nav-link dropdown-toggle"  role="button" data-bs-toggle="dropdown" aria-expanded="false" id="menu">Mes compte</a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                            <li><a class="dropdown-item" th:href = "@{/user/modifier-compte}">Mon profil</a></li>
                             <li><a class="dropdown-item" th:href = "@{/user/mon-portefeuille}">Mon portefeuille</a></li>
                             <li><a class="dropdown-item" th:href = "@{/user/mes-annonces}">Mes annonces</a></li>
-                            <li><a class="dropdown-item" href="#">Mes messages</a></li>
+                            <li><a class="dropdown-item" th:href = "@{/chat/mes-conversations}">Mes messages</a></li>
+
+
                             <li>
                                 <a class="dropdown-item" th:href = "@{/login}" sec:authorize="isAnonymous()">Je me connecte</a>
                                 <a class="dropdown-item" th:href = "@{/logout}" sec:authorize="isAuthenticated()">Déconnexion</a>
@@ -45,6 +46,7 @@
                     <li class="nav-item dropdown" >
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" id="menu">Mes contrats</a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                            <li><a class="dropdown-item" th:href = "@{/contrat/mes-contrats}">Mes Contrats</a></li>
                             <li><a class="dropdown-item" href="#">Location</a></li>
                             <li><a class="dropdown-item" href="#">Propriétaire</a></li>
                         </ul>
@@ -62,33 +64,33 @@
 
 <main>
 
-    <!--<h2 id="titre" th:text="'Envoyer votre message à  '+ ${Accommodation.user.userName}"/>-->
-    <div class="grid" >
-        <div  id="message" th:each="MessagesChatRoom : ${MessagesChatRoom}">
-            <p class="card-text" id="subtitle">
-                <small class="text-muted" th:text="'Envoyer par '+ ${MessagesChatRoom.userFrom.userName}"/>
-                <small class="text-muted" th:text="' le ' + ${#temporals.format(MessagesChatRoom.sendingDate, 'dd-MM-yyyy HH:mm')}"/>
-            </p>
+    <div id="form">
 
-            <div id="message-received">
-                <span th:text="${MessagesChatRoom.message}"/>
+        <h2 id="titre">Modifier la demande de paiement spécifique</h2>
+
+        <form th:action = "@{/paiement/paiement-divers-modifie/{id} (id=${Payment.id})}" th:object = "${Payment}" method = "POST">
+
+            <div class="mb-3" >
+                <label class="form-label">Montant de la dépense (en €)</label>
+                <input class="form-control"
+                       type="number"
+                       min="0.00"
+                       max="10000.00"
+                       step="0.01"
+                       th:field = "*{otherAmount}"
+                >
+            </div>
+            <div class="mb-3" >
+                <label class="form-label">Commentaire (Facultatif)</label>
+                <textarea class = "form-control" rows = "6"  th:field = "*{comments}"></textarea>
             </div>
 
-        </div>
-    </div>
-    <div class="grid">
-        <div class="form-group" id="message">
-            <form th:action = "@{/chat/envoyer-message-conversation/{id} (id=${ChatRoom.id})}" th:object = "${SendMessage}" method = "POST">
-                <textarea th:field = "*{message}" class="form-control" rows="5" id="comment" placeholder="Ecrivez votre message"/>
-                <div id="bouton-container">
-                    <button type="submit" class="btn" id="bouton-form">Submit</button>
-                </div>
-            </form>
-            <div id="bouton-container-message">
-                <!--<div id="bouton-container-message" th:if= "${IsLandLord}">-->
-                <a th:href = "@{/contrat/creation-contrat/{id}(id=${ChatRoom.id})}" class="btn" id="bouton">Proposer un contrat</a>
+
+            <div id="bouton-container">
+                <button type="submit" class="btn" id="bouton-form">Envoyer la demande de paiement</button>
             </div>
-        </div>
+        </form>
+
     </div>
 
 </main>

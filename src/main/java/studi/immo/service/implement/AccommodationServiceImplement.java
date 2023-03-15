@@ -34,7 +34,7 @@ public class AccommodationServiceImplement implements AccommodationService {
 
     @Override
     public List<Accommodation> getAccommodationByUserId(Long userId) {
-        return accomodationRepository.getAccomodationByUserId(userId);
+        return accomodationRepository.getAccommodationByUserId(userId);
     }
 
     @Override

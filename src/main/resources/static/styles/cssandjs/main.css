@@ -46,6 +46,7 @@
 
 #bouton-container{
     text-align: center;
+    padding: 9px;
 }
 
 #bouton-container-message{
@@ -175,14 +176,10 @@ h4 {
 }
 
 #list-group{
-
     display : inline-block;
     margin :auto;
     text-align:left;
-
 }
-
-
 
 #picture{
     max-height: 400px;
@@ -237,6 +234,35 @@ h4 {
     position: absolute;
     bottom: 0px;
     width: 100%;
+
+}
+
+#info-user{
+    background-color: #344D67;
+    width: 100%;
+
+}
+
+#info-container{
+    margin-left: auto;
+    margin-right: auto;
+    padding: 9px;
+}
+
+#info{
+    color: white;
+    text-align: center;
+}
+
+#info-payment{
+    background-color: #344D67;
+    width: 50%;
+    padding: 1%;
+    align-items: center;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 1%;
 
 }
 

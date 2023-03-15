@@ -14,7 +14,7 @@ public interface AccomodationRepository extends JpaRepository <Accommodation, Lo
     @Query(value = "select * from accommodation a inner join users u on a.user_id = u.id where a.id = :accommodationid", nativeQuery = true)
     Accommodation getAccommodationAndUserById (@Param("accommodationid")Long accommodationId);
 
-    @Query (value = "select * from accommodation a where a.user_id = :userid", nativeQuery = true)
-    List<Accommodation> getAccomodationByUserId (@Param("userid")Long userId);
+    /*@Query (value = "select * from accommodation a where a.user_id = :userid", nativeQuery = true)*/
+    List<Accommodation> getAccommodationByUserId (@Param("userid")Long userId);
 
 }

@@ -45,6 +45,9 @@ public class Agreement extends GenericEntity{
     @Column (columnDefinition = "boolean default false")
     private Boolean LandlordValidate = false;
 
+    @Column (columnDefinition = "boolean default false")
+    private Boolean isTerminated = false;
+
     @OneToMany (mappedBy = "agreement", cascade = CascadeType.ALL)
     private List<ApartmentInventory> apartmentInventory = new ArrayList<>();
 

@@ -25,11 +25,13 @@ public class ApartmentInventory extends GenericEntity{
     @JoinColumn (name="agreement_id")
     private Agreement agreement;
 
-    @ElementCollection (targetClass = InventoryType.class, fetch = FetchType.EAGER)
+    @Column
+    private InventoryType inventoryType;
+    /*@ElementCollection (targetClass = InventoryType.class, fetch = FetchType.EAGER)
     @CollectionTable (name="inventory_type")
     @Column (name="type")
     @Enumerated (value = EnumType.STRING)
-    private Set<InventoryType> type = new HashSet<>();
+    private Set<InventoryType> type = new HashSet<>();*/
 
     @Column (columnDefinition = "boolean default false")
     private Boolean tenantValidate = false;
