@@ -101,15 +101,44 @@
                 <div class="row" id="info-container">
                     <a th:href = "@{/paiement/mon-contrat/{id} (id=${Agreement.id})}" class="btn " id="bouton-secondaire">Retourner à la page du contrat</a>
                 </div>
-                <form
-                        th:action = "@{/paiement/payer-paiement/{id} (id=${Payment.id})}"
-                        th:object = "${TenantCash}" method = "POST">
 
-                    <button
-                            class="btn"
-                            type = "submit"
-                            id="bouton-secondaire" >Payer</button>
-                </form>
+                <div th:unless = "${CanPay}">
+                    <form
+                            th:action = "@{/paiement/payer-paiement/{id} (id=${Payment.id})}"
+                            th:object = "${TenantCash}" method = "POST">
+
+                        <button
+                                class="btn"
+                                type = "submit"
+                                id="bouton-secondaire" >Payer</button>
+                    </form>
+                </div>
+
+                <div th:if = "${CanPay}">
+                    <!-- Button trigger modal -->
+                    <button type="button" class="btn " id="bouton-secondaire" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                        Payer
+                    </button>
+
+                    <!-- Modal -->
+                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="exampleModalLabel">Fond insuffisant</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <span>Vos fonds sont insuffisants, veuillez réapprovisionner votre portefeuille</span>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn" data-bs-dismiss="modal" id="bouton-secondaire">Fermer</button>
+                                    <a th:href = "@{/user/mon-portefeuille}" class="btn " id="bouton-secondaire">Réapprovisionner mon portefeuille</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
 
             </div>

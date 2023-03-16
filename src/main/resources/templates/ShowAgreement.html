@@ -129,10 +129,11 @@
                             </div>
                             <div th:unless = "${IsOwner}">
                                 <div>
-                                    <a th:if = "${#bools.isFalse(Payment.tenantPaid)}" th:href = "@{/paiement/voir-paiement/{id} (id=${Payment.id})}" class="btn " id="bouton-secondaire">Payer mon Loyer</a>
+                                    <a th:if = "${#bools.isFalse(Payment.tenantPaid)}" th:href = "@{/paiement/voir-paiement/{id} (id=${Payment.id})}" class="btn " id="bouton-secondaire">Payer</a>
                                 </div>
                                 <div>
-                                    <a th:if = "${#bools.isTrue(Payment.tenantPaid)}" href="ShowAccommodation.html" class="btn " id="bouton-secondaire" >Quittance en PDF</a>
+                                    <a th:if = "${#bools.isTrue(Payment.tenantPaid)}" th:href = "@{/pdf/voir/{id} (id=${Payment.id})}" class="btn " id="bouton-secondaire" >Voir la facture</a>
+                                    <a th:if = "${#bools.isTrue(Payment.tenantPaid)}" th:href = "@{/pdf/telecharger/{id} (id=${Payment.id})}" class="btn " id="bouton-secondaire" >Télécharger la facture</a>
                                 </div>
                             </div>
 

@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <meta charset="UTF-8">
+    <title>Immo</title>
+    <link th:href="@{/styles/cssandjs/main.css}" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <div bgcolor="#f6f6f6" style="color: #333; height: 100%; width: 100%;" height="100%" width="100%">
+        <table bgcolor="#f6f6f6" cellspacing="0" style="border-collapse: collapse; padding: 40px; width: 100%;" width="100%">
+            <tbody>
+            <tr>
+                <td width="5px" style="padding: 0;"></td>
+                <td style="clear: both; display: block; margin: 0 auto; max-width: 600px; padding: 10px 0;">
+                    <table width="100%" cellspacing="0" style="border-collapse: collapse;">
+                        <tbody>
+                        <tr>
+                            <td style="padding: 0;">
+                                Bailleur:<br />
+                                <span th:text="${Payment.agreement.accommodation.user.lastName}"/><br />
+                                <span th:text="${Payment.agreement.accommodation.user.firstName}"/><br />
+                                <span th:text="${Payment.agreement.accommodation.user.email}"/>
+                            </td>
+                            <td style="color: #999; font-size: 12px; padding: 0; text-align: right;" align="right">
+                                Locataire:<br />
+                                <span th:text="${Payment.userPayer.lastName}"/><br />
+                                <span th:text="${Payment.userPayer.firstName}"/><br />
+                                <span th:text="${Payment.agreement.accommodation.address.streetNumber} +' '+ ${Payment.agreement.accommodation.address.streetName}"/><br />
+                                <span th:text="${Payment.agreement.accommodation.address.city.name} +' '+ ${Payment.agreement.accommodation.address.city.zipCode}"/>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </td>
+                <td width="5px" style="padding: 0;"></td>
+            </tr>
+
+            <tr >
+                <td width="5px" style="padding: 0;"></td>
+                <td bgcolor="#FFFFFF" style="border: 1px solid #000; clear: both; display: block; margin: 0 auto; max-width: 600px; padding: 0;">
+                    <table width="100%" style="background: #f9f9f9; border-bottom: 1px solid #eee; border-collapse: collapse; color: #999;">
+                        <tbody>
+                        <tr>
+                            <td  width="50%" style="padding: 20px;"><strong style="color: #333; font-size: 24px;" th:text="${Payment.totalAmount}"/> Payé</td>
+                            <td align="right" width="50%" style="padding: 20px;">Merci d'utiliser <span class="il">IMMO.com</span></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </td>
+                <td style="padding: 0;"></td>
+                <td width="5px" style="padding: 0;"></td>
+            </tr>
+            <tr >
+                <td width="3px" style="padding: 0;"></td>
+                <td style="border: 1px solid #000; border-top: 0; clear: both; display: block; margin: 0 auto; max-width: 600px; padding: 0;">
+                    <table cellspacing="0" style="border-collapse: collapse; border-left: 1px solid #000; margin: 0 auto; max-width: 600px;">
+                        <tbody>
+                        <tr >
+                            <h3
+                                    style="
+                                            border-bottom: 1px solid #000;
+                                            color: #000;
+                                            font-family: 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif;
+                                            font-size: 18px;
+                                            font-weight: bold;
+                                            line-height: 1.2;
+                                            margin: 0;
+                                            margin-bottom: 15px;
+                                            padding-bottom: 5px;
+                                        "
+                            > Quittance de loyer
+                            </h3>
+                            <td valign="top"  style="padding: 20px;">
+
+                                <table cellspacing="0" style="border-collapse: collapse; margin-bottom: 40px;">
+                                    <tbody>
+                                    <tr>
+                                        <td style="padding: 15px 0;">Loyer (en €)</td>
+                                        <td th:text="${Payment.rentalPrice}" align="right" style="padding: 5px 0;"/>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 5px 0;">Charges (en €)</td>
+                                        <td th:text="${Payment.charges}" align="right" style="padding: 5px 0;"/>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 5px 0;">Autres (en €)</td>
+                                        <td th:text="${Payment.otherAmount}" align="right" style="padding: 5px 0;"/>
+                                    </tr>
+                                    <tr>
+                                        <td style="border-bottom: 2px solid #000; border-top: 2px solid #000; font-weight: bold; padding: 15px 0;">Montant Total (en €):</td>
+                                        <td th:text="${Payment.totalAmount}" align="right" style="border-bottom: 2px solid #000; border-top: 2px solid #000; font-weight: bold; padding: 5px 0;" />
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </td>
+                <td width="5px" style="padding: 0;"></td>
+            </tr>
+
+            <tr style="color: #666; font-size: 12px;">
+                <td width="5px" style="padding: 10px 0;"></td>
+                <td style="clear: both; display: block; margin: 0 auto; max-width: 600px; padding: 10px 0;">
+                    <table width="100%" cellspacing="0" style="border-collapse: collapse;">
+                        <tbody>
+                        <tr>
+                            <td width="40%" valign="top" style="padding: 10px 0;">
+                                <h4 style="margin: 0;">Commentaire</h4>
+                                <p th:text="${Payment.comments}" style="color: #666; font-size: 12px; font-weight: normal; margin-bottom: 10px;"/>
+
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </td>
+                <td width="5px" style="padding: 10px 0;"></td>
+            </tr>
+
+            <!-- <tr style="color: #666; font-size: 12px;">
+                <td width="5px" style="padding: 10px 0;"></td>
+                <td style="clear: both; display: block; margin: 0 auto; max-width: 600px; padding: 10px 0;">
+                    <table width="100%" cellspacing="0" style="border-collapse: collapse;">
+                        <tbody>
+                        <tr>
+                            <td width="40%" valign="top" style="padding: 10px 0;">
+                                <h4 style="margin: 0;">Questions?</h4>
+                                <p style="color: #666; font-size: 12px; font-weight: normal; margin-bottom: 10px;">
+                                    Please visit our
+                                    <a
+                                            href="#"
+                                            style="color: #666;"
+                                            target="_blank"
+                                    >
+                                        Support Center
+                                    </a>
+                                    with any questions.
+                                </p>
+                            </td>
+                            <td width="10%" style="padding: 10px 0;">&nbsp;</td>
+                            <td width="40%" valign="top" style="padding: 10px 0;">
+                                <h4 style="margin: 0;"><span class="il">Bootdey</span> Technologies</h4>
+                                <p style="color: #666; font-size: 12px; font-weight: normal; margin-bottom: 10px;">
+                                    <a href="#">535 Mission St., 14th Floor San Francisco, CA 94105</a>
+                                </p>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </td>
+                <td width="5px" style="padding: 10px 0;"></td>
+            </tr> -->
+            </tbody>
+        </table>
+    </div>
+</body>
+
+</html>

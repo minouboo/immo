@@ -208,24 +208,32 @@ public class PaymentController {
     public String pagePayment (@PathVariable Long id, Model model){
         PaymentRequest currentPayment = paymentRequestService.getPaymentRequestById(id);
         Agreement currentAgreement = paymentRequestService.getPaymentRequestById(id).getAgreement();
+        Cash tenantCash = userService.getCurrentUser().getCash();
+        boolean canPay = true;
+        if (tenantCash.getAmount().compareTo(currentPayment.getTotalAmount()) >= 0 ){
+            canPay = false;
+        }
         model.addAttribute("Payment",currentPayment);
         model.addAttribute("Agreement",currentAgreement);
+        model.addAttribute("CanPay", canPay);
         return "ShowPayment";
     }
 
     @PostMapping (value = "/payer-paiement/{id}")
     public String payment (@PathVariable Long id, @ModelAttribute("TenantCash")Cash cash){
         PaymentRequest currentPayment = paymentRequestService.getPaymentRequestById(id);
-        Cash tenantCash = userService.getCurrentUser().getCash();
+        User currentUser = userService.getCurrentUser();
+        Cash tenantCash = currentUser.getCash();
         Cash landlordCash = currentPayment.getAgreement().getAccommodation().getUser().getCash();
 
 
-        if (tenantCash.getAmount().compareTo(currentPayment.getTotalAmount()) > 0 ){
+        if (tenantCash.getAmount().compareTo(currentPayment.getTotalAmount()) >= 0 ){
             tenantCash.setAmount(tenantCash.getAmount().subtract(currentPayment.getTotalAmount()));
             cashService.saveCash(tenantCash);
             landlordCash.setAmount(landlordCash.getAmount().add(currentPayment.getTotalAmount()));
             cashService.saveCash(landlordCash);
             currentPayment.setPaymentDate(LocalDateTime.now());
+            currentPayment.setUserPayer(currentUser);
             currentPayment.setTenantPaid(Boolean.TRUE);
             paymentRequestService.savePaymentRequest(currentPayment);
             return "redirect:/paiement/mon-contrat/"+currentPayment.getAgreement().getId();

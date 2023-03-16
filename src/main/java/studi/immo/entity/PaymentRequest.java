@@ -22,6 +22,9 @@ public class PaymentRequest extends GenericEntity{
     @ManyToOne
     private Agreement agreement;
 
+    @ManyToOne
+    private User userPayer;
+
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column
     private LocalDateTime issueDate;

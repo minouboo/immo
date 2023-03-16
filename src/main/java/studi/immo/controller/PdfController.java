@@ -9,11 +9,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
 import studi.immo.entity.Accommodation;
+import studi.immo.entity.PaymentRequest;
+import studi.immo.entity.User;
 import studi.immo.service.AccommodationService;
+import studi.immo.service.PaymentRequestService;
 import studi.immo.service.implement.CreatePdfFileServiceImplement;
 
 import javax.servlet.ServletContext;
@@ -32,35 +36,40 @@ public class PdfController {
     private CreatePdfFileServiceImplement createPdfFileServiceImplement;
     private AccommodationService accommodationService;
     private final TemplateEngine templateEngine;
+    private PaymentRequestService paymentRequestService;
 
     @Autowired
-    public PdfController(CreatePdfFileServiceImplement createPdfFileServiceImplement, AccommodationService accommodationService, TemplateEngine templateEngine) {
+    public PdfController(CreatePdfFileServiceImplement createPdfFileServiceImplement, AccommodationService accommodationService, TemplateEngine templateEngine, PaymentRequestService paymentRequestService) {
         this.createPdfFileServiceImplement = createPdfFileServiceImplement;
         this.accommodationService = accommodationService;
         this.templateEngine = templateEngine;
+        this.paymentRequestService = paymentRequestService;
+
     }
 
-    @GetMapping(value = "/get")
-    public String getPdf(Model model){
-        Accommodation pdfAccommodation = accommodationService.getAccommodationById(14L);
-        model.addAttribute("Accommodation", pdfAccommodation);
-        return "PdfAgreement";
+    @GetMapping(value = "/voir/{id}")
+    public String getPdf(@PathVariable Long id, Model model){
+        PaymentRequest pdfPayment = paymentRequestService.getPaymentRequestById(id);
+        User landlordUser = pdfPayment.getAgreement().getAccommodation().getUser();
+
+        model.addAttribute("Payment", pdfPayment);
+        return "PdfPayment";
     }
 
     /*@GetMapping (value = "/create")
     public String createPdf() throws IOException {
-        HtmlConverter.convertToPdf(new File("./PdfAgreement.html"),new File("demo-html.pdf"));
+        HtmlConverter.convertToPdf(new File("./PdfPayment.html"),new File("demo-html.pdf"));
         return "redirect:/pdf/get";
     }*/
 
-    @RequestMapping (path = "/create")
-    public ResponseEntity<?> createPDF (HttpServletRequest request, HttpServletResponse response) throws IOException{
+    @RequestMapping (path = "/telecharger/{id}")
+    public ResponseEntity<?> createPDF (@PathVariable Long id, HttpServletRequest request, HttpServletResponse response) throws IOException{
 
-        Accommodation pdfAccommodation = accommodationService.getAccommodationById(14L);
+        PaymentRequest pdfPayment = paymentRequestService.getPaymentRequestById(id);
 
         WebContext context = new WebContext(request, response, servletContext);
-        context.setVariable("Accommodation",pdfAccommodation);
-        String accommodationHtml = templateEngine.process("PdfAgreement",context);
+        context.setVariable("Payment",pdfPayment);
+        String accommodationHtml = templateEngine.process("PdfPayment",context);
 
         ByteArrayOutputStream target = new ByteArrayOutputStream();
 
