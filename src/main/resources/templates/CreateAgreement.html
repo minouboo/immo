@@ -11,55 +11,7 @@
 
 <body>
 
-<nav class="navbar navbar-expand-lg navbar-light" id="navigation" >
-    <div class="container-fluid">
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-
-            <a class="nav-link active" id="menu" aria-current="page" th:href = "@{/accueil}">Immo</a>
-
-            <div id="bouton-nav">
-                <a th:href = "@{/user/create-address}" class="btn" id="bouton">Poster votre annonce dès maintenant</a>
-            </div>
-
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-
-            <div class="collapse navbar-collapse" id="navbarNav">
-
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0" id="onglet">
-                    <li class="nav-item dropdown" >
-                        <a class="nav-link dropdown-toggle"  role="button" data-bs-toggle="dropdown" aria-expanded="false" id="menu">Mes compte</a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                            <li><a class="dropdown-item" th:href = "@{/user/modifier-compte}">Mon profil</a></li>
-                            <li><a class="dropdown-item" th:href = "@{/user/mon-portefeuille}">Mon portefeuille</a></li>
-                            <li><a class="dropdown-item" th:href = "@{/user/mes-annonces}">Mes annonces</a></li>
-                            <li><a class="dropdown-item" th:href = "@{/chat/mes-conversations}">Mes messages</a></li>
-
-
-                            <li>
-                                <a class="dropdown-item" th:href = "@{/login}" sec:authorize="isAnonymous()">Je me connecte</a>
-                                <a class="dropdown-item" th:href = "@{/logout}" sec:authorize="isAuthenticated()">Déconnexion</a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="nav-item dropdown" >
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" id="menu">Mes contrats</a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                            <li><a class="dropdown-item" href="#">Location</a></li>
-                            <li><a class="dropdown-item" href="#">Propriétaire</a></li>
-                        </ul>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" id="menu" aria-current="page" href="listeappartements.html">Admin</a>
-                    </li>
-
-                </ul>
-
-            </div>
-        </div>
-    </div>
-</nav>
+<div th:replace="fragments/topnav :: navbar"></div>
 
 <main>
 
