@@ -37,5 +37,10 @@ public class ChatRoomServiceImplement implements ChatRoomService {
          chatRoomRepository.deleteById(id);
     }
 
+    @Override
+    public List<ChatRoom> getAllChatRoomArchivedByUserTenantId(Long userTenantId) {
+        return chatRoomRepository.getAllChatRoomArchivedByUserTenantId(userTenantId);
+    }
+
 
 }

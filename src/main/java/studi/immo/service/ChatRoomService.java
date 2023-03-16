@@ -14,6 +14,7 @@ public interface ChatRoomService {
     ChatRoom getChatRoomById (Long id);
 
     void deleteChatRoombyId (Long id);
+    List<ChatRoom> getAllChatRoomArchivedByUserTenantId (Long userTenantId);
 
 
 }

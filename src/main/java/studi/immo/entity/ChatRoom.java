@@ -25,4 +25,7 @@ public class ChatRoom extends GenericEntity{
     @OneToMany (mappedBy = "message")
     private Set<Message> messages;
 
+    @Column (columnDefinition = "boolean default false")
+    private Boolean archived = false;
+
 }

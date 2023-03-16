@@ -86,6 +86,14 @@ public class MessageController {
         return "MyChatRooms";
     }
 
+    @GetMapping (value = "/mes-conversations-archivees")
+    public String myChatRoomsArchived (Model model){
+        User user = userService.getCurrentUser();
+        List<ChatRoom> myChatRooms = chatRoomService.getAllChatRoomArchivedByUserTenantId(user.getId());
+        model.addAttribute("MyChatRoom", myChatRooms);
+        return "MyChatRoomsArchived";
+    }
+
     @GetMapping (value = "/conversation-message/{id}")
     public String messageChatRoom (@PathVariable Long id, Model model){
         List<Message> messagesChatRoom = messageService.getMessageByChatRoomId(id);
@@ -119,9 +127,18 @@ public class MessageController {
     }
 
     @GetMapping(value="/conversation/suppression/{id}")
-    public String deleteChatRoom (@PathVariable Long id){
-        chatRoomService.deleteChatRoombyId(id);
+    public String archiveChatRoom (@PathVariable Long id){
+        ChatRoom currentChatRoom = chatRoomService.getChatRoomById(id);
+        currentChatRoom.setArchived(Boolean.TRUE);
+        chatRoomService.saveChatRoom(currentChatRoom);
         return "redirect:/chat/mes-conversations";
     }
 
+    @GetMapping(value="/conversation/remettre/{id}")
+    public String unarchiveChatRoom (@PathVariable Long id){
+        ChatRoom currentChatRoom = chatRoomService.getChatRoomById(id);
+        currentChatRoom.setArchived(Boolean.FALSE);
+        chatRoomService.saveChatRoom(currentChatRoom);
+        return "redirect:/chat/mes-conversations";
+    }
 }
