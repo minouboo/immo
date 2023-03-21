@@ -1,5 +1,6 @@
 package studi.immo.service.implement;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import studi.immo.entity.Photo;
@@ -22,6 +23,10 @@ public class PhotoServiceImplement implements PhotoService {
     }
 
 
+    @Value("${picture.upload.path}")
+    private String pictureUploadPath;
+
+
     @Override
     public Photo savePhoto(Photo photo) {
         return photoRepository.save(photo);
@@ -35,7 +40,7 @@ public class PhotoServiceImplement implements PhotoService {
         byte [] bytes = imageFile.getBytes();
         Path path = Paths.get(photo.getPath() + imageFile.getOriginalFilename());
         Files.write(path, bytes);*/
-        String folder = "./images/";
+        String folder = pictureUploadPath;
         photo.setPath(folder);
         byte [] bytes = imageFile.getBytes();
         Path path = Paths.get(folder + imageFile.getOriginalFilename());

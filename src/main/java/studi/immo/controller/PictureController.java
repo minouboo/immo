@@ -92,10 +92,11 @@ public class PictureController {
         @GetMapping (value = "/supprimer-image/{id}")
         public String deletePic (@PathVariable Long id) throws IOException {
             Photo currentPhoto = photoService.getImageById(id);
+            Advertisement currentAdvertisement = photoService.getImageById(id).getAdvertisement();
             Path pathPhoto = Paths.get(currentPhoto.getPath() + currentPhoto.getFileName());
             Files.delete(pathPhoto);
             photoService.deletePhotosById(id);
-            return "redirect:/user/mes-annonces/";
+            return "redirect:/photo/selection-images/"+currentAdvertisement.getId();
         }
 
 
