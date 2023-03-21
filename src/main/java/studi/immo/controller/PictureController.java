@@ -47,6 +47,8 @@ public class PictureController {
             model.addAttribute("MainPhoto", mainPhoto);
             List<Photo> photosAdvertisement = photoService.getPhotosByAdvertisementId(id);
             model.addAttribute("Photo",photosAdvertisement);
+            String folder = "/images/";
+            model.addAttribute("Path",folder);
 
 
             return "AddPhotos";

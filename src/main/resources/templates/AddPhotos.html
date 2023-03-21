@@ -53,10 +53,10 @@
                 <small class="text-muted">Votre image principale</small>
             </div>
             <div id="img_container" th:if="${MainPhoto == null}">
-                <img th:src="@{/images/apartments-sample.jpeg}" class="w-100 shadow-1-strong rounded mb-4" id="picture" alt="...">
+                <img th:src="@{/pics/apartments-sample.jpeg}" class="w-100 shadow-1-strong rounded mb-4" id="picture" alt="...">
             </div>
             <div id="img_container" th:unless="${MainPhoto == null}">
-                <img th:src="@{'/images/'+ ${MainPhoto.fileName}}" class="w-100 shadow-1-strong rounded mb-4" id="picture" alt="">
+                <img th:src="@{${Path} + ${MainPhoto.fileName}}" class="w-100 shadow-1-strong rounded mb-4" id="picture" alt="">
                 <a th:href="@{/photo/supprimer-image/{id} (id=${MainPhoto.id})}"
                    class="btn"
                    id="button-pic">Supprimer</a>
@@ -68,8 +68,10 @@
                 <small class="text-muted">Vos autres images</small>
             </div>
             <div id="img_container" th:each="Photo : ${Photo}">
-                <img th:src="@{'/images/'+ ${Photo.fileName}}" class="w-100 shadow-1-strong rounded mb-4" id="picture" alt="Snow">
-                <button class="btn" id="button-pic">Supprimer</button>
+                <img th:src="@{${Path}+ ${Photo.fileName}}" class="w-100 shadow-1-strong rounded mb-4" id="picture" alt="Snow">
+                <a th:href="@{/photo/supprimer-image/{id} (id=${Photo.id})}"
+                   class="btn"
+                   id="button-pic">Supprimer</a>
             </div>
         </div>
 
@@ -81,14 +83,14 @@
                     <div id="carouselExample" class="carousel slide">
                         <div class="carousel-inner">
                             <div class="carousel-item active" th:if="${MainPhoto == null}">
-                                <img th:src="@{/images/apartments-sample.jpeg}" class="img-fluid" id="picture" alt="...">
+                                <img th:src="@{/pics/apartments-sample.jpeg}" class="img-fluid" id="picture" alt="...">
                             </div>
                             <div class="carousel-item active" th:unless="${MainPhoto == null}">
-                                <img th:src="@{'/images/'+ ${MainPhoto.fileName}}" class="img-fluid" id="picture" alt="...">
+                                <img th:src="@{${Path}+ ${MainPhoto.fileName}}" class="img-fluid" id="picture" alt="...">
                             </div>
                             <div >
                                 <div class="carousel-item" th:each="Photo : ${Photo}">
-                                    <img th:src="@{'/images/'+ ${Photo.fileName}}" class="img-fluid" id="picture" alt="...">
+                                    <img th:src="@{${Path} + ${Photo.fileName}}" class="img-fluid" id="picture" alt="...">
                                 </div>
                             </div>
                         </div>
@@ -103,6 +105,10 @@
                     </div>
                 </div>
             </div>
+        </div>
+
+        <div id="img_container" >
+            <img th:src="@{~/images/Studio 1.jpeg}" class="w-100 shadow-1-strong rounded mb-4" alt="Example Image">
         </div>
 
 

@@ -29,13 +29,17 @@ public class PhotoServiceImplement implements PhotoService {
 
     @Override
     public void saveImage(MultipartFile imageFile, Photo photo) throws IOException {
-        Path currentPath = Paths.get(".");
+        /*Path currentPath = Paths.get(".");
         Path absolutePath = currentPath.toAbsolutePath();
         photo.setPath(absolutePath + "/src/main/resources/static/images/");
         byte [] bytes = imageFile.getBytes();
         Path path = Paths.get(photo.getPath() + imageFile.getOriginalFilename());
+        Files.write(path, bytes);*/
+        String folder = "./images/";
+        photo.setPath(folder);
+        byte [] bytes = imageFile.getBytes();
+        Path path = Paths.get(folder + imageFile.getOriginalFilename());
         Files.write(path, bytes);
-
     }
 
     @Override

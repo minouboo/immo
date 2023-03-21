@@ -34,5 +34,14 @@ public class Advertisement extends GenericEntity{
     @OneToMany (mappedBy = "advertisement")
     private List<Photo> photos;
 
+    /*@Transient
+    public String getPhotoPath (){
+        if (photos == null )
+        {
+            return null;
+        }
+
+    }*/
+
 
 }

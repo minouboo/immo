@@ -4,10 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
 @Entity
 @Getter
@@ -27,6 +24,17 @@ public class Photo extends GenericEntity{
     @ManyToOne
     @JoinColumn (name="advertisement_id")
     private Advertisement advertisement;
+
+    @Transient
+    public String getPhotoPath (){
+        if (path == null )
+        {
+            return null;
+        }
+
+        return "/images/" + fileName;
+
+    }
 
 
 }
