@@ -3,6 +3,7 @@ package studi.immo.controller;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.java.Log;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -23,7 +24,7 @@ import java.util.List;
 @Log
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @Controller
-/*@PreAuthorize("isAuthenticated()")*/
+@PreAuthorize("isAuthenticated()")
 @RequestMapping (value = "/photo")
 public class PictureController {
 
