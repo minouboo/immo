@@ -16,6 +16,8 @@ public interface AccommodationService {
 
     void deleteAccommodationById (Long id);
 
+    List<Accommodation> getAllAccommodation ();
+
 
 
 }

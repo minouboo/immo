@@ -40,8 +40,8 @@
                 class="form-control"
                 th:field = "*{deposit}">
       </div>
-      <div class="mb-3" >
-        <label class="form-label">Frais d'agence (en €)</label>
+      <div class="mb-3" sec:authorize = "hasRole('ROLE_AGENCY')">
+        <label class="form-label" >Frais d'agence (en €)</label>
         <input
                 type="text"
                 class="form-control"

@@ -8,6 +8,8 @@ import studi.immo.entity.User;
 import studi.immo.repository.UserRepository;
 import studi.immo.service.UserService;
 
+import java.util.List;
+
 @Service
 public class UserServiceImplement implements UserService {
 
@@ -32,6 +34,15 @@ public class UserServiceImplement implements UserService {
         return null;
     }
 
+    @Override
+    public List<User> getAllUser() {
+        return userRepository.findAll();
+    }
+
+    @Override
+    public User getUserById(Long id) {
+        return userRepository.findById(id).get();
+    }
 
 
 }

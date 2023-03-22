@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
     <meta charset="UTF-8">
     <title>Immo</title>
@@ -44,6 +44,7 @@
                    id="bouton-secondaire">Voir l'annonce</a>
                 <a th:href="@{/user/annonce/suppression/{id} (id=${Advertisement.id})}"
                    class="btn"
+                   sec:authorize = "hasRole('ROLE_ADMIN')"
                    id="bouton-secondaire">Supprimer l'annonce</a>
             </div>
         </div>

@@ -24,6 +24,22 @@
         </div>
       </div>
     </div>
+
+    <div id="form" sec:authorize = "hasRole('ROLE_ADMIN')">
+
+      <h2 id="titre">Réapprovisionner le portefeuille de l'utilisateur</h2>
+
+      <form th:action = "@{/admin/reappro-portefeuille/{id} (id=${MyCash.id})}" th:object = "${AddCash}" method = "POST">
+        <div class="mb-3" >
+          <label class="form-label">Montant</label>
+          <input type="text" class="form-control" th:field = "*{amount}">
+        </div>
+        <div id="bouton-container">
+          <button class="btn" id="bouton-form" href="addcity.html">Valider mon montant</button>
+        </div>
+      </form>
+    </div>
+
     <div id="form">
 
       <h2 id="titre">Réapprovisionner mon portefeuille</h2>

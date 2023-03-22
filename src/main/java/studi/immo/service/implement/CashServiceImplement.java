@@ -25,5 +25,10 @@ public class CashServiceImplement implements CashService {
         return cashRepository.getCashByUserId(userId);
     }
 
+    @Override
+    public Cash getCashById(Long id) {
+        return cashRepository.findById(id).get();
+    }
+
 
 }

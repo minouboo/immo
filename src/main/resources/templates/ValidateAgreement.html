@@ -59,6 +59,18 @@
                            class="btn"
                            id="bouton-secondaire" >Supprimer le contrat</a>
                     </div>
+                    <div sec:authorize = "hasRole('ROLE_ADMIN')">
+                        <a th:href = "@{/contrat/modifier-contrat/{id} (id=${Agreement.id})}"
+                           class="btn"
+                           id="bouton-secondaire" >Modifier le bail</a>
+                        <a th:href = "@{/contrat/etat-des-lieux-entree/{id} (id=${Inventory.id})}"
+                           class="btn"
+                           id="bouton-secondaire" >Effectuer/modifier l'état des lieux</a>
+                        <a th:href = "@{/contrat/supprimer-contrat/{id} (id=${Agreement.id})}"
+                           class="btn"
+                           id="bouton-secondaire" >Supprimer le contrat</a>
+                    </div>
+
 
                     <a class="btn" id="bouton-secondaire" th:href = "@{/pdf/create}">État des lieux en PDF</a>
 

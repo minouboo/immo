@@ -64,15 +64,26 @@
                 <p class="card-text" id="subtitle"><small class="text-muted" th:text="'Logement proposé par '+ ${Advertisement.accommodation.user.userName}"/></p>
 
                 <div th:if= "${IsOwner}">
-                <a th:href="@{/user/modification-mon-annonce/{id} (id=${Advertisement.id})}"
-                   class="btn "
-                   id="bouton-secondaire">Modifier mon annonce</a>
-                <a th:href="@{/admin/annonce/suppression/{id} (id=${Advertisement.id})}"
-                   class="btn"
-                   id="bouton-secondaire">Supprimer l'annonce</a>
-                <a th:href="@{/photo/selection-images/{id} (id=${Advertisement.id})}"
-                   class="btn"
-                   id="bouton-secondaire">Ajouter des photos</a>
+                    <a th:href="@{/user/modification-mon-annonce/{id} (id=${Advertisement.id})}"
+                       class="btn "
+                       id="bouton-secondaire">Modifier mon annonce</a>
+                    <a th:href="@{/admin/annonce/suppression/{id} (id=${Advertisement.id})}"
+                       class="btn"
+                       id="bouton-secondaire">Supprimer l'annonce</a>
+                    <a th:href="@{/photo/selection-images/{id} (id=${Advertisement.id})}"
+                       class="btn"
+                       id="bouton-secondaire">Ajouter des photos</a>
+                </div>
+                <div sec:authorize = "hasRole('ROLE_ADMIN')">
+                    <a th:href="@{/user/modification-mon-annonce/{id} (id=${Advertisement.id})}"
+                       class="btn "
+                       id="bouton-secondaire">Modifier l'annonce</a>
+                    <a th:href="@{/admin/annonce/suppression/{id} (id=${Advertisement.id})}"
+                       class="btn"
+                       id="bouton-secondaire">Supprimer l'annonce</a>
+                    <a th:href="@{/photo/selection-images/{id} (id=${Advertisement.id})}"
+                       class="btn"
+                       id="bouton-secondaire">Ajouter des photos</a>
                 </div>
                 <a th:if= "${NotOwner}" th:href="@{/chat/nouveau-message/{id} (id=${Advertisement.accommodation.id})}" class="btn " id="bouton-secondaire" >Demander un rendez-vous!</a>
                 <a sec:authorize="isAnonymous()" th:href="@{/creation-compte}" class="btn " id="bouton-secondaire" >Demander un rendez-vous!</a>

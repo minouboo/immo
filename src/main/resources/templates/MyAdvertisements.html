@@ -57,9 +57,12 @@
                     <li class="list-group-item" id="data-accommodation" th:text="${MyAccommodations.rooms}"/>
                     <li class="list-group-item" id="data-accommodation" th:text="${MyAccommodations.squareMeter}"/>
                 </ul>
-                <!--<a th:href = "@{/logement/{id}(id=${MyAdvertisements.id})}"
+                <a th:href = "@{/user/modification-logement/{id}(id=${MyAccommodations.id})}"
                    class="btn "
-                   id="bouton-secondaire">Modifier mon annonce</a>-->
+                   id="bouton-secondaire">Modifier mon bien</a>
+                <a th:href = "@{/user/creation-annonce/{id}(id=${MyAccommodations.id})}"
+                   class="btn "
+                   id="bouton-secondaire">Créer une annonce</a>
                 <a th:href="@{/user/logement/suppression/{id} (id=${MyAccommodations.id})}"
                    class="btn"
                    id="bouton-secondaire">Supprimer le logement</a>

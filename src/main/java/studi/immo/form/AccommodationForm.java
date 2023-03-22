@@ -29,7 +29,13 @@ public class AccommodationForm {
 
     private Long userId;
 
-    private Long addressId;
+    private Long streetNumber;
+
+    private String streetName;
+
+    private String cityName;
+
+    private Long zipCode;
 
 
 }

@@ -52,6 +52,18 @@
                         </ul>
                     </div>
                 </div>
+                <div id="bouton-container" sec:authorize = "hasRole('ROLE_ADMIN')">
+                    <div class="dropdown">
+                        <button class="btn dropdown-toggle" type="button"  data-bs-toggle="dropdown" aria-expanded="false" id="bouton-secondaire">
+                            Générer un paiement
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                            <li><a class="dropdown-item" th:href = "@{/paiement/nouvelle-quittance/{id} (id=${Agreement.id})}">Loyer</a></li>
+                            <li><a class="dropdown-item" th:href = "@{/paiement/nouvelle-caution/{id} (id=${Agreement.id})}">Caution</a></li>
+                            <li><a class="dropdown-item" th:href = "@{/paiement/nouveau-paiement-divers/{id} (id=${Agreement.id})}">Autre</a></li>
+                        </ul>
+                    </div>
+                </div>
 
                 <table class="table table-dark table-striped table-hover">
                     <thead>
@@ -84,7 +96,12 @@
                                     <a th:if = "${#bools.isTrue(Payment.tenantPaid)}" th:href = "@{/pdf/voir/{id} (id=${Payment.id})}" class="btn " id="bouton-secondaire" >Voir la facture</a>
                                     <a th:if = "${#bools.isTrue(Payment.tenantPaid)}" th:href = "@{/pdf/telecharger/{id} (id=${Payment.id})}" class="btn " id="bouton-secondaire" >Télécharger la facture</a>
                                 </div>
+                                <div sec:authorize = "hasRole('ROLE_ADMIN')">
+                                    <a th:if = "${#bools.isFalse(Payment.tenantPaid)}" th:href = "@{/paiement/modifier-paiement/{id} (id=${Payment.id})}" class="btn " id="bouton-secondaire">Modifier le paiement</a>
+                                    <a th:if = "${#bools.isFalse(Payment.tenantPaid)}" th:href = "@{/paiement/supprimer-paiement/{id} (id=${Payment.id})}" class="btn " id="bouton-secondaire">Annuler le paiement</a>
+                                </div>
                             </div>
+
 
                         </td>
 

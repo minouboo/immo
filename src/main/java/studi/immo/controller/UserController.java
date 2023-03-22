@@ -143,15 +143,15 @@ public class UserController {
         return "redirect:/";
     }
 
-    @GetMapping (value="/create-address")
+    @GetMapping (value="/creation-adresse")
     public String pageCreateAddress ( Model model){
-        AddressForm addressForm = new AddressForm();
-        model.addAttribute("Address", addressForm);
+        AccommodationForm accommodationForm = new AccommodationForm();
+        model.addAttribute("Address", accommodationForm);
         return "AddAddress";
     }
 
-    @PostMapping (value = "/new-address")
-    public String createAddress (@ModelAttribute("Address") AddressForm address){
+    @PostMapping (value = "/nouvelle-adresse")
+    public String createAddress (@ModelAttribute("Address") AccommodationForm address){
         City c = new City();
         c.setName(address.getCityName());
         c.setZipCode(address.getZipCode());
@@ -161,10 +161,10 @@ public class UserController {
         ad.setStreetName(address.getStreetName());
         ad.setCity(c);
         addressService.saveAddress(ad);
-        return "redirect:/user/create-accommodation/id="+ad.getId();
+        return "redirect:/user/creation-logement/id="+ad.getId();
     }
 
-    @GetMapping (value = "/create-accommodation/id={id}")
+    @GetMapping (value = "/creation-logement/id={id}")
     public String pageCreateAccommodation(@PathVariable Long id, Model model){
         AccommodationForm accommodationForm = new AccommodationForm();
         model.addAttribute("Accommodation", accommodationForm);
@@ -172,7 +172,7 @@ public class UserController {
         return "AddAccommodation";
     }
 
-    @PostMapping (value = "/new-accommodation/id={id}")
+    @PostMapping (value = "/nouveau-logement/id={id}")
     public String createAccommodation(@PathVariable Long id, @ModelAttribute("Accommodation") AccommodationForm accommodation){
         Address existingAddress = addressService.getAddressByID(id);
         Accommodation a = new Accommodation();
@@ -202,6 +202,29 @@ public class UserController {
         return "MyAdvertisements";
     }
 
+    @GetMapping (value = "/creation-annonce/{id}")
+    public String pageNewAdvertisement (@PathVariable Long id, Model model){
+        Advertisement addAdvertisement = new Advertisement();
+        Accommodation currentAccommodation = accommodationService.getAccommodationById(id);
+        model.addAttribute("AddAdvertisement", addAdvertisement);
+        model.addAttribute("CurrentAccommodation", currentAccommodation);
+        return "AddAdvertisement";
+    }
+
+    @PostMapping(value = "/nouvelle-annonce/{id}")
+    public String newAdvertisement (@PathVariable Long id, @ModelAttribute("AddAdvertisement")AccommodationForm advertisement){
+        Accommodation currentAccommodation = accommodationService.getAccommodationById(id);
+        Advertisement addAdvertisement = new Advertisement();
+        addAdvertisement.setAccommodation(currentAccommodation);
+        addAdvertisement.setRentalPrice(advertisement.getRentalPrice());
+        addAdvertisement.setCharges(advertisement.getCharges());
+        addAdvertisement.setDeposit(advertisement.getDeposit());
+        addAdvertisement.setAgencyFees(addAdvertisement.getAgencyFees());
+        addAdvertisement.setDescription(addAdvertisement.getDescription());
+        advertisementService.saveAdvertisement(addAdvertisement);
+        return "redirect:/user/mes-annonces";
+    }
+
     @GetMapping (value="/modification-mon-annonce/{id}")
     public String modifyMyAdvertisement (@PathVariable Long id, Model model){
         model.addAttribute("MyAdvertisement", advertisementService.getAdvertisementById(id));
@@ -224,7 +247,38 @@ public class UserController {
     @GetMapping(value="/annonce/suppression/{id}")
     public String deleteAdvertisement (@PathVariable Long id){
         advertisementService.deleteAdvertisementById(id);
-        return "redirect:/liste-de-logement";
+        return "redirect:/user/mes-annonces";
+    }
+
+    @GetMapping(value = "/modification-logement/{id}")
+    public String pageUpdateAccommodation (@PathVariable Long id, Model model){
+        AccommodationForm accommodationForm = new AccommodationForm();
+        model.addAttribute("Accommodation", accommodationService.getAccommodationById(id));
+        model.addAttribute("AccommodationForm", accommodationForm);
+        return "ModifyAccommodation";
+    }
+
+    @PostMapping(value = "/logement-modifie/{id}")
+    public String updateAccommodation (@PathVariable Long id, @ModelAttribute("Accommodation")AccommodationForm accommodationForm){
+        /*User currentUser = userService.getCurrentUser();*/
+        Accommodation updateAccommodation = accommodationService.getAccommodationById(id);
+        Address updateAccommodationAddress = addressService.getAddressByID(updateAccommodation.getAddress().getId());
+        City updateAccommodationCity = cityService.getCityById(updateAccommodationAddress.getCity().getId());
+        updateAccommodation.setTitle(accommodationForm.getTitle());
+        updateAccommodation.setRooms(accommodationForm.getRooms());
+        updateAccommodation.setSquareMeter(accommodationForm.getSquareMeter());
+        accommodationService.saveAccommodation(updateAccommodation);
+        updateAccommodationAddress.setStreetNumber(accommodationForm.getStreetNumber());
+        updateAccommodationAddress.setStreetName(accommodationForm.getStreetName());
+        addressService.saveAddress(updateAccommodationAddress);
+        updateAccommodationCity.setName(accommodationForm.getCityName());
+        updateAccommodationCity.setZipCode(accommodationForm.getZipCode());
+        cityService.saveCity(updateAccommodationCity);
+        /*if (currentUser.getRoles().equals(Role.ADMIN)){
+            return "redirect:/admin/liste-logements";
+        }*/
+        return "redirect:/user/mes-annonces";
+
     }
 
     @GetMapping (value = "/logement/suppression/{id}")

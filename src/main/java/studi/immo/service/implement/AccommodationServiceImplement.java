@@ -42,5 +42,10 @@ public class AccommodationServiceImplement implements AccommodationService {
         accomodationRepository.deleteById(id);
     }
 
+    @Override
+    public List<Accommodation> getAllAccommodation() {
+        return accomodationRepository.findAll();
+    }
+
 
 }

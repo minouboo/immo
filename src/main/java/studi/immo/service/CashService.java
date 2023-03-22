@@ -8,6 +8,8 @@ public interface CashService {
 
     Cash getCashByUserID (Long userId);
 
+    Cash getCashById (Long id);
+
 
 
 }

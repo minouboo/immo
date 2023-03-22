@@ -20,5 +20,10 @@ public class CityServiceImplement implements CityService {
         return cityRepository.save(city);
     }
 
+    @Override
+    public City getCityById(Long id) {
+        return cityRepository.findById(id).get();
+    }
+
 
 }

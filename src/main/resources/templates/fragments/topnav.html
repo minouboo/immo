@@ -6,7 +6,7 @@
                 <a class="nav-link active" id="menu" aria-current="page" th:href = "@{/accueil}">Immo</a>
 
                 <div id="bouton-nav">
-                    <a th:href = "@{/user/create-address}" class="btn" id="bouton">Poster votre annonce dès maintenant</a>
+                    <a th:href = "@{/user/creation-adresse}" class="btn" id="bouton">Poster votre annonce dès maintenant</a>
                 </div>
 
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -39,9 +39,16 @@
                                 <li><a class="dropdown-item" href="#">Propriétaire</a></li>
                             </ul>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link active" id="menu" aria-current="page" href="listeappartements.html">Admin</a>
+                        <li class="nav-item dropdown" >
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" id="menu" sec:authorize = "hasRole('ROLE_ADMIN')">Admin</a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                <li><a class="dropdown-item" th:href = "@{/admin/liste-logements}">Liste des logements</a></li>
+                                <li><a class="dropdown-item" th:href = "@{/admin/tout-users}">Liste des utilisateurs</a></li>
+                                <li><a class="dropdown-item" href="#">Propriétaire</a></li>
+                            </ul>
                         </li>
+                        <a class="nav-link active" id="menu" aria-current="page" th:href = "@{/login}" sec:authorize="isAnonymous()">Je me connecte</a>
+                        <a class="nav-link active" id="menu" aria-current="page" th:href = "@{/logout}" sec:authorize="isAuthenticated()">Déconnexion</a>
 
                     </ul>
 

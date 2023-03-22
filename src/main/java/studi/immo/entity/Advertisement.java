@@ -31,7 +31,7 @@ public class Advertisement extends GenericEntity{
     @ManyToOne
     private Accommodation accommodation;
 
-    @OneToMany (mappedBy = "advertisement")
+    @OneToMany (mappedBy = "advertisement", cascade = CascadeType.REMOVE)
     private List<Photo> photos;
 
     /*@Transient

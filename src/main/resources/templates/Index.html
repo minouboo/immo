@@ -34,7 +34,7 @@
                     <h3 class="card-title">Propriétaire</h3>
                     <p class="card-text">Vous possédez un bien que vous souhaiteriez proposer à la location?</p>
                     <a th:href = "@{/creation-compte}" class="btn" id="bouton" sec:authorize="isAnonymous()">Créer votre Compte et déposer votre annonce</a>
-                    <a th:href = "@{/user/create-address}" class="btn" id="bouton" sec:authorize="isAuthenticated()">Poster votre annonce</a>
+                    <a th:href = "@{/user/creation-adresse}" class="btn" id="bouton" sec:authorize="isAuthenticated()">Poster votre annonce</a>
                 </div>
             </div>
         </div>

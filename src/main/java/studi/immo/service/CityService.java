@@ -6,6 +6,8 @@ public interface CityService {
 
     City saveCity (City city);
 
+    City getCityById (Long id);
+
 
 
 }

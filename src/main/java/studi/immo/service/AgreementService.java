@@ -11,4 +11,7 @@ public interface AgreementService {
     List<Agreement> getMyAgreementsByUserId (Long userId);
     List<Agreement> getMyAgreementsValidatedByUserId (Long userId);
     void deleteAgreementById (Long id);
+
+    List<Agreement> getAllAgreementByAccommodationById (Long accommodationId);
+    List<Agreement> getAllAgreementValidatedByAccommodationById (Long accommodationId);
 }
