@@ -79,8 +79,8 @@ public class TestController {
     }
 
 
-    @GetMapping (value = "itextpage")
-    public String itextPage(){
+    @GetMapping (value = "test")
+    public String pageTest(){
         return "Test";
     }
 

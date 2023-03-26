@@ -33,7 +33,7 @@ public class User extends GenericEntity{
     @ManyToOne
     private Address address;
 
-    @OneToOne
+    @OneToOne (cascade = CascadeType.REMOVE)
     @JoinColumn (name = "cash_id")
     private Cash cash;
 

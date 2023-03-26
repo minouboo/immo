@@ -58,6 +58,9 @@ public class UserController {
     @GetMapping (value = "/modifier-compte")
     public String modifyUser(Model model){
         User currentUser = userService.getCurrentUser();
+        if (currentUser == null){
+            return "redirect:/login";
+        }
         model.addAttribute("CurrentUser",currentUser);
         model.addAttribute("IsTenant",currentUser.getRoles().contains(Role.TENANT));
         model.addAttribute("IsAgency",currentUser.getRoles().contains(Role.AGENCY));
@@ -67,6 +70,7 @@ public class UserController {
     @PostMapping (value = "/compte-modifie")
     public String updateUser(@ModelAttribute("CurrentUser")User user){
         User updateUser = userService.getCurrentUser();
+
         updateUser.setFirstName(user.getFirstName());
         updateUser.setLastName(user.getLastName());
         updateUser.setUserName(user.getUserName());

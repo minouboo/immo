@@ -14,13 +14,13 @@ public class MvcConfig implements WebMvcConfigurer {
     @Value("${picture.upload.path}")
     private String pictureUploadPath;
 
-    @Value("${picture.path}")
-    private String picturePath;
+    @Value("${type.of.file}")
+    private String typeOfFile;
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         Path photoUploadDir = Paths.get(pictureUploadPath);
         String photoUploadPath = photoUploadDir.toFile().getAbsolutePath();
-        registry.addResourceHandler(picturePath+"**").addResourceLocations("file:"+ photoUploadPath + "/");
+        registry.addResourceHandler(typeOfFile+"**").addResourceLocations("file:"+ photoUploadPath + "/");
     }
 }

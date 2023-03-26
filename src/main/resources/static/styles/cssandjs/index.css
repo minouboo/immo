@@ -1,0 +1,43 @@
+#body{
+    top: 500px;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 30px;
+    
+}
+
+#info{
+    width: 18rem;
+    display: inline-block;
+    margin-left: 10px;
+    margin-right: 10px;
+    background-color: #EAEAEA40;
+    
+}
+
+#info-title{
+    color: #344D67;
+    padding-bottom: 20px;
+}
+
+#info-text{
+    color: #4D5053;
+    margin-bottom: 10px;
+    
+}
+
+#inscription-container{
+    background-color: #C3A891;
+    border-radius: 30px;
+    margin-top: 15px;
+}
+
+#inscription{
+    
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 1000px;
+    height: 200px;
+    
+}

@@ -1,11 +1,13 @@
 package studi.immo.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import studi.immo.entity.*;
+import studi.immo.repository.UserRepository;
 import studi.immo.service.*;
 
 import java.math.BigDecimal;
@@ -20,15 +22,17 @@ public class HomeController {
     private AdvertisementService advertisementService;
     private CashService cashService;
     private PhotoService photoService;
+    private UserRepository userRepository;
 
 
     @Autowired
-    public HomeController (UserService userService, PasswordEncoder passwordEncoder, AdvertisementService advertisementService, CashService cashService, TenantService tenantService, PhotoService photoService){
+    public HomeController (UserService userService, PasswordEncoder passwordEncoder, AdvertisementService advertisementService, CashService cashService, TenantService tenantService, PhotoService photoService, UserRepository userRepository){
         this.userService = userService;
         this.passwordEncoder = passwordEncoder;
         this.advertisementService = advertisementService;
         this.cashService = cashService;
         this.photoService = photoService;
+        this.userRepository = userRepository;
     }
 
     @GetMapping ({"","/","/accueil"})
@@ -48,7 +52,12 @@ public class HomeController {
     @PostMapping (value = "/nouveau-compte")
     public String createUser(@ModelAttribute ("NewUser") User user){
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        userService.saveUser(user);
+        try {
+            userService.saveUser(user);
+        } catch (DataIntegrityViolationException e){
+            return "redirect:/";
+        }
+
         User currentUser = user;
         Cash cash = new Cash();
         cash.setUser(user);
@@ -61,7 +70,8 @@ public class HomeController {
         if (currentUser.getRoles().contains(Role.AGENCY)){
             return "redirect:/user/creation-agence";
         }
-        return "redirect:/user/create-address";
+
+        return "redirect:/user/creation-adresse";
     }
 
 

@@ -88,6 +88,12 @@ public class AdminController {
         return "redirect:/admin/tout-users/";
     }
 
+    @GetMapping(value="/user/suppression/{id}")
+    public String deleteAdvertisement (@PathVariable Long id){
+        userService.deleteUserById(id);
+        return "redirect:/admin/tout-users";
+    }
+
 
 
 

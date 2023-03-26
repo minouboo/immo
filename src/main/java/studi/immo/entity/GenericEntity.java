@@ -16,6 +16,7 @@ public abstract class GenericEntity implements Serializable {
 
     @Id
     @Getter
+    @Setter
     @GeneratedValue(strategy = GenerationType.AUTO)
 
     private Long id;

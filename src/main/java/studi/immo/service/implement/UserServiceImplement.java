@@ -44,5 +44,10 @@ public class UserServiceImplement implements UserService {
         return userRepository.findById(id).get();
     }
 
+    @Override
+    public void deleteUserById(Long id) {
+        userRepository.deleteById(id);
+    }
+
 
 }

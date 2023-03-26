@@ -24,7 +24,7 @@ import java.util.List;
 @Log
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @Controller
-@PreAuthorize("isAuthenticated()")
+
 @RequestMapping (value = "/photo")
 public class PictureController {
 
