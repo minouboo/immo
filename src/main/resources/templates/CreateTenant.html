@@ -31,7 +31,7 @@
 
     <div id="form-container">
         <form th:action = "@{/user/nouveau-locataire}" th:object = "${Tenant}" method = "POST">
-            <div class="mb-3" >
+            <div class="mb-3" id="form-input-container">
 
                 <label  class="form-label" id="form-input-container">Vos revenus mensuelles (en €)</label>
                 <input
