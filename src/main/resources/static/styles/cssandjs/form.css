@@ -69,7 +69,26 @@
     color: white;
 }
 
+#city{
+    background-color: #344D67;
+    border-radius: 10px;
+    color: white;
+}
+
+#zipcode{
+    background-color: #344D67;
+    border-radius: 10px;
+    color: white;
+}
+
+
 #form-image{
     border-bottom-right-radius: 30px;
     border-bottom-left-radius: 30px;
+}
+
+#subtitle {
+    margin-top: 15px;
+    margin-bottom: 12px;
+
 }

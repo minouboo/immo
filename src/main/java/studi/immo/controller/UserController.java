@@ -110,7 +110,7 @@ public class UserController {
         Tenant currentTenant = tenantService.getTenantByUserId(currentUser.getId());
         currentTenant.setRevenues(tenant.getRevenues());
         tenantService.saveTenant(currentTenant);
-        return "redirect:/";
+        return "redirect:/user/modifier-compte";
     }
 
     @GetMapping(value = "/creation-agence")
@@ -144,7 +144,7 @@ public class UserController {
         currentAgency.setAgencyName(agency.getAgencyName());
         currentAgency.setUser(currentUser);
         agencyService.saveAgency(currentAgency);
-        return "redirect:/";
+        return "redirect:/user/modifier-compte";
     }
 
     @GetMapping (value="/creation-adresse")

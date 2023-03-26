@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Immo</title>
@@ -9,6 +9,9 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/@popper.js/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+
+    <script src="/webjars/jquery/3.1.1/jquery.min.js"></script>
+    <script type="text/javascript" th:src="@{/styles/cssandjs/apicity.js}"></script>
 </head>
 
 <body>
@@ -17,77 +20,80 @@
 
 <main>
 
-    <div id="top-body" class="container-fluid bg-img" th:style="'background-image:url(' + @{/pics/immo-sofa.png} + ')'">
-
-
-
+    <div id="top-body" class="container-fluid bg-img" th:style="'background-image:url(' + @{/pics/immo-laptop.png} + ')'">
 
         <div class="card text-center" id="form-title">
             <div class="card-body">
-                <h3 class="card-title">S'incrire</h3>
+                <h3 class="card-title">Adresse</h3>
                 <hr id="line">
-                <p class="card-text">Créer votre profil</p>
+                <p class="card-text">Où se trouve votre bien</p>
             </div>
         </div>
     </div>
 
-    <div>
-        <div id="form-container">
-            <form >
-                <div class="mb-3" id="form-input-container" >
-                    <label class="form-label">Loyer (en €)</label>
-                    <input type="number" placeholder="Loyer (en €)" min="0.00" max="10000.00" step="0.01" class="form-control" id="form-input">
-                </div>
-                <div class="mb-3" id="form-input-container" >
-                    <label class="form-label">Charges (en €)</label>
-                    <input type="number" placeholder="Charges (en €)" min="0.00" max="10000.00" step="0.01" class="form-control" id="form-input">
-                </div>
-                <div class="mb-3" id="form-input-container" >
-                    <label class="form-label">Caution (en €)</label>
-                    <input type="number" placeholder="Caution (en €)" min="0.00" max="10000.00" step="0.01" class="form-control" id="form-input">
-                </div>
-
-                <div class="mb-3" id="form-input-container">
-                    <label class="form-label">Date de début du contrat</label>
-                    <div class="input-group date">
-                        <input type="date" class="form-control" id="form-input"/>
-                    </div>
-                </div>
-                <div class="mb-3" id="form-input-container" >
-                    <label class="form-label">Frais d'agence (en €)</label>
-                    <input type="number" placeholder="Frais d'agence (en €)" min="0.00" max="10000.00" step="0.01" class="form-control" id="form-input">
-                </div>
-                <div class="mb-3" id="form-input-container">
-                    <label class="form-label">Date d'entrée</label>
-                    <div class="input-group date">
-                        <input type="date" class="form-control" id="form-input"/>
-                    </div>
-                </div>
-                <div class="mb-3" id="form-input-container" >
-                    <label class="form-label" >Commentaire état des lieux d'entrée</label>
-                    <textarea class = "form-control" placeholder="Commentaire" rows = "6" id="form-input"></textarea>
-                </div>
-                <!--<div class="mb-3" id="form-input-container">
-                    <label class="form-label">Je suis</label>
-                    <select name="Role" th:field = "*{roles}">
-                        <option th:value="'LANDLORD'" th:text="Propriétaire"></option>
-                        <option th:value="'TENANT'" th:text="Locataire"></option>
-                        <option th:value="'AGENCY'" th:text="Agence"></option>
-                    </select>
-                </div>-->
-                <div id="bouton-form-container">
-                    <button type="submit" class="btn" id="bouton-form">Je crée mon profil</button>
-                </div>
-            </form>
-            <img id="form-image" th:src="@{/pics/wave.svg}">
-
-        </div>
+    <div id="form-container">
+        <form th:action = "@{/nouveau-compte}" th:object = "${NewUser}" method = "POST">
+            <div class="mb-3" id="form-input-container" >
+                <label class="form-label">Prénom</label>
+                <input type="text"
+                       placeholder="Prénom"
+                       class="form-control"
+                       id="form-input"
+                       th:field = "*{firstName}">
+            </div>
+            <div class="mb-3" id="form-input-container">
+                <label class="form-label">Numéro de rue</label>
+                <input
+                        type="number"
+                        min="0.00"
+                        max="10000.00"
+                        step="0.01"
+                        class="form-control"
+                        th:field = "*{streetNumber}">
+            </div>
+            <div class="mb-3" id="form-input-container" >
+                <label class="form-label">Nom d'utilisateur</label>
+                <input type="text"
+                       placeholder="Nom d'utilisateur"
+                       class="form-control"
+                       id="form-input"
+                       th:field = "*{userName}">
+            </div>
+            <div class="mb-3" id="form-input-container" >
+                <label class="form-label">Email</label>
+                <input type="text"
+                       placeholder="Email"
+                       class="form-control"
+                       id="form-input"
+                       th:field = "*{email}">
+            </div>
+            <div class="mb-3" id="form-input-container" >
+                <label class="form-label">Mot de passe</label>
+                <input type="password"
+                       placeholder="Mot de passe"
+                       class="form-control"
+                       id="form-input"
+                       th:field = "*{password}">
+            </div>
+            <div class="mb-3" id="form-input-container">
+                <label class="form-label">Je suis</label>
+                <select name="Role" th:field = "*{roles}">
+                    <option th:value="'LANDLORD'" th:text="Propriétaire"></option>
+                    <option th:value="'TENANT'" th:text="Locataire"></option>
+                    <option th:value="'AGENCY'" th:text="Agence"></option>
+                </select>
+            </div>
+            <div id="bouton-form-container">
+                <button type="submit" class="btn" id="bouton-form">Je crée mon profil</button>
+            </div>
+        </form>
+        <img id="form-image" th:src="@{/pics/wave.svg}">
 
     </div>
 
 </main>
 
-
+<div th:replace="fragments/bottomfooter :: footer"></div>
 
 
 </body>
