@@ -40,6 +40,11 @@
                     <li th:text="${users.userName}"></li>
                 </ul>
                 </p>
+
+                <div id="bouton-container">
+                <a class="btn" id="bouton-secondaire" th:href = "@{/contrat/voir-le-contrat/{id} (id=${Agreement.id})}">Voir les détails du contrat</a>
+                </div>
+
                 <div id="bouton-container" th:if = "${IsOwner}">
                     <div class="dropdown">
                         <button class="btn dropdown-toggle" type="button"  data-bs-toggle="dropdown" aria-expanded="false" id="bouton-secondaire">

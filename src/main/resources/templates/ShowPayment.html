@@ -53,7 +53,7 @@
                     <a th:href = "@{/paiement/mon-contrat/{id} (id=${Agreement.id})}" class="btn " id="bouton-secondaire">Retourner à la page du contrat</a>
                 </div>
 
-                <div th:unless = "${CanPay}">
+                <div th:if = "${CanPay}">
                     <form
                             th:action = "@{/paiement/payer-paiement/{id} (id=${Payment.id})}"
                             th:object = "${TenantCash}" method = "POST">
@@ -65,7 +65,7 @@
                     </form>
                 </div>
 
-                <div th:if = "${CanPay}">
+                <div th:unless = "${CanPay}">
                     <!-- Button trigger modal -->
                     <button type="button" class="btn " id="bouton-secondaire" data-bs-toggle="modal" data-bs-target="#exampleModal">
                         Payer

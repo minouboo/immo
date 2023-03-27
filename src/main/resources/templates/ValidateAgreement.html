@@ -71,10 +71,7 @@
                            id="bouton-secondaire" >Supprimer le contrat</a>
                     </div>
 
-
-                    <a class="btn" id="bouton-secondaire" th:href = "@{/pdf/create}">État des lieux en PDF</a>
-
-                    <a class="btn" id="bouton-secondaire" >Le bail en PDF</a>
+                    <a class="btn" id="bouton-secondaire" th:href = "@{/contrat/voir-le-contrat/{id} (id=${Agreement.id})}">Voir les détails du contrat</a>
 
                     <div>
                         <a th:if= "${IsValidated and !IsOwner}" class="btn" id="bouton-secondaire" >Payer le Loyer</a>

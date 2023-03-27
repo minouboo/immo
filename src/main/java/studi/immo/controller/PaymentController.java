@@ -212,9 +212,9 @@ public class PaymentController {
         PaymentRequest currentPayment = paymentRequestService.getPaymentRequestById(id);
         Agreement currentAgreement = paymentRequestService.getPaymentRequestById(id).getAgreement();
         Cash tenantCash = userService.getCurrentUser().getCash();
-        boolean canPay = true;
+        boolean canPay = false;
         if (tenantCash.getAmount().compareTo(currentPayment.getTotalAmount()) >= 0 ){
-            canPay = false;
+            canPay = true;
         }
         model.addAttribute("Payment",currentPayment);
         model.addAttribute("Agreement",currentAgreement);

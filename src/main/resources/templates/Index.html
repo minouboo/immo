@@ -32,6 +32,9 @@
     </div>
 
     <div id="body" >
+
+        <h4 id="menu-welcome" sec:authorize="isAuthenticated()" th:text="'Bonjour '+ ${User.userName}"/>
+
         <div class="card text-center mb-3" id="info">
             <div class="card-body">
                 <h3 class="card-title" id="info-title">Trouver un logement</h3>

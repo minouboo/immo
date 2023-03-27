@@ -27,7 +27,7 @@ public class User extends GenericEntity{
     @Column (unique = true)
     private String email;
 
-    @Column
+    @Column (nullable = false)
     private String password;
 
     @ManyToOne

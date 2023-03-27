@@ -198,4 +198,19 @@ public class AgreementController {
         return "redirect:/contrat/mon-contrat/"+validateAgreement.getId();
     }
 
+    @GetMapping (value = "/voir-le-contrat/{id}")
+    public String checkAgreement (@PathVariable Long id, Model model){
+        Agreement currentAgreement = agreementService.getAgreementById(id);
+        ApartmentInventory currentApartmentInventory = apartmentInventoryService.getApartmentInventoryByAgreementId(id);
+        model.addAttribute("Agreement", currentAgreement);
+        model.addAttribute("ApartmentInventory", currentApartmentInventory);
+        boolean agreementValidated = false;
+        if (currentAgreement.getTenantValidate().equals(Boolean.TRUE) & currentAgreement.getLandlordValidate().equals(Boolean.TRUE))
+        {
+            agreementValidated = true;
+        }
+        model.addAttribute("AgreementValidated", agreementValidated);
+        return "DetailsAgreement";
+    }
+
 }
