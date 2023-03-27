@@ -71,6 +71,9 @@ public class AgreementController {
     @GetMapping (value = "/mon-contrat/{id}")
     public String validateAgreement (@PathVariable Long id, Model model){
         User targetUser = userService.getCurrentUser();
+        if (targetUser == null){
+            return "redirect:/login";
+        }
 
         Agreement validatingAgreement = agreementService.getAgreementById(id);
         model.addAttribute("Agreement", validatingAgreement);
@@ -147,6 +150,9 @@ public class AgreementController {
     @GetMapping (value = "/mes-contrats")
     public String myAgreements (Model model){
         User currentUser = userService.getCurrentUser();
+        if (currentUser == null){
+            return "redirect:/login";
+        }
         List<Agreement> myAgreements = agreementService.getMyAgreementsByUserId(currentUser.getId());
         List<Agreement> myAgreementsValidated = agreementService.getMyAgreementsValidatedByUserId(currentUser.getId());
         model.addAttribute("MyAgreements",myAgreements);
@@ -163,6 +169,9 @@ public class AgreementController {
     @PostMapping (value = "/valider-contrat/{id}")
     public String validateAgreement (@PathVariable Long id, @ModelAttribute ("AgreementValidation")Agreement agreement){
         User currentUser = userService.getCurrentUser();
+        if (currentUser == null){
+            return "redirect:/login";
+        }
         Agreement validateAgreement = agreementService.getAgreementById(id);
         if (currentUser.getId().equals(validateAgreement.getAccommodation().getUser().getId())){
             validateAgreement.setLandlordValidate(Boolean.TRUE);
@@ -176,6 +185,9 @@ public class AgreementController {
     @PostMapping (value = "/invalider-contrat/{id}")
     public String unvalidateAgreement (@PathVariable Long id, @ModelAttribute ("AgreementValidation")Agreement agreement){
         User currentUser = userService.getCurrentUser();
+        if (currentUser == null){
+            return "redirect:/login";
+        }
         Agreement validateAgreement = agreementService.getAgreementById(id);
         if (currentUser.getId().equals(validateAgreement.getAccommodation().getUser().getId())){
             validateAgreement.setLandlordValidate(Boolean.FALSE);
@@ -185,11 +197,5 @@ public class AgreementController {
         agreementService.saveAgreement(validateAgreement);
         return "redirect:/contrat/mon-contrat/"+validateAgreement.getId();
     }
-
-
-
-
-
-
 
 }

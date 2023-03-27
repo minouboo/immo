@@ -14,7 +14,6 @@ import studi.immo.service.*;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -31,13 +30,15 @@ public class MessageController {
     private UserService userService;
     private ChatRoomService chatRoomService;
     private AdvertisementService advertisementService;
+    private TenantService tenantService;
 
-    public MessageController(AccommodationService accommodationService, MessageService messageService, UserService userService, ChatRoomService chatRoomService, AdvertisementService advertisementService) {
+    public MessageController(AccommodationService accommodationService, MessageService messageService, UserService userService, ChatRoomService chatRoomService, AdvertisementService advertisementService, TenantService tenantService) {
         this.accommodationService = accommodationService;
         this.messageService = messageService;
         this.userService = userService;
         this.chatRoomService = chatRoomService;
         this.advertisementService = advertisementService;
+        this.tenantService = tenantService;
     }
 
 
@@ -45,7 +46,19 @@ public class MessageController {
     public String myNewMessage (@PathVariable Long id, Model model){
         Accommodation accommodation = accommodationService.getAccommodationAndUserById(id);
         User currentUser = userService.getCurrentUser();
-
+        Tenant currentTenant = tenantService.getTenantByUserId(currentUser.getId());
+        if (currentUser == null){
+            return "redirect:/login";
+        }
+        if (currentUser.getId().equals(accommodation.getUser().getId())){
+            ChatForm chatForm = new ChatForm();
+            model.addAttribute("SendMessage", chatForm);
+            model.addAttribute("Accommodation", accommodation);
+            return "NewMessage";
+        }
+        if (currentTenant == null){
+            return "redirect:/user/creation-locataire";
+        }
         ChatForm chatForm = new ChatForm();
         model.addAttribute("SendMessage", chatForm);
         model.addAttribute("Accommodation", accommodation);
@@ -57,6 +70,9 @@ public class MessageController {
     public String sendNewMessage (@PathVariable Long id,
                                @ModelAttribute("SendMessage") ChatForm chatForm){
         User userTenant = userService.getCurrentUser();
+        if (userTenant == null){
+            return "redirect:/login";
+        }
         Accommodation a = accommodationService.getAccommodationById(id);
         User userLandlord = a.getUser();
         LocalDateTime localDateTime = LocalDateTime.now();
@@ -81,6 +97,9 @@ public class MessageController {
     @GetMapping (value = "/mes-conversations")
     public String myChatRooms (Model model){
         User user = userService.getCurrentUser();
+        if (user == null){
+            return "redirect:/login";
+        }
         List<ChatRoom> myChatRooms = chatRoomService.getAllChatRoomByUserTenantId(user.getId());
         model.addAttribute("MyChatRoom", myChatRooms);
         return "MyChatRooms";
@@ -89,6 +108,9 @@ public class MessageController {
     @GetMapping (value = "/mes-conversations-archivees")
     public String myChatRoomsArchived (Model model){
         User user = userService.getCurrentUser();
+        if (user == null){
+            return "redirect:/login";
+        }
         List<ChatRoom> myChatRooms = chatRoomService.getAllChatRoomArchivedByUserTenantId(user.getId());
         model.addAttribute("MyChatRoom", myChatRooms);
         return "MyChatRoomsArchived";
@@ -103,6 +125,9 @@ public class MessageController {
         ChatRoom chatRoom = chatRoomService.getChatRoomById(id);
         model.addAttribute("ChatRoom", chatRoom);
         User landLordUser = userService.getCurrentUser();
+        if (landLordUser == null){
+            return "redirect:/login";
+        }
         boolean IsLandLord=false;
         if (landLordUser != null){
             IsLandLord =  landLordUser.getId().equals(chatRoom.getAccommodation().getUser().getId());
@@ -114,6 +139,9 @@ public class MessageController {
     @PostMapping (value = "/envoyer-message-conversation/{id}")
     public String sendMessageChatRoom (@PathVariable Long id, @ModelAttribute("SendMessage")ChatForm chatForm){
         User userFrom = userService.getCurrentUser();
+        if (userFrom == null){
+            return "redirect:/login";
+        }
         ChatRoom chatRoom = chatRoomService.getChatRoomById(id);
         LocalDateTime localDateTime = LocalDateTime.now();
         ZonedDateTime currentDate = ZonedDateTime.of(localDateTime, ZoneId.of("UTC"));

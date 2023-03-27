@@ -70,7 +70,9 @@ public class UserController {
     @PostMapping (value = "/compte-modifie")
     public String updateUser(@ModelAttribute("CurrentUser")User user){
         User updateUser = userService.getCurrentUser();
-
+        if (updateUser == null){
+            return "redirect:/login";
+        }
         updateUser.setFirstName(user.getFirstName());
         updateUser.setLastName(user.getLastName());
         updateUser.setUserName(user.getUserName());
@@ -82,6 +84,11 @@ public class UserController {
 
     @GetMapping(value = "/creation-locataire")
     public String pageCreateTenant(Model model){
+        User currentUser = userService.getCurrentUser();
+        Tenant currentTenant = tenantService.getTenantByUserId(currentUser.getId());
+        if(currentTenant !=null){
+            return "redirect:/user/modifier-locataire";
+        }
         Tenant tenant = new Tenant();
         model.addAttribute("Tenant", tenant);
         return "CreateTenant";
@@ -90,6 +97,9 @@ public class UserController {
     @PostMapping (value = "/nouveau-locataire")
     public String createTenant (@ModelAttribute ("Tenant") Tenant tenant){
         User tenantUser = userService.getCurrentUser();
+        if (tenantUser == null){
+            return "redirect:/login";
+        }
         tenant.setRevenues(tenant.getRevenues());
         tenant.setUser(tenantUser);
         tenantService.saveTenant(tenant);
@@ -99,7 +109,13 @@ public class UserController {
     @GetMapping(value = "/modifier-locataire")
     public String modifyTenant(Model model){
         User currentUser = userService.getCurrentUser();
+        if (currentUser == null){
+            return "redirect:/login";
+        }
         Tenant currentTenant = tenantService.getTenantByUserId(currentUser.getId());
+        if(currentTenant==null){
+            return "redirect:/";
+        }
         model.addAttribute("CurrentTenant",currentTenant);
         return "ModifyTenant";
     }
@@ -107,6 +123,9 @@ public class UserController {
     @PostMapping(value = "/locataire-modifie")
     public String updateTenant (@ModelAttribute("CurrentTenant")Tenant tenant){
         User currentUser = userService.getCurrentUser();
+        if (currentUser == null){
+            return "redirect:/login";
+        }
         Tenant currentTenant = tenantService.getTenantByUserId(currentUser.getId());
         currentTenant.setRevenues(tenant.getRevenues());
         tenantService.saveTenant(currentTenant);
@@ -115,6 +134,14 @@ public class UserController {
 
     @GetMapping(value = "/creation-agence")
         public String pageCreateAgency(Model model) {
+        User currentUser = userService.getCurrentUser();
+        if (currentUser == null){
+            return "redirect:/login";
+        }
+        Agency currentAgency = agencyService.getAgencyByUserId(currentUser.getId());
+        if (currentAgency != null){
+            return "redirect:/user/modifier-agence";
+        }
         Agency agency = new Agency();
         model.addAttribute("NewAgency", agency);
         return "CreateAgency";
@@ -123,6 +150,9 @@ public class UserController {
     @PostMapping (value = "/nouvelle-agence")
     public String createAgency (@ModelAttribute("NewAgency")Agency agency){
         User userAgency = userService.getCurrentUser();
+        if (userAgency == null){
+            return "redirect:/login";
+        }
         agency.setAgencyName(agency.getAgencyName());
         agency.setUser(userAgency);
         agencyService.saveAgency(agency);
@@ -132,7 +162,13 @@ public class UserController {
     @GetMapping (value = "/modifier-agence")
     public String modifyAgency (Model model){
         User currentUser = userService.getCurrentUser();
+        if (currentUser == null){
+            return "redirect:/login";
+        }
         Agency currentAgency = agencyService.getAgencyByUserId(currentUser.getId());
+        if(currentAgency==null){
+            return "redirect:/";
+        }
         model.addAttribute("CurrentAgency",currentAgency);
         return "ModifyAgency";
     }
@@ -140,6 +176,9 @@ public class UserController {
     @PostMapping (value = "/agence-modifie")
     public String updateAgency (@ModelAttribute("CurrentAgency")Agency agency){
         User currentUser = userService.getCurrentUser();
+        if (currentUser == null){
+            return "redirect:/login";
+        }
         Agency currentAgency = agencyService.getAgencyByUserId(currentUser.getId());
         currentAgency.setAgencyName(agency.getAgencyName());
         currentAgency.setUser(currentUser);
@@ -179,8 +218,14 @@ public class UserController {
     @PostMapping (value = "/nouveau-logement/id={id}")
     public String createAccommodation(@PathVariable Long id, @ModelAttribute("Accommodation") AccommodationForm accommodation){
         Address existingAddress = addressService.getAddressByID(id);
-        Accommodation a = new Accommodation();
+        if(existingAddress == null){
+            return "redirect:/user/creation-adresse";
+        }
         User user = userService.getCurrentUser();
+        if (user == null){
+            return "redirect:/login";
+        }
+        Accommodation a = new Accommodation();
         a.setRooms(accommodation.getRooms());
         a.setSquareMeter(accommodation.getSquareMeter());
         a.setUser(user);
@@ -201,6 +246,9 @@ public class UserController {
     @GetMapping (value = "/mes-annonces")
     public String myAdvertisements (Model model){
         User user = userService.getCurrentUser();
+        if (user == null){
+            return "redirect:/login";
+        }
         model.addAttribute("MyAdvertisements",advertisementService.getAdvertisementAccommodationByUserId(user.getId()));
         model.addAttribute("MyAccommodations",accommodationService.getAccommodationByUserId(user.getId()));
         return "MyAdvertisements";
@@ -210,6 +258,9 @@ public class UserController {
     public String pageNewAdvertisement (@PathVariable Long id, Model model){
         Advertisement addAdvertisement = new Advertisement();
         Accommodation currentAccommodation = accommodationService.getAccommodationById(id);
+        if (currentAccommodation == null){
+            return "redirect:/user/creation-adresse";
+        }
         model.addAttribute("AddAdvertisement", addAdvertisement);
         model.addAttribute("CurrentAccommodation", currentAccommodation);
         return "AddAdvertisement";
@@ -231,7 +282,11 @@ public class UserController {
 
     @GetMapping (value="/modification-mon-annonce/{id}")
     public String modifyMyAdvertisement (@PathVariable Long id, Model model){
-        model.addAttribute("MyAdvertisement", advertisementService.getAdvertisementById(id));
+        Advertisement myAdvertisement = advertisementService.getAdvertisementById(id);
+        if(myAdvertisement == null){
+            return "redirect:/";
+        }
+        model.addAttribute("MyAdvertisement", myAdvertisement);
         return "ModifyAdvertisement";
     }
 
@@ -294,6 +349,9 @@ public class UserController {
     @GetMapping(value = "/mon-portefeuille")
     public String myWallet (Model model){
         User user = userService.getCurrentUser();
+        if (user == null){
+            return "redirect:/login";
+        }
         Cash updateCash = cashService.getCashByUserID(user.getId());
         Cash newCash = new Cash();
         model.addAttribute("MyCash", updateCash);
@@ -304,6 +362,9 @@ public class UserController {
     @PostMapping (value = "/reappro-portefeuille")
     public String addMoney (@ModelAttribute("AddCash") Cash cash){
         User user = userService.getCurrentUser();
+        if (user == null){
+            return "redirect:/login";
+        }
         Cash updateCash = cashService.getCashByUserID(user.getId());
         BigDecimal oldAmount = updateCash.getAmount();
 

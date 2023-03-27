@@ -39,6 +39,9 @@ public class PaymentController {
     @GetMapping(value = "/mon-contrat/{id}")
     public String showPayment (@PathVariable Long id, Model model){
         User currentUser = userService.getCurrentUser();
+        if (currentUser == null){
+            return "redirect:/login";
+        }
         Agreement currentAgreement = agreementService.getAgreementById(id);
         model.addAttribute("Agreement",currentAgreement);
         List<PaymentRequest> paymentRequestList = paymentRequestService.getPaymentRequestsByAgreementId(id);
