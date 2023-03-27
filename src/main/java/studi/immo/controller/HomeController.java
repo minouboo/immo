@@ -52,9 +52,6 @@ public class HomeController {
     @PostMapping (value = "/nouveau-compte")
     public String createUser(@ModelAttribute ("NewUser") User user){
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        if(user.getPassword()==null){
-
-        }
         try {
             userService.saveUser(user);
         } catch (DataIntegrityViolationException e){

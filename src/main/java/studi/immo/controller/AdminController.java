@@ -5,6 +5,7 @@ import lombok.experimental.FieldDefaults;
 import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -25,16 +26,17 @@ public class AdminController {
     private AccommodationService accommodationService;
     private AgreementService agreementService;
     private UserService userService;
-
     private CashService cashService;
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
-    public AdminController(AdvertisementService advertisementService, AccommodationService accommodationService, AgreementService agreementService, UserService userService, CashService cashService) {
+    public AdminController(AdvertisementService advertisementService, AccommodationService accommodationService, AgreementService agreementService, UserService userService, CashService cashService, PasswordEncoder passwordEncoder) {
         this.advertisementService = advertisementService;
         this.accommodationService = accommodationService;
         this.agreementService = agreementService;
         this.userService = userService;
         this.cashService = cashService;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @GetMapping(value = "/liste-logements")
@@ -63,11 +65,21 @@ public class AdminController {
     @GetMapping (value = "/modifier-compte/{id}")
     public String modifyUserById(@PathVariable Long id, Model model){
         User userToModify = userService.getUserById(id);
-        model.addAttribute("CurrentUser",userToModify);
+        model.addAttribute("UserToModify",userToModify);
         /*model.addAttribute("IsTenant",userToModify.getRoles().contains(Role.TENANT));
         model.addAttribute("IsAgency",userToModify.getRoles().contains(Role.AGENCY));*/
-        return "ModifyUser";
+        return "ModifyUserAdmin";
     }
+
+    @PostMapping(value = "/compte-modifie/{id}")
+    public String updateUserById(@PathVariable Long id, @ModelAttribute("UserToModify") User user){
+        User userToModify = userService.getUserById(id);
+        userToModify.setPassword(passwordEncoder.encode(user.getPassword()));
+        userService.saveUser(userToModify);
+        return "redirect:/admin/tout-users/";
+    }
+
+
 
     @GetMapping(value = "/modifier-portefeuille/{id}")
     public String userWallet (@PathVariable Long id, Model model){

@@ -2,6 +2,8 @@ package studi.immo.entity;
 
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+
 import lombok.*;
 
 import java.util.HashSet;
@@ -27,7 +29,8 @@ public class User extends GenericEntity{
     @Column (unique = true)
     private String email;
 
-    @Column (nullable = false)
+    @NotNull
+    @Column
     private String password;
 
     @ManyToOne
