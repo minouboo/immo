@@ -22,17 +22,16 @@ public class HomeController {
     private AdvertisementService advertisementService;
     private CashService cashService;
     private PhotoService photoService;
-    private UserRepository userRepository;
+
 
 
     @Autowired
-    public HomeController (UserService userService, PasswordEncoder passwordEncoder, AdvertisementService advertisementService, CashService cashService, TenantService tenantService, PhotoService photoService, UserRepository userRepository){
+    public HomeController (UserService userService, PasswordEncoder passwordEncoder, AdvertisementService advertisementService, CashService cashService, PhotoService photoService){
         this.userService = userService;
         this.passwordEncoder = passwordEncoder;
         this.advertisementService = advertisementService;
         this.cashService = cashService;
         this.photoService = photoService;
-        this.userRepository = userRepository;
     }
 
     @GetMapping ({"","/","/accueil"})

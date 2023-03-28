@@ -35,16 +35,6 @@
 
 }
 
-#image-text{
-    position: absolute;
-    top: 10%;
-    right: 10%;
-    color: white;
-    font-size: 50px;
-    font-weight: bold;
-    text-align: center;
-    z-index: 1;
-}
 
 #search-container{
     position: absolute;

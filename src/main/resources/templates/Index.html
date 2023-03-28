@@ -18,7 +18,10 @@
 <main>
 
     <div id="top-body" class="container-fluid bg-img" th:style="'background-image:url(' + @{/pics/immo-couple.png} + ')'">
-        <span id="image-text" class="text-start" >Trouver le <br>logement qui <br>vous convient</span>
+        <div class="container-fluid">
+            <span id="image-text" class="text-start" >Trouver le <br>logement qui <br>vous convient</span>
+        </div>
+
 
 
         <div class="container-fluid" id="search-container">
@@ -33,7 +36,10 @@
 
     <div id="body" >
 
-        <h4 id="menu-welcome" sec:authorize="isAuthenticated()" th:text="'Bonjour '+ ${User.userName}"/>
+        <div class="col-sm-6" id="welcome-container" >
+            <span id="text-welcome" sec:authorize="isAuthenticated()" th:text="'Bonjour '+ ${User.userName}"/>
+            <span id="text-welcome" sec:authorize="isAnonymous()">Bienvenu sur Immo</span>
+        </div>
 
         <div class="card text-center mb-3" id="info">
             <div class="card-body">
