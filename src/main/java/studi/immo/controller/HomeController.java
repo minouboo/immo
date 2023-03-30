@@ -85,9 +85,6 @@ public class HomeController {
     public String showAccommodation (@PathVariable Long id, Model model){
         Advertisement advertisementByUser = advertisementService.getAdvertisementAccommodationById(id);
         User targetUser = userService.getCurrentUser();
-        if (targetUser == null){
-            return "redirect:/login";
-        }
         boolean IsOwner = false;
         if (targetUser !=null){
             IsOwner = targetUser.getId().equals(advertisementByUser.getAccommodation().getUser().getId());
