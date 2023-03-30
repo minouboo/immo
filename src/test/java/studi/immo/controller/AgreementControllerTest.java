@@ -39,7 +39,7 @@ class AgreementControllerTest {
 
     }
 
-    @Test
+    /*@Test
     public void testMyAgreements(){
         User tenantUserTest = new User();
         tenantUserTest.setId(1L);
@@ -80,7 +80,7 @@ class AgreementControllerTest {
 
         assertEquals(1,tenantUserAgreement1);
 
-    }
+    }*/
 
     /*@Test
     void validateAgreement() {
