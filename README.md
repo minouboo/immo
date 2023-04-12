@@ -18,15 +18,15 @@ dockerfile:
     
     FROM eclipse-temurin:17-jdk-focal
  
-WORKDIR /app
- 
-COPY .mvn/ .mvn
-COPY mvnw pom.xml ./
-RUN ./mvnw dependency:go-offline
- 
-COPY src ./src
+    WORKDIR /app
 
-ENTRYPOINT ["java", "-Dspring.profiles.active=docker", "-jar", "/immo.jar"]
+    COPY .mvn/ .mvn
+    COPY mvnw pom.xml ./
+    RUN ./mvnw dependency:go-offline
 
-EXPOSE 3333
+    COPY src ./src
+
+    ENTRYPOINT ["java", "-Dspring.profiles.active=docker", "-jar", "/immo.jar"]
+
+    EXPOSE 3333
 
