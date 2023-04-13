@@ -1,9 +1,10 @@
 # immo
-
+commande pour création target:
+    ./mvnw package
 
 docker build : 
 
-    docker build -t immo-studi .
+    docker build . -t immostudi   
 
 docker run : 
     
@@ -11,7 +12,7 @@ docker run :
 
     docker run -v /var/app/immo:/private/Users/minhbuu/photosimmo/ -p 8080:3333 -t immo-studi
     
-    docker run -p 8080:3333 -t immo-studi   
+    docker run -p 4444:4444 -t immostudi  
 
 
 dockerfile:
@@ -26,7 +27,7 @@ dockerfile:
 
     COPY src ./src
 
-    ENTRYPOINT ["java", "-Dspring.profiles.active=docker", "-jar", "/immo.jar"]
+    CMD ["./mvnw", "spring-boot:run", "-Dspring-boot.run.profiles=docker"]
 
-    EXPOSE 3333
+    EXPOSE 4444
 
