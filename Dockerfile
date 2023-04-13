@@ -10,4 +10,4 @@ COPY src ./src
  
 CMD ["./mvnw", "spring-boot:run", "-Dspring-boot.run.profiles=docker"]
 
-EXPOSE 8080
+EXPOSE 4444
