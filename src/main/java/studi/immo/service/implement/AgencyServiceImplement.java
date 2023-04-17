@@ -25,4 +25,11 @@ public class AgencyServiceImplement implements AgencyService {
     public Agency getAgencyByUserId(Long userId) {
         return agencyRepository.getAgencyByUserId(userId);
     }
+
+    @Override
+    public void deleteAgencyById(Long id) {
+        agencyRepository.deleteById(id);
+    }
+
+
 }

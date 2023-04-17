@@ -28,15 +28,17 @@ public class AdminController {
     private UserService userService;
     private CashService cashService;
     private PasswordEncoder passwordEncoder;
+    private AgencyService agencyService;
 
     @Autowired
-    public AdminController(AdvertisementService advertisementService, AccommodationService accommodationService, AgreementService agreementService, UserService userService, CashService cashService, PasswordEncoder passwordEncoder) {
+    public AdminController(AdvertisementService advertisementService, AccommodationService accommodationService, AgreementService agreementService, UserService userService, CashService cashService, PasswordEncoder passwordEncoder, AgencyService agencyService) {
         this.advertisementService = advertisementService;
         this.accommodationService = accommodationService;
         this.agreementService = agreementService;
         this.userService = userService;
         this.cashService = cashService;
         this.passwordEncoder = passwordEncoder;
+        this.agencyService = agencyService;
     }
 
     @GetMapping(value = "/liste-logements")
@@ -102,6 +104,10 @@ public class AdminController {
 
     @GetMapping(value="/user/suppression/{id}")
     public String deleteAdvertisement (@PathVariable Long id){
+        /*User targetUser = userService.getUserById(id);
+        if (targetUser.getRoles().equals(Role.AGENCY)){
+            agencyService.deleteAgencyById(agencyService.getAgencyByUserId(id).getId());
+        }*/
         userService.deleteUserById(id);
         return "redirect:/admin/tout-users";
     }
