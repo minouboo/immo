@@ -198,7 +198,7 @@ public class AgreementController {
         return "redirect:/contrat/mon-contrat/"+validateAgreement.getId();
     }
 
-    @GetMapping (value = "/voir-le-contrat/{id}")
+    @GetMapping (value = "/voir-contrat/{id}")
     public String checkAgreement (@PathVariable Long id, Model model){
         Agreement currentAgreement = agreementService.getAgreementById(id);
         ApartmentInventory currentApartmentInventory = apartmentInventoryService.getApartmentInventoryByAgreementId(id);
@@ -211,6 +211,15 @@ public class AgreementController {
         }
         model.addAttribute("AgreementValidated", agreementValidated);
         return "DetailsAgreement";
+    }
+
+    @GetMapping (value = "/voir-etat-des-lieux/{id}")
+    public String checkApartmentInventory (@PathVariable Long id, Model model){
+        ApartmentInventory currentApartmentInventory = apartmentInventoryService.getApartmentInventoryById(id);
+        Agreement currentAgreement = currentApartmentInventory.getAgreement();
+        model.addAttribute("ApartmentInventory", currentApartmentInventory);
+        model.addAttribute("Agreement", currentAgreement);
+        return "DetailsApartmentInventory";
     }
 
 }

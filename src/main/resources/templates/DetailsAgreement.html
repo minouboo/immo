@@ -38,11 +38,11 @@
                 </div>
                 <div class="row" id="info-container">
                     <span id="info">Date d'entrée</span>
-                    <span id="info" th:text="${#temporals.format(Agreement.entryDate, 'dd-MM-yyyy')}"/>
+                    <span id="info" th:text="${#dates.format(Agreement.entryDate, 'dd-MM-yyyy')}"/>
                 </div>
+
                 <div class="row" id="info-container">
-                    <span id="info">Etat des lieux</span>
-                    <span id="info" th:text="${ApartmentInventory.comment}"/>
+                    <a th:href = "@{/contrat/voir-etat-des-lieux/{id} (id=${ApartmentInventory.id})}" class="btn " id="bouton-secondaire">Voir l'état des lieux d'entrée</a>
                 </div>
                 <div class="row" id="info-container" th:unless= "${AgreementValidated}">
                     <a th:href = "@{/contrat/mon-contrat/{id} (id=${Agreement.id})}" class="btn " id="bouton-secondaire">Retourner à la page du contrat</a>

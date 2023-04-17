@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import studi.immo.entity.*;
 import studi.immo.form.AccommodationForm;
 import studi.immo.form.AddressForm;
+import studi.immo.form.UserForm;
 import studi.immo.service.*;
 
 import java.math.BigDecimal;
@@ -142,20 +143,32 @@ public class UserController {
         if (currentAgency != null){
             return "redirect:/user/modifier-agence";
         }
-        Agency agency = new Agency();
+        UserForm agency = new UserForm();
         model.addAttribute("NewAgency", agency);
         return "CreateAgency";
     }
 
     @PostMapping (value = "/nouvelle-agence")
-    public String createAgency (@ModelAttribute("NewAgency")Agency agency){
+    public String createAgency (@ModelAttribute("NewAgency")UserForm agencyForm){
         User userAgency = userService.getCurrentUser();
         if (userAgency == null){
             return "redirect:/login";
         }
-        agency.setAgencyName(agency.getAgencyName());
-        agency.setUser(userAgency);
-        agencyService.saveAgency(agency);
+        Agency newAgency = new Agency();
+        City newCity = new City();
+        newCity.setName(agencyForm.getCityName());
+        newCity.setZipCode(agencyForm.getZipCode());
+        cityService.saveCity(newCity);
+        Address newAddress = new Address();
+        newAddress.setCity(newCity);
+        newAddress.setStreetNumber(agencyForm.getStreetNumber());
+        newAddress.setStreetName(agencyForm.getCityName());
+        addressService.saveAddress(newAddress);
+        userAgency.setAddress(newAddress);
+        userService.saveUser(userAgency);
+        newAgency.setAgencyName(agencyForm.getAgencyName());
+        newAgency.setUser(userAgency);
+        agencyService.saveAgency(newAgency);
         return "redirect:/liste-de-logement";
     }
 

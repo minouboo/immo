@@ -14,8 +14,4 @@ public class City extends GenericEntity{
     @Column
     private Long zipCode;
 
-    @Column
-    private Address address;
-
-
 }

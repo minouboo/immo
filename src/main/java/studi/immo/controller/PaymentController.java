@@ -219,7 +219,7 @@ public class PaymentController {
         model.addAttribute("Payment",currentPayment);
         model.addAttribute("Agreement",currentAgreement);
         model.addAttribute("CanPay", canPay);
-        return "ShowPayment";
+        return "DetailsPayment";
     }
 
     @PostMapping (value = "/payer-paiement/{id}")
