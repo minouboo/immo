@@ -70,7 +70,7 @@ public class PictureController {
                 return "redirect:/photo/selection-images/"+currentAdvertisement.getId();
             } catch (IOException e) {
                 e.printStackTrace();
-                return "error";
+                return "redirect:/photo/selection-images/"+currentAdvertisement.getId();
             }
         }
 
@@ -86,7 +86,7 @@ public class PictureController {
                 return "redirect:/photo/selection-images/"+currentAdvertisement.getId();
             } catch (IOException e) {
                 e.printStackTrace();
-                return "error";
+                return "redirect:/photo/selection-images/"+currentAdvertisement.getId();
             }
         }
 
