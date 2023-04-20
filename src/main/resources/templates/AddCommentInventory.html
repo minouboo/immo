@@ -22,35 +22,42 @@
 
         <div class="card text-center" id="form-title">
             <div class="card-body">
-                <h3 class="card-title">État des lieux d'entrée</h3>
+                <h3 class="card-title">État des lieux</h3>
                 <hr id="line">
-                <p class="card-text">Détails de l'état des lieux d'entrée</p>
+                <p class="card-text">Décrivez la pièce à inspecter</p>
             </div>
         </div>
     </div>
 
     <div id="form-container">
-        <form th:action = "@{/contrat/valider-etat-des-lieux-entree/{id} (id=${Inventory.id})}" th:object = "${Inventory}" method = "POST">
+        <form th:action = "@{/contrat/piece-cree/{id} (id=${ApartmentInventory.id})}" th:object = "${NewComment}" method = "POST">
             <div class="mb-3" id="form-input-container">
-                <label class="form-label">Date d'état des lieux d'entrée</label>
-                <div class="input-group date">
-                    <input
-                            type="date"
-                            class="form-control"
-                            id="form-input"
-                            th:field="*{dateInventory}"/>
-                </div>
+                <label  class="form-label" id="form-input-container">Pièces</label>
+                <input
+                        type="text"
+                        class="form-control"
+                        id="form-input"
+                        th:field = "*{title}"
+                        placeholder="Quelle pièce?">
             </div>
+
             <div class="mb-3" id="form-input-container">
-                <label class="form-label">Commentaire état des lieux d'entrée</label>
+                <label class="form-label">Description</label>
                 <textarea
                         class = "form-control"
                         rows = "6"
                         id="form-input"
-                        th:field = "*{comment}"></textarea>
+                        th:field = "*{description}"
+                        placeholder="Entrer la description"
+                />
+            </div>
+
+
+            <div id="bouton-form-container">
+                <button type="submit" class="btn" id="bouton-form">Pièces suivante</button>
             </div>
             <div id="bouton-form-container">
-                <button type="submit" class="btn" id="bouton-form">Confirmer l'état des lieux</button>
+                <a class="btn" id="bouton-form" th:href = "@{/contrat/etat-des-lieux-entree/{id} (id=${ApartmentInventory.id})}">Retourner à la page d'état des lieux</a>
             </div>
         </form>
         <img id="form-image" th:src="@{/pics/wave.svg}">
@@ -65,21 +72,3 @@
 </body>
 
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

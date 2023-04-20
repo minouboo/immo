@@ -9,13 +9,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import studi.immo.entity.*;
 import studi.immo.form.AgreementForm;
-import studi.immo.service.AgreementService;
-import studi.immo.service.ApartmentInventoryService;
-import studi.immo.service.ChatRoomService;
-import studi.immo.service.UserService;
+import studi.immo.service.*;
 
-import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -30,12 +25,14 @@ public class AgreementController {
     private ChatRoomService chatRoomService;
     private AgreementService agreementService;
     private ApartmentInventoryService apartmentInventoryService;
+    private CommentInventoryService commentInventoryService;
 
-    public AgreementController(UserService userService, ChatRoomService chatRoomService, AgreementService agreementService, ApartmentInventoryService apartmentInventoryService) {
+    public AgreementController(UserService userService, ChatRoomService chatRoomService, AgreementService agreementService, ApartmentInventoryService apartmentInventoryService, CommentInventoryService commentInventoryService) {
         this.userService = userService;
         this.chatRoomService = chatRoomService;
         this.agreementService = agreementService;
         this.apartmentInventoryService = apartmentInventoryService;
+        this.commentInventoryService = commentInventoryService;
     }
 
     @GetMapping(value = "/creation-contrat/{id}")
@@ -133,6 +130,8 @@ public class AgreementController {
     @GetMapping (value = "/etat-des-lieux-entree/{id}")
     public String pageApartmentInventory (@PathVariable Long id, Model model){
         ApartmentInventory apartmentInventory = apartmentInventoryService.getApartmentInventoryById(id);
+        List<CommentInventory> commentInventories = commentInventoryService.getCommentInventoryByApartmentId(id);
+        model.addAttribute("CommentInventory", commentInventories);
         model.addAttribute("Inventory",apartmentInventory);
         return "ModifyApartmentInventory";
     }
@@ -144,6 +143,42 @@ public class AgreementController {
         updateApartmentInventory.setComment(apartmentInventory.getComment());
         apartmentInventoryService.saveApartmentInventory(updateApartmentInventory);
         return "redirect:/contrat/mon-contrat/"+updateApartmentInventory.getAgreement().getId();
+    }
+
+    @GetMapping (value = "/creer-piece/{id}")
+    public String pageCommentInventory (@PathVariable Long id, Model model){
+        CommentInventory newCommentInventory = new CommentInventory();
+        model.addAttribute("NewComment", newCommentInventory);
+        ApartmentInventory currentApartmentInventory = apartmentInventoryService.getApartmentInventoryById(id);
+        model.addAttribute("ApartmentInventory", currentApartmentInventory);
+        return "AddCommentInventory";
+    }
+
+    @PostMapping (value = "/piece-cree/{id}")
+    public String createCommentInventory (@PathVariable Long id , @ModelAttribute("Comment")CommentInventory commentInventory){
+        ApartmentInventory currentApartmentInventory = apartmentInventoryService.getApartmentInventoryById(id);
+        CommentInventory newCommentInventory = new CommentInventory();
+        newCommentInventory.setTitle(commentInventory.getTitle());
+        newCommentInventory.setDescription(commentInventory.getDescription());
+        newCommentInventory.setApartmentInventory(currentApartmentInventory);
+        commentInventoryService.saveCommentInventory(newCommentInventory);
+        return "redirect:/contrat/creer-piece/"+currentApartmentInventory.getId();
+    }
+
+    @GetMapping (value ="/supprimer-piece/{id}")
+    public String deleteComment (@PathVariable Long id){
+        ApartmentInventory apartmentInventory = commentInventoryService.getCommentInventoryById(id).getApartmentInventory();
+        commentInventoryService.deleteCommentInventoryById(id);
+        return "redirect:/contrat/etat-des-lieux-entree/"+apartmentInventory.getId();
+    }
+
+    @GetMapping (value = "/voir-etat-des-lieux/{id}")
+    public String checkApartmentInventory (@PathVariable Long id, Model model){
+        ApartmentInventory currentApartmentInventory = apartmentInventoryService.getApartmentInventoryById(id);
+        Agreement currentAgreement = currentApartmentInventory.getAgreement();
+        model.addAttribute("ApartmentInventory", currentApartmentInventory);
+        model.addAttribute("Agreement", currentAgreement);
+        return "DetailsApartmentInventory";
     }
 
 
@@ -213,13 +248,8 @@ public class AgreementController {
         return "DetailsAgreement";
     }
 
-    @GetMapping (value = "/voir-etat-des-lieux/{id}")
-    public String checkApartmentInventory (@PathVariable Long id, Model model){
-        ApartmentInventory currentApartmentInventory = apartmentInventoryService.getApartmentInventoryById(id);
-        Agreement currentAgreement = currentApartmentInventory.getAgreement();
-        model.addAttribute("ApartmentInventory", currentApartmentInventory);
-        model.addAttribute("Agreement", currentAgreement);
-        return "DetailsApartmentInventory";
-    }
+
+
+
 
 }
