@@ -4,6 +4,7 @@ commande pour création target:
 
 docker build : 
 
+    docker build --platform linux/amd64 -t spring-helloworld .
     docker build . -t immostudi   
 
 docker run : 
