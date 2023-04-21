@@ -1,0 +1,18 @@
+#message{
+    margin-left: 100px;
+    margin-right: 100px;
+    margin-bottom: 18px;
+    margin-top: 15px;
+}
+
+#message-received{
+    border-color: #1abc9c;
+    border-width: 1px;
+    border-style: solid;
+    padding: 3px;
+}
+
+#bouton-container-message{
+    text-align: end;
+    margin: 3px;
+}

@@ -1,0 +1,58 @@
+#option{
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 30px;
+}
+
+#card-accomodation{
+    width: 21rem;
+    height: 25rem;
+    padding: 1%;
+    align-items: center;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 1%;
+}
+
+#data-accommodation{
+   color: #1abc9c;
+    width: 50%;
+    font-size: 12px;
+}
+
+#accommodation{
+    width: 80%;
+    padding: 1%;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 1%;
+}
+
+#list-group{
+    display : inline-block;
+    margin :auto;
+    text-align:left;
+}
+
+#card-info{
+    position: absolute;
+    bottom: 0px;
+    width: 100%;
+}
+
+#thumbnail-image{
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 5px;
+  max-width: 300px;
+  max-height: 150px;
+
+}
+
+#picture{
+    max-height: 400px;
+
+}

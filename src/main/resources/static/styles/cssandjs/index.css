@@ -7,13 +7,12 @@
     
 }
 
-#info{
+#info-container{
     width: 18rem;
     display: inline-block;
     margin-left: 10px;
     margin-right: 10px;
     background-color: #EAEAEA40;
-    
 }
 
 #info-title{
@@ -24,7 +23,6 @@
 #info-text{
     color: #4D5053;
     margin-bottom: 10px;
-    
 }
 
 #inscription-container{

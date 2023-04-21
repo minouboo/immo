@@ -1,0 +1,21 @@
+#info-container{
+    margin-left: auto;
+    margin-right: auto;
+    padding: 9px;
+}
+
+#info-payment{
+    background-color: #344D67;
+    width: 50%;
+    padding: 1%;
+    align-items: center;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 1%;
+
+}
+
+#info{
+    color: white;
+}
