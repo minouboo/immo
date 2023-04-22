@@ -8,6 +8,6 @@ RUN ./mvnw dependency:go-offline
 
 COPY src ./src
  
-CMD ["./mvnw", "spring-boot:run", "-Dspring-boot.run.profiles=docker"]
+CMD ["./mvnw", "spring-boot:run", "-Dspring-boot.run.profiles=docker-prod"]
 
 EXPOSE 4444

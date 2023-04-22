@@ -17,7 +17,8 @@
 
 #info-title{
     color: #344D67;
-    padding-bottom: 20px;
+    padding-bottom: 18px;
+    font-size: 24px;
 }
 
 #info-text{
@@ -36,6 +37,7 @@
     margin-right: auto;
     max-width: 1000px;
     height: 200px;
+    margin-bottom:18px;
 }
 
 #welcome-user{
