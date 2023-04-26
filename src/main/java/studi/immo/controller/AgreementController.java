@@ -197,6 +197,9 @@ public class AgreementController {
 
     @GetMapping (value = "/supprimer-contrat/{id}")
     public String deleteAgreement (@PathVariable Long id){
+        ApartmentInventory currentApartmentInventory = apartmentInventoryService.getApartmentInventoryByAgreementId(id);
+        List<CommentInventory> listCurrentComments = commentInventoryService.getCommentInventoryByApartmentId(currentApartmentInventory.getId());
+
         agreementService.deleteAgreementById(id);
         return "redirect:/contrat/mon-contrat";
     }

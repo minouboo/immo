@@ -49,5 +49,10 @@ public class UserServiceImplement implements UserService {
         userRepository.deleteById(id);
     }
 
+    @Override
+    public List<User> searchUser(String keyword) {
+        return userRepository.searchUser(keyword);
+    }
+
 
 }

@@ -4,6 +4,7 @@ import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -58,9 +59,24 @@ public class AdminController {
     }
 
     @GetMapping (value = "/tout-users")
-    public String allUsers(Model model){
-        List<User> allUsers = userService.getAllUser();
-        model.addAttribute("AllUsers", allUsers);
+    public String allUsers(Model model, String keyword){
+
+        if (keyword != null)
+        {
+            List<User> allUsers = userService.searchUser(keyword);
+            model.addAttribute("AllUsers", allUsers);
+        }
+        else
+        {
+            model.addAttribute("AllUsers", userService.getAllUser());
+        }
+        return "ListUsers";
+    }
+
+    @GetMapping (value="/search-users?SearchWord={searchWord}")
+    public String searchUser (@PathVariable String searchWord, Model model){
+        List<User> listSearchUser = userService.searchUser(searchWord);
+        model.addAttribute("AllUsers", listSearchUser);
         return "ListUsers";
     }
 
@@ -111,6 +127,10 @@ public class AdminController {
         userService.deleteUserById(id);
         return "redirect:/admin/tout-users";
     }
+
+
+
+
 
 
 

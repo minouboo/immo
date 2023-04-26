@@ -19,7 +19,7 @@ public class ApartmentInventory extends GenericEntity{
     @Column
     private String comment;
 
-    @ManyToOne
+    @ManyToOne (cascade = CascadeType.REMOVE)
     @JoinColumn (name="agreement_id")
     private Agreement agreement;
 
