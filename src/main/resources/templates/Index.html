@@ -26,8 +26,8 @@
 
         <div class="container-fluid" id="search-container-index">
             <div>
-                <form class="d-flex mt-3">
-                    <input class="form-control me-2" type="search" placeholder="Votre recherche" aria-label="Search" id="search-bar">
+                <form class="d-flex mt-3" th:action="@{/liste-de-logement}" method="get">
+                    <input class="form-control me-2" name="keyword" size="50" type="text" placeholder="Search" id="search-bar">
                     <button class="btn btn-outline-light" type="submit">Cherchez</button>
                 </form>
             </div>
