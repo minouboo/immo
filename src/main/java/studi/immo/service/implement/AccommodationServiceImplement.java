@@ -47,5 +47,10 @@ public class AccommodationServiceImplement implements AccommodationService {
         return accomodationRepository.findAll();
     }
 
+    @Override
+    public List<Accommodation> searchAccommodation(String searchword) {
+        return accomodationRepository.searchAccommodation(searchword);
+    }
+
 
 }

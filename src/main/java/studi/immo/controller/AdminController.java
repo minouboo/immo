@@ -43,9 +43,17 @@ public class AdminController {
     }
 
     @GetMapping(value = "/liste-logements")
-    public String allAdvertisement (Model model){
-        List<Accommodation> allAccommodation = accommodationService.getAllAccommodation();
-        model.addAttribute("AllAccommodation", allAccommodation);
+    public String allAdvertisement (Model model, String searchword){
+        if (searchword != null)
+        {
+            List<Accommodation> searchAccommodation = accommodationService.searchAccommodation(searchword);
+            model.addAttribute("AllAccommodation", searchAccommodation);
+        }
+        else
+        {
+            List<Accommodation> allAccommodation = accommodationService.getAllAccommodation();
+            model.addAttribute("AllAccommodation", allAccommodation);
+        }
         return "ListAllAccommodations";
     }
 
@@ -73,13 +81,6 @@ public class AdminController {
         return "ListUsers";
     }
 
-    @GetMapping (value="/search-users?SearchWord={searchWord}")
-    public String searchUser (@PathVariable String searchWord, Model model){
-        List<User> listSearchUser = userService.searchUser(searchWord);
-        model.addAttribute("AllUsers", listSearchUser);
-        return "ListUsers";
-    }
-
     @GetMapping (value = "/modifier-compte/{id}")
     public String modifyUserById(@PathVariable Long id, Model model){
         User userToModify = userService.getUserById(id);
@@ -96,8 +97,6 @@ public class AdminController {
         userService.saveUser(userToModify);
         return "redirect:/admin/tout-users/";
     }
-
-
 
     @GetMapping(value = "/modifier-portefeuille/{id}")
     public String userWallet (@PathVariable Long id, Model model){

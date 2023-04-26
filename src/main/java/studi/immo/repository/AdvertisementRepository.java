@@ -23,4 +23,9 @@ public interface AdvertisementRepository extends JpaRepository <Advertisement, L
     @Query (value = "select * from advertisement ad join accommodation ac on ad.accommodation_id = ac.id where ac.user_id = :userid" , nativeQuery = true)
     List<Advertisement> getAdvertisementAccommodationByUserId (@Param("userid")Long userId);
 
+    @Query (value = "select * from advertisement a join accommodation ac on a.accommodation_id = ac.id inner join address a2 ON a2.id = ac.address_id join city c on a2.city_id = c.id  where c.name like %:keyword% or ac.title like %:keyword% " , nativeQuery = true)
+    List<Advertisement> searchAdvertisement (@Param("keyword")String keyword);
+
+
+
 }

@@ -22,5 +22,7 @@ public interface AdvertisementService {
 
     Advertisement getAdvertisementById (Long id);
 
+    List<Advertisement> searchAdvertisement (String keyword);
+
 
 }

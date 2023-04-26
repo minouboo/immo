@@ -58,7 +58,10 @@ public class AdvertisementServiceImplement implements AdvertisementService {
         return advertisementRepository.findById(id).get();
     }
 
-
+    @Override
+    public List<Advertisement> searchAdvertisement(String keyword) {
+        return advertisementRepository.searchAdvertisement(keyword);
+    }
 
 
 }

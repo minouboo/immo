@@ -17,26 +17,28 @@
 
   <h2 id="titre">Liste des Logements</h2>
 
+  <form class="d-flex" id="search" th:action="@{/admin/liste-logements}" method="get">
+    <input class="form-control me-2" name="searchword" size="50" type="text" placeholder="Search" id="search-bar">
+    <button class="btn btn-outline-light" type="submit">Cherchez</button>
+  </form>
+
   <table class="table table-dark table-striped">
     <thead>
     <tr>
       <th scope="col">Titre</th>
       <th scope="col">Nombre de pièces</th>
+      <th scope="col">Ville</th>
       <th scope="col">Surface</th>
       <th scope="col">Propriétaire</th>
       <th scope="col">Action</th>
-
-
-
-
     </tr>
     </thead>
 
     <tbody>
     <tr th:each="Accommodation:${AllAccommodation}">
-
       <td th:text="${Accommodation.title}"/>
       <td th:text="${Accommodation.rooms}"/>
+      <td th:text="${Accommodation.address.city.name}"/>
       <td th:text="${Accommodation.squareMeter}"/>
       <td th:text="${Accommodation.user.userName}"/>
       <td>
@@ -49,10 +51,7 @@
            class = "btn btn-primary"
            sec:authorize = "hasRole('ROLE_ADMIN')"
         >Voir les contrats</a>
-
       </td>
-
-
     </tr>
     <tbody/>
   </table>

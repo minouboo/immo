@@ -18,6 +18,7 @@ public interface AccommodationService {
 
     List<Accommodation> getAllAccommodation ();
 
+    List<Accommodation> searchAccommodation (String searchword);
 
 
 }
