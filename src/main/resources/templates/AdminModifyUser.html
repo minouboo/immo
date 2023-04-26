@@ -22,9 +22,9 @@
 
         <div class="card text-center" id="form-title">
             <div class="card-body">
-                <h3 class="card-title">Modifier mon compte</h3>
+                <h3 class="card-title">Modifier le compte</h3>
                 <hr id="line">
-                <p class="card-text">Changez vos informations</p>
+                <p class="card-text">Changez les informations</p>
             </div>
         </div>
     </div>
@@ -78,7 +78,6 @@
                         type="password"
                         class="form-control"
                         id="form-input"
-                        required="required"
                         th:field = "*{password}"
                         placeholder="Entrer votre mot de passe">
             </div>
@@ -88,8 +87,8 @@
             </div>
         </form>
         <div id="bouton-form-container">
-            <a th:if= "${IsTenant}" th:href="@{/user/modifier-locataire}" type="submit" class="btn" id="bouton-form">Modifier mon compte Locataire</a>
-            <a th:if= "${IsAgency}" th:href="@{/user/modifier-agence}" type="submit" class="btn" id="bouton-form">Modifier mon compte d'agence</a>
+            <a th:if= "${IsTenant}" th:href="@{/admin/creation-locataire/{id} (id=${UserToModify.id})}" type="submit" class="btn" id="bouton-form">Modifier le compte Locataire</a>
+            <a th:if= "${IsAgency}" th:href="@{/admin/modifier-agence}" type="submit" class="btn" id="bouton-form">Modifier le compte d'agence</a>
         </div>
         <img id="form-image" th:src="@{/pics/wave.svg}">
 

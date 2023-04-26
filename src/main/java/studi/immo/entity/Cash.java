@@ -13,7 +13,7 @@ public class Cash extends GenericEntity {
     @Column
     private BigDecimal amount;
 
-    @OneToOne
+    @OneToOne (cascade = CascadeType.REMOVE)
     private User user;
 
 }

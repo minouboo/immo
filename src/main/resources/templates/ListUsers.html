@@ -17,10 +17,12 @@
 
     <h2 id="titre">Liste des Utilisateurs</h2>
 
-    <a th:href="@{/creation-compte}"
-       class="btn"
-       sec:authorize = "hasRole('ROLE_ADMIN')"
-       id="bouton-secondaire">Ajouter un utilisateur</a>
+    <div id="bouton-secondaire-container">
+        <a th:href="@{/admin/creation-compte}"
+           class="btn"
+           sec:authorize = "hasRole('ROLE_ADMIN')"
+           id="bouton-secondaire">Ajouter un utilisateur</a>
+    </div>
 
     <form class="d-flex" id="search" th:action="@{/admin/tout-users}" method="get">
         <input class="form-control me-2" name="keyword" size="50" type="text" placeholder="Search" id="search-bar">

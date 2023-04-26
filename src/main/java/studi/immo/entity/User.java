@@ -29,7 +29,6 @@ public class User extends GenericEntity{
     @Column (unique = true)
     private String email;
 
-    @NotNull
     @Column
     private String password;
 

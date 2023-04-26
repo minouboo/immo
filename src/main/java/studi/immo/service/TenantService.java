@@ -8,4 +8,6 @@ public interface TenantService {
 
     Tenant getTenantByUserId (Long userId);
 
+    void deleteTenantById (Long id);
+
 }

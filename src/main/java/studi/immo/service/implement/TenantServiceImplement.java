@@ -24,4 +24,9 @@ public class TenantServiceImplement implements TenantService {
     public Tenant getTenantByUserId(Long userId) {
         return tenantRepository.getTenantByUserId(userId);
     }
+
+    @Override
+    public void deleteTenantById(Long id) {
+        tenantRepository.deleteById(id);
+    }
 }
