@@ -35,21 +35,6 @@
             </div>
         </div>
 
-        <div class="col-sm-6" id="option">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-8 mx-auto">
-                        <form method="post" th:action="@{/photo/telecharger-images/{id} (id=${MyAdvertisement.id})}" enctype="multipart/form-data">
-                            <div class="form-group">
-                                <input type="file" name="imageFile" accept="image/png, image/jpeg" class="form-control-file">
-                            </div>
-                            <button type="submit" class="btn" id="bouton">Ajouter vos images</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-
         <div class="col-sm-6" id="main-picture-container">
             <div>
                 <small class="text-muted">Votre image principale</small>
@@ -62,6 +47,21 @@
                 <a th:href="@{/photo/supprimer-image/{id} (id=${MainPhoto.id})}"
                    class="btn"
                    id="button-pic">Supprimer</a>
+            </div>
+        </div>
+
+        <div class="col-sm-6" id="option">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-8 mx-auto">
+                        <form method="post" th:action="@{/photo/telecharger-images/{id} (id=${MyAdvertisement.id})}" enctype="multipart/form-data">
+                            <div class="form-group">
+                                <input type="file" name="imageFile" accept="image/png, image/jpeg" class="form-control-file">
+                            </div>
+                            <button type="submit" class="btn" id="bouton">Ajouter vos images</button>
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
 

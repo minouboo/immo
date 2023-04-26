@@ -64,7 +64,7 @@ h4 {
 
 }
 
-#search-container{
+#search-container-index{
     position: absolute;
     bottom: 21px;
     left: 50%;
@@ -81,6 +81,17 @@ h4 {
 #search-bar{
     background-color: #344D67;
     color: white;
+}
+
+
+#search {
+    padding: 10px;
+    margin-top: 3%;
+    margin-left: 20%;
+    margin-right: 20%;
+    border-radius: 12px;
+
+    background-color: #344D67;
 }
 
 #text-fond{
@@ -104,19 +115,16 @@ h4 {
     margin-bottom: 12px;
 }
 
-#search {
-    padding: 10px;
-    margin-top: 3%;
-    margin-left: 20%;
-    margin-right: 20%;
-    border-color: #1abc9c;
-    border-width: 3px;
-    border-style: solid;
-}
-
 #bouton-container{
     text-align: center;
     padding: 9px;
+}
+
+#option{
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 30px;
 }
 
 
