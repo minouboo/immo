@@ -42,7 +42,7 @@
       </form>
     </div>
 
-    <div id="form">
+    <div id="form" sec:authorize = "!hasRole('ROLE_ADMIN')">
 
       <h2 id="titre">Réapprovisionner mon portefeuille</h2>
 
