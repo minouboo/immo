@@ -299,64 +299,99 @@ public class UserController {
         if(myAdvertisement == null){
             return "redirect:/";
         }
-        model.addAttribute("MyAdvertisement", myAdvertisement);
-        return "ModifyAdvertisement";
+        User currentUser = userService.getCurrentUser();
+        if (currentUser.getRoles().contains(Role.ADMIN) || currentUser == myAdvertisement.getAccommodation().getUser())
+        {
+            model.addAttribute("MyAdvertisement", myAdvertisement);
+            return "ModifyAdvertisement";
+        }
+        else
+        {
+            return "Erreur";
+        }
     }
 
     @PostMapping (value = "/annonce-modifie/{id}")
     public String updateMyAdvertisement (@PathVariable Long id, @ModelAttribute("MyAccommodation") AccommodationForm accommodation){
         Advertisement updateAd = advertisementService.getAdvertisementById(id);
-        updateAd.setDescription(accommodation.getDescription());
-        updateAd.setRentalPrice(accommodation.getRentalPrice());
-        updateAd.setCharges(accommodation.getCharges());
-        updateAd.setAgencyFees(accommodation.getAgencyFees());
-        updateAd.setDeposit(accommodation.getDeposit());
-        updateAd.setDescription(accommodation.getDescription());
-        advertisementService.saveAdvertisement(updateAd);
-        return "redirect:/user/mes-annonces" ;
+        User currentUser = userService.getCurrentUser();
+        if (currentUser.getRoles().contains(Role.ADMIN) || updateAd.getAccommodation().getUser() == currentUser)
+        {
+            updateAd.setDescription(accommodation.getDescription());
+            updateAd.setRentalPrice(accommodation.getRentalPrice());
+            updateAd.setCharges(accommodation.getCharges());
+            updateAd.setAgencyFees(accommodation.getAgencyFees());
+            updateAd.setDeposit(accommodation.getDeposit());
+            updateAd.setDescription(accommodation.getDescription());
+            advertisementService.saveAdvertisement(updateAd);
+            return "redirect:/user/mes-annonces" ;
+        }
+        return "Erreur";
+
     }
 
     @GetMapping(value="/annonce/suppression/{id}")
     public String deleteAdvertisement (@PathVariable Long id){
-        advertisementService.deleteAdvertisementById(id);
-        return "redirect:/user/mes-annonces";
+        Advertisement updateAd = advertisementService.getAdvertisementById(id);
+        User currentUser = userService.getCurrentUser();
+        if (currentUser.getRoles().contains(Role.ADMIN) || updateAd.getAccommodation().getUser() == currentUser)
+        {
+            advertisementService.deleteAdvertisementById(id);
+            return "redirect:/user/mes-annonces" ;
+        }
+        return "Erreur";
     }
 
     @GetMapping(value = "/modification-logement/{id}")
     public String pageUpdateAccommodation (@PathVariable Long id, Model model){
-        AccommodationForm accommodationForm = new AccommodationForm();
-        model.addAttribute("Accommodation", accommodationService.getAccommodationById(id));
-        model.addAttribute("AccommodationForm", accommodationForm);
-        return "ModifyAccommodation";
+        User currentUser = userService.getCurrentUser();
+        Accommodation updateAccommodation = accommodationService.getAccommodationById(id);
+        if (currentUser.getRoles().contains(Role.ADMIN) || currentUser == updateAccommodation.getUser())
+        {
+            AccommodationForm accommodationForm = new AccommodationForm();
+            model.addAttribute("Accommodation", updateAccommodation);
+            model.addAttribute("AccommodationForm", accommodationForm);
+            return "ModifyAccommodation";
+        }
+
+        return "Erreur";
     }
 
     @PostMapping(value = "/logement-modifie/{id}")
     public String updateAccommodation (@PathVariable Long id, @ModelAttribute("Accommodation")AccommodationForm accommodationForm){
-        /*User currentUser = userService.getCurrentUser();*/
+        User currentUser = userService.getCurrentUser();
         Accommodation updateAccommodation = accommodationService.getAccommodationById(id);
-        Address updateAccommodationAddress = addressService.getAddressByID(updateAccommodation.getAddress().getId());
-        City updateAccommodationCity = cityService.getCityById(updateAccommodationAddress.getCity().getId());
-        updateAccommodation.setTitle(accommodationForm.getTitle());
-        updateAccommodation.setRooms(accommodationForm.getRooms());
-        updateAccommodation.setSquareMeter(accommodationForm.getSquareMeter());
-        accommodationService.saveAccommodation(updateAccommodation);
-        updateAccommodationAddress.setStreetNumber(accommodationForm.getStreetNumber());
-        updateAccommodationAddress.setStreetName(accommodationForm.getStreetName());
-        addressService.saveAddress(updateAccommodationAddress);
-        updateAccommodationCity.setName(accommodationForm.getCityName());
-        updateAccommodationCity.setZipCode(accommodationForm.getZipCode());
-        cityService.saveCity(updateAccommodationCity);
-        /*if (currentUser.getRoles().equals(Role.ADMIN)){
-            return "redirect:/admin/liste-logements";
-        }*/
-        return "redirect:/user/mes-annonces";
+        if(currentUser.getRoles().contains(Role.ADMIN) || updateAccommodation.getUser()== currentUser)
+        {
+            Address updateAccommodationAddress = addressService.getAddressByID(updateAccommodation.getAddress().getId());
+            City updateAccommodationCity = cityService.getCityById(updateAccommodationAddress.getCity().getId());
+            updateAccommodation.setTitle(accommodationForm.getTitle());
+            updateAccommodation.setRooms(accommodationForm.getRooms());
+            updateAccommodation.setSquareMeter(accommodationForm.getSquareMeter());
+            accommodationService.saveAccommodation(updateAccommodation);
+            updateAccommodationAddress.setStreetNumber(accommodationForm.getStreetNumber());
+            updateAccommodationAddress.setStreetName(accommodationForm.getStreetName());
+            addressService.saveAddress(updateAccommodationAddress);
+            updateAccommodationCity.setName(accommodationForm.getCityName());
+            updateAccommodationCity.setZipCode(accommodationForm.getZipCode());
+            cityService.saveCity(updateAccommodationCity);
 
+            return "redirect:/user/mes-annonces";
+        }
+
+        return"Erreur";
     }
 
     @GetMapping (value = "/logement/suppression/{id}")
     public String deleteAccommodation (@PathVariable Long id){
-        accommodationService.deleteAccommodationById(id);
-        return "redirect:/user/mes-annonces";
+        User currentUser = userService.getCurrentUser();
+        Accommodation updateAccommodation = accommodationService.getAccommodationById(id);
+        if (currentUser.getRoles().contains(Role.ADMIN) || currentUser == updateAccommodation.getUser())
+        {
+            accommodationService.deleteAccommodationById(id);
+            return "redirect:/user/mes-annonces";
+        }
+        return "Erreur";
     }
 
     @GetMapping(value = "/mon-portefeuille")
