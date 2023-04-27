@@ -18,10 +18,14 @@
 
     <div class="row" id="option">
 
-        <h2 id="titre">Mes annonces</h2>
+        <h2 id="titre">Annonces</h2>
 
         <div class="card"  id="card-accomodation" th:each="MyAdvertisements : ${MyAdvertisements}">
-            <img class="card-img-top" src="apartments-sample.jpeg" alt="Card image cap">
+            <div th:each ="Photo:${MyAdvertisements.photos}" >
+                <div th:if="${Photo.mainPhotos == true}">
+                    <img class="card-img-top" th:src="@{'/images/'+ ${Photo.fileName}}" id="thumbnail-image" alt="Card image cap" >
+                </div>
+            </div>
             <div class="card-body">
                 <h4 class="card-title" th:text="${MyAdvertisements.accommodation.title}"/>
                 <ul class="list-group list-group-horizontal">
@@ -34,7 +38,7 @@
                 </ul>
                 <a th:href = "@{/logement/{id}(id=${MyAdvertisements.id})}"
                    class="btn "
-                   id="bouton-secondaire">Modifier mon annonce</a>
+                   id="bouton-secondaire">Modifier l'annonce</a>
                 <a th:href="@{/user/annonce/suppression/{id} (id=${MyAdvertisements.id})}"
                    class="btn"
                    id="bouton-secondaire">Supprimer l'annonce</a>
@@ -44,10 +48,9 @@
 
     <div class="row" id="option">
 
-        <h2 id="titre">Mes logements</h2>
+        <h2 id="titre">Logements</h2>
 
         <div class="card"  id="card-accomodation" th:each="MyAccommodations : ${MyAccommodations}">
-            <img class="card-img-top" src="apartments-sample.jpeg" alt="Card image cap">
             <div class="card-body">
                 <h4 class="card-title" th:text="${MyAccommodations.title}"/>
                 <ul class="list-group list-group-horizontal">
@@ -60,7 +63,7 @@
                 </ul>
                 <a th:href = "@{/user/modification-logement/{id}(id=${MyAccommodations.id})}"
                    class="btn "
-                   id="bouton-secondaire">Modifier mon bien</a>
+                   id="bouton-secondaire">Modifier le bien</a>
                 <a th:href = "@{/user/creation-annonce/{id}(id=${MyAccommodations.id})}"
                    class="btn "
                    id="bouton-secondaire">Créer une annonce</a>
