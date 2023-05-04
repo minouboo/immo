@@ -57,10 +57,14 @@ public class AgreementController {
         newAgreement.setEntryDate(agreementForm.getStartAgreementDate());
         newAgreement.setAgencyFees(agreementForm.getAgencyFees());
         agreementService.saveAgreement(newAgreement);
-        ApartmentInventory newApartmentInventory = new ApartmentInventory();
-        newApartmentInventory.setAgreement(newAgreement);
-        newApartmentInventory.setInventoryType(InventoryType.ENTRY);
-        apartmentInventoryService.saveApartmentInventory(newApartmentInventory);
+        ApartmentInventory newApartmentInventoryEntry = new ApartmentInventory();
+        newApartmentInventoryEntry.setAgreement(newAgreement);
+        newApartmentInventoryEntry.setInventoryType(InventoryType.ENTRY);
+        apartmentInventoryService.saveApartmentInventory(newApartmentInventoryEntry);
+        ApartmentInventory newApartmentInventoryExit = new ApartmentInventory();
+        newApartmentInventoryExit.setAgreement(newAgreement);
+        newApartmentInventoryExit.setInventoryType(InventoryType.EXIT);
+        apartmentInventoryService.saveApartmentInventory(newApartmentInventoryExit);
         return "redirect:/contrat/mon-contrat/"+newAgreement.getId();
 
     }
@@ -172,37 +176,6 @@ public class AgreementController {
             apartmentInventoryService.saveApartmentInventory(updateApartmentInventory);
             return "redirect:/contrat/mon-contrat/"+updateApartmentInventory.getAgreement().getId();
         }
-
-        return "Erreur";
-
-    }
-
-    @GetMapping (value = "/etat-des-lieux-sortie/{id}")
-    public String pageApartmentInventoryExit (@PathVariable Long id, Model model){
-        ApartmentInventory apartmentInventory = apartmentInventoryService.getApartmentInventoryById(id);
-        List<CommentInventory> commentInventories = commentInventoryService.getCommentInventoryByApartmentId(id);
-        model.addAttribute("CommentInventory", commentInventories);
-        model.addAttribute("Inventory",apartmentInventory);
-        User currentUser = userService.getCurrentUser();
-        if (currentUser.getRoles().contains(Role.ADMIN) || apartmentInventory.getAgreement().getAccommodation().getUser() == currentUser)
-        {
-            return "ModifyApartmentInventoryExit";
-        }
-        return "Erreur";
-    }
-
-    @PostMapping (value = "/valider-etat-des-lieux-sortie/{id}")
-    public String saveApartmentInventoryExit (@PathVariable Long id, @ModelAttribute("Inventory")ApartmentInventory apartmentInventory){
-        ApartmentInventory apartmentInventoryExit = new ApartmentInventory();
-        /*updateApartmentInventory.setDateInventory(apartmentInventory.getDateInventory());
-        updateApartmentInventory.setInventoryType(InventoryType.EXIT);
-        updateApartmentInventory.setComment(apartmentInventory.getComment());
-        User currentUser = userService.getCurrentUser();
-        if (currentUser.getRoles().contains(Role.ADMIN) || apartmentInventory.getAgreement().getAccommodation().getUser() == currentUser)
-        {
-            apartmentInventoryService.saveApartmentInventory(updateApartmentInventory);
-            return "redirect:/contrat/mon-contrat/"+updateApartmentInventory.getAgreement().getId();
-        }*/
 
         return "Erreur";
 
@@ -351,7 +324,41 @@ public class AgreementController {
         return "redirect:/contrat/mon-contrat/"+validateAgreement.getId();
     }
 
+    @GetMapping (value = "/etat-des-lieux-sortie/{id}")
+    public String pageApartmentInventoryExit (@PathVariable Long id, Model model){
+        ApartmentInventory apartmentInventory = apartmentInventoryService.getApartmentInventoryById(id);
+        List<CommentInventory> commentInventories = commentInventoryService.getCommentInventoryByApartmentId(id);
+        model.addAttribute("CommentInventory", commentInventories);
+        model.addAttribute("Inventory",apartmentInventory);
+        User currentUser = userService.getCurrentUser();
+        if (currentUser.getRoles().contains(Role.ADMIN) || apartmentInventory.getAgreement().getAccommodation().getUser() == currentUser)
+        {
+            return "ModifyApartmentInventoryExit";
+        }
+        return "Erreur";
+    }
 
+    @PostMapping (value = "/valider-etat-des-lieux-sortie/{id}")
+    public String saveApartmentInventoryExit (@PathVariable Long id, @ModelAttribute("Inventory")ApartmentInventory apartmentInventory){
+        ApartmentInventory apartmentInventoryExit = new ApartmentInventory();
+        Agreement currentAgreement = apartmentInventoryService.getApartmentInventoryById(id).getAgreement();
+        apartmentInventoryExit.setInventoryType(InventoryType.EXIT);
+        apartmentInventoryExit.setAgreement(currentAgreement);
+        apartmentInventoryExit.setDateInventory(apartmentInventory.getDateInventory());
+
+        /*updateApartmentInventory.setDateInventory(apartmentInventory.getDateInventory());
+        updateApartmentInventory.setInventoryType(InventoryType.EXIT);
+        updateApartmentInventory.setComment(apartmentInventory.getComment());
+        User currentUser = userService.getCurrentUser();
+        if (currentUser.getRoles().contains(Role.ADMIN) || apartmentInventory.getAgreement().getAccommodation().getUser() == currentUser)
+        {
+            apartmentInventoryService.saveApartmentInventory(updateApartmentInventory);
+            return "redirect:/contrat/mon-contrat/"+updateApartmentInventory.getAgreement().getId();
+        }*/
+
+        return "Erreur";
+
+    }
 
 
 

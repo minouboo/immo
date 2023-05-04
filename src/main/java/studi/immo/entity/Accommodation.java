@@ -5,6 +5,7 @@ package studi.immo.entity;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Setter
@@ -26,5 +27,8 @@ public class Accommodation extends GenericEntity {
 
     @ManyToOne
     private Address address;
+
+    @OneToMany (mappedBy = "accommodation", cascade = CascadeType.REMOVE)
+    private List<Advertisement> advertisements;
 
 }
