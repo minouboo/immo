@@ -42,10 +42,6 @@
                 <a th:href = "@{/logement/{id}(id=${Advertisement.id})}"
                    class="btn "
                    id="bouton-secondaire">Voir l'annonce</a>
-                <a th:href="@{/user/annonce/suppression/{id} (id=${Advertisement.id})}"
-                   class="btn"
-                   sec:authorize = "hasRole('ROLE_ADMIN')"
-                   id="bouton-secondaire">Supprimer l'annonce</a>
             </div>
         </div>
         <div class="card"  id="card-accomodation">

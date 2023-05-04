@@ -9,9 +9,12 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.web.server.ServerHttpSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.server.SecurityWebFilterChain;
 
 @Configuration
 @EnableWebSecurity
@@ -30,6 +33,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and().logout().permitAll().logoutSuccessUrl("/");
     }
 
+    /*@Bean
+    SecurityWebFilterChain springSecurityFilterChain(ServerHttpSecurity http) {
+        http
+
+                .redirectToHttps(redirectToHttps ->
+                        redirectToHttps
+                                .httpsRedirectWhen(e -> e.getRequest().getHeaders().containsKey("X-Forwarded-Proto"))
+                );
+        return http.build();
+    }*/
+
     @Bean
     public PasswordEncoder passwordEncoder(){return new BCryptPasswordEncoder();
     }
@@ -44,4 +58,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(AuthenticationManagerBuilder auth) throws Exception{
         auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
     }
+
+    /*@Bean
+    SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        return http
+                .requiresChannel(channel ->
+                        channel.anyRequest().requiresSecure())
+                .authorizeRequests(authorize ->
+                        authorize.anyRequest().permitAll())
+                .build();
+    }*/
 }

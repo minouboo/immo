@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <meta charset="UTF-8">
+    <title>Immo</title>
+
+    <link th:href="@{/styles/cssandjs/main-component.css}" rel="stylesheet" />
+    <link th:href="@{/styles/cssandjs/form.css}" rel="stylesheet" />
+    <link th:href="@{/styles/cssandjs/inventory.css}" rel="stylesheet" />
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+</head>
+
+<body>
+
+<div th:replace="fragments/topnav :: navbar"></div>
+
+<main>
+
+    <div id="top-body" class="container-fluid bg-img" th:style="'background-image:url(' + @{/pics/immo-laptop.png} + ')'">
+
+        <div class="card text-center" id="form-title">
+            <div class="card-body">
+                <h3 class="card-title">État des lieux de sortie</h3>
+                <hr id="line">
+                <p class="card-text">Détails de l'état des lieux de sortie</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="container">
+        <div id="main-container" th:each="CommentInventory : ${CommentInventory}">
+            <div class="card-body">
+                <h3 class="card-title" id="text-fond" th:text="${CommentInventory.title}"/>
+                <p class="card-text" id="text-fond" th:text="${CommentInventory.description}"/>
+                <a class="btn" id="bouton" th:href = "@{/contrat/supprimer-piece/{id} (id=${CommentInventory.id})}">Supprimer</a>
+                <!--<button th:attr="data-bs-target='#modalRegisterForm' + ${CommentInventory.id}" data-bs-toggle="modal" type="button" class="btn " id="bouton" >Modifier</button>-->
+            </div>
+
+            <div th:id="modalRegisterForm + ${CommentInventory.id}" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header text-center">
+                            <h4 class="modal-title w-100 font-weight-bold">Modifier votre pièce</h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+
+                        <!--<form th:action = "@{/contrat/piece-cree/{id} (id=${ApartmentInventory.id})}" th:object = "${NewComment}" method = "POST">
+                            <div class="mb-3" id="form-input-container">
+                                <label  class="form-label" id="form-input-container">Pièces</label>
+                                <input
+                                        type="text"
+                                        class="form-control"
+                                        id="form-input"
+                                        th:field = "*{title}"
+                                        placeholder="Quelle pièce?">
+                            </div>
+
+                            <div class="mb-3" id="form-input-container">
+                                <label class="form-label">Description</label>
+                                <textarea
+                                        class = "form-control"
+                                        rows = "6"
+                                        id="form-input"
+                                        th:field = "*{description}"
+                                        placeholder="Entrer la description"
+                                />
+                            </div>
+
+
+                            <div id="bouton-form-container">
+                                <button type="submit" class="btn" id="bouton-form">Pièces suivante</button>
+                            </div>
+                            <div id="bouton-form-container">
+                                <a class="btn" id="bouton-form" th:href = "@{/contrat/etat-des-lieux-entree/{id} (id=${ApartmentInventory.id})}">Retourner à la page d'état des lieux</a>
+                            </div>
+                        </form>-->
+                        <div class="modal-body mx-3">
+                            <div class="md-form mb-5">
+                                <i class="fas fa-user prefix grey-text"></i>
+                                <label data-error="wrong" data-success="right" for="orangeForm-name">Nom de la pièce</label>
+                                <input type="text" id="orangeForm-name" class="form-control validate" th:text="${CommentInventory.title}"/>
+                            </div>
+                            <div class="md-form mb-5">
+                                <i class="fas fa-envelope prefix grey-text"></i>
+                                <label data-error="wrong" data-success="right" for="orangeForm-email">description</label>
+                                <input type="text" id="orangeForm-email" class="form-control validate" th:text="${CommentInventory.description}"/>
+                            </div>
+                        </div>
+                        <div class="modal-footer d-flex justify-content-center">
+                            <button class="btn btn-deep-orange">Modifier</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div id="bouton-new-room">
+            <a class="btn" id="bouton" th:href = "@{/contrat/creer-piece/{id} (id=${Inventory.id})}">Ajouter une pièce</a>
+        </div>
+        <div id="form-container">
+            <form th:action = "@{/contrat/valider-etat-des-lieux-sortie/{id} (id=${Inventory.id})}" th:object = "${Inventory}" method = "POST">
+                <div class="mb-3" id="form-input-container">
+                    <label class="form-label">Date d'état des lieux d'entrée</label>
+                    <div class="input-group date">
+                        <input
+                                type="date"
+                                class="form-control"
+                                id="form-input"
+                                th:field="*{dateInventory}"/>
+                    </div>
+                </div>
+                <div id="bouton-form-container">
+                    <button type="submit" class="btn" id="bouton-form">Confirmer l'état des lieux</button>
+                </div>
+            </form>
+            <img id="form-image" th:src="@{/pics/wave.svg}">
+
+        </div>
+    </div>
+
+</main>
+
+<div th:replace="fragments/bottomfooter :: footer"></div>
+
+</body>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

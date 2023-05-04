@@ -20,7 +20,6 @@
     <div id="bouton-secondaire-container">
         <a th:href="@{/admin/creation-compte}"
            class="btn"
-           sec:authorize = "hasRole('ROLE_ADMIN')"
            id="bouton-secondaire">Ajouter un utilisateur</a>
     </div>
 
@@ -57,15 +56,12 @@
 
                 <a th:href="@{/admin/modifier-compte/{id} (id=${User.id})}"
                    class = "btn btn-primary"
-                   sec:authorize = "hasRole('ROLE_ADMIN')"
                 >Modifier le compte</a>
                 <a th:href="@{/admin/modifier-portefeuille/{id} (id=${User.id})}"
                    class = "btn btn-primary"
-                   sec:authorize = "hasRole('ROLE_ADMIN')"
                 >Modifier le portefeuille</a>
                 <a th:href="@{/admin/user/suppression/{id} (id=${User.id})}"
                    class = "btn btn-danger"
-                   sec:authorize = "hasRole('ROLE_ADMIN')"
                 >Supprimer</a>
 
             </td>

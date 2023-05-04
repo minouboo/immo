@@ -35,8 +35,8 @@
             <div class="card-body">
                 <h3 class="card-title" id="text-fond" th:text="${CommentInventory.title}"/>
                 <p class="card-text" id="text-fond" th:text="${CommentInventory.description}"/>
-                <button th:attr="data-bs-target='#modalRegisterForm' + ${CommentInventory.id}" data-bs-toggle="modal" type="button" class="btn " id="bouton" >Modifier</button>
                 <a class="btn" id="bouton" th:href = "@{/contrat/supprimer-piece/{id} (id=${CommentInventory.id})}">Supprimer</a>
+                <!--<button th:attr="data-bs-target='#modalRegisterForm' + ${CommentInventory.id}" data-bs-toggle="modal" type="button" class="btn " id="bouton" >Modifier</button>-->
             </div>
 
             <div th:id="modalRegisterForm + ${CommentInventory.id}" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">

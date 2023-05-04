@@ -147,7 +147,7 @@ public class AgreementController {
     }
 
     @GetMapping (value = "/etat-des-lieux-entree/{id}")
-    public String pageApartmentInventory (@PathVariable Long id, Model model){
+    public String pageApartmentInventoryEntry (@PathVariable Long id, Model model){
         ApartmentInventory apartmentInventory = apartmentInventoryService.getApartmentInventoryById(id);
         List<CommentInventory> commentInventories = commentInventoryService.getCommentInventoryByApartmentId(id);
         model.addAttribute("CommentInventory", commentInventories);
@@ -155,15 +155,16 @@ public class AgreementController {
         User currentUser = userService.getCurrentUser();
         if (currentUser.getRoles().contains(Role.ADMIN) || apartmentInventory.getAgreement().getAccommodation().getUser() == currentUser)
         {
-            return "ModifyApartmentInventory";
+            return "ModifyApartmentInventoryEntry";
         }
         return "Erreur";
     }
 
     @PostMapping (value = "/valider-etat-des-lieux-entree/{id}")
-    public String saveApartmentInventory (@PathVariable Long id, @ModelAttribute("Inventory")ApartmentInventory apartmentInventory){
+    public String saveApartmentInventoryEntry (@PathVariable Long id, @ModelAttribute("Inventory")ApartmentInventory apartmentInventory){
         ApartmentInventory updateApartmentInventory = apartmentInventoryService.getApartmentInventoryById(id);
         updateApartmentInventory.setDateInventory(apartmentInventory.getDateInventory());
+        updateApartmentInventory.setInventoryType(InventoryType.ENTRY);
         updateApartmentInventory.setComment(apartmentInventory.getComment());
         User currentUser = userService.getCurrentUser();
         if (currentUser.getRoles().contains(Role.ADMIN) || apartmentInventory.getAgreement().getAccommodation().getUser() == currentUser)
@@ -171,6 +172,37 @@ public class AgreementController {
             apartmentInventoryService.saveApartmentInventory(updateApartmentInventory);
             return "redirect:/contrat/mon-contrat/"+updateApartmentInventory.getAgreement().getId();
         }
+
+        return "Erreur";
+
+    }
+
+    @GetMapping (value = "/etat-des-lieux-sortie/{id}")
+    public String pageApartmentInventoryExit (@PathVariable Long id, Model model){
+        ApartmentInventory apartmentInventory = apartmentInventoryService.getApartmentInventoryById(id);
+        List<CommentInventory> commentInventories = commentInventoryService.getCommentInventoryByApartmentId(id);
+        model.addAttribute("CommentInventory", commentInventories);
+        model.addAttribute("Inventory",apartmentInventory);
+        User currentUser = userService.getCurrentUser();
+        if (currentUser.getRoles().contains(Role.ADMIN) || apartmentInventory.getAgreement().getAccommodation().getUser() == currentUser)
+        {
+            return "ModifyApartmentInventoryExit";
+        }
+        return "Erreur";
+    }
+
+    @PostMapping (value = "/valider-etat-des-lieux-sortie/{id}")
+    public String saveApartmentInventoryExit (@PathVariable Long id, @ModelAttribute("Inventory")ApartmentInventory apartmentInventory){
+        ApartmentInventory apartmentInventoryExit = new ApartmentInventory();
+        /*updateApartmentInventory.setDateInventory(apartmentInventory.getDateInventory());
+        updateApartmentInventory.setInventoryType(InventoryType.EXIT);
+        updateApartmentInventory.setComment(apartmentInventory.getComment());
+        User currentUser = userService.getCurrentUser();
+        if (currentUser.getRoles().contains(Role.ADMIN) || apartmentInventory.getAgreement().getAccommodation().getUser() == currentUser)
+        {
+            apartmentInventoryService.saveApartmentInventory(updateApartmentInventory);
+            return "redirect:/contrat/mon-contrat/"+updateApartmentInventory.getAgreement().getId();
+        }*/
 
         return "Erreur";
 
@@ -246,9 +278,11 @@ public class AgreementController {
     @GetMapping (value = "/voir-etat-des-lieux/{id}")
     public String checkApartmentInventory (@PathVariable Long id, Model model){
         ApartmentInventory currentApartmentInventory = apartmentInventoryService.getApartmentInventoryById(id);
-        Agreement currentAgreement = currentApartmentInventory.getAgreement();
         model.addAttribute("ApartmentInventory", currentApartmentInventory);
+        Agreement currentAgreement = currentApartmentInventory.getAgreement();
         model.addAttribute("Agreement", currentAgreement);
+        List<CommentInventory> commentsCurrentInventory = commentInventoryService.getCommentInventoryByApartmentId(currentApartmentInventory.getId());
+        model.addAttribute("CommentInventory", commentsCurrentInventory);
         User currentUser = userService.getCurrentUser();
         if (currentUser.getRoles().contains(Role.ADMIN) || currentApartmentInventory.getAgreement().getUsers().contains(currentUser))
         {
@@ -279,7 +313,7 @@ public class AgreementController {
         List<CommentInventory> listCurrentComments = commentInventoryService.getCommentInventoryByApartmentId(currentApartmentInventory.getId());
 
         agreementService.deleteAgreementById(id);
-        return "redirect:/contrat/mon-contrat";
+        return "redirect:/contrat/mes-contrats";
     }
 
     @PostMapping (value = "/valider-contrat/{id}")
@@ -289,10 +323,13 @@ public class AgreementController {
             return "redirect:/login";
         }
         Agreement validateAgreement = agreementService.getAgreementById(id);
+        ApartmentInventory validateInventory = apartmentInventoryService.getApartmentInventoryByAgreementId(validateAgreement.getId());
         if (currentUser.getId().equals(validateAgreement.getAccommodation().getUser().getId())){
             validateAgreement.setLandlordValidate(Boolean.TRUE);
+            validateInventory.setLandlordValidate(Boolean.TRUE);
         } else {
             validateAgreement.setTenantValidate(Boolean.TRUE);
+            validateInventory.setTenantValidate(Boolean.TRUE);
         }
         agreementService.saveAgreement(validateAgreement);
         return "redirect:/contrat/mon-contrat/"+validateAgreement.getId();
@@ -313,8 +350,6 @@ public class AgreementController {
         agreementService.saveAgreement(validateAgreement);
         return "redirect:/contrat/mon-contrat/"+validateAgreement.getId();
     }
-
-
 
 
 

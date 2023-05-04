@@ -25,9 +25,9 @@
                     <span id="info">Date d'entrée</span>
                     <span id="info" th:text="${#dates.format(ApartmentInventory.dateInventory, 'dd-MM-yyyy')}"/>
                 </div>
-                <div class="row" id="info-container">
-                    <span id="info">Etat des lieux</span>
-                    <span id="info" th:text="${ApartmentInventory.comment}"/>
+                <div class="row" id="info-container" th:each="Comment : ${CommentInventory}">
+                    <span id="info" th:text="${Comment.title}"/>
+                    <span id="info" th:text="${Comment.description}"/>
                 </div>
                 <div class="row" id="info-container">
                     <a th:href = "@{/contrat/voir-contrat/{id} (id=${Agreement.id})}" class="btn " id="bouton-secondaire">Voir le contrat</a>

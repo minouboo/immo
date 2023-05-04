@@ -45,6 +45,9 @@
                 <div class="row" id="info-container">
                     <a th:href = "@{/contrat/voir-etat-des-lieux/{id} (id=${ApartmentInventory.id})}" class="btn " id="bouton-secondaire">Voir l'état des lieux d'entrée</a>
                 </div>
+                <div class="row" id="info-container">
+                    <a th:href = "@{/contrat/etat-des-lieux-sortie/{id} (id=${ApartmentInventory.id})}" class="btn " id="bouton-secondaire">Effectuer/modifier l'état des lieux de sortie</a>
+                </div>
                 <div class="row" id="info-container" th:unless= "${AgreementValidated}">
                     <a th:href = "@{/contrat/mon-contrat/{id} (id=${Agreement.id})}" class="btn " id="bouton-secondaire">Retourner à la page du contrat</a>
                 </div>

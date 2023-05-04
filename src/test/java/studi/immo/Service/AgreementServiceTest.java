@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
+import studi.immo.entity.Accommodation;
 import studi.immo.entity.Agreement;
 import studi.immo.entity.User;
 import studi.immo.repository.AgreementRepository;
@@ -63,5 +64,33 @@ public class AgreementServiceTest {
         assertNotNull(listAgreementResult);
         assertEquals(2,listAgreementResult.size());
     }
+
+    /*@Test
+    public void testGetTenantForContract(){
+        User test1User = new User();
+        test1User.setUserName("User1");
+        User test2User = new User();
+        test1User.setUserName("User2");
+        User test3User = new User();
+        test1User.setUserName("User3");
+        User test4User = new User();
+        test1User.setUserName("User4");
+        User tenantUser = new User();
+        tenantUser.setUserName("Tenant");
+        User adminUser = new User();
+        List<User> allUsers = new ArrayList<>();
+        allUsers.add(test1User);
+        allUsers.add(test2User);
+        allUsers.add(test3User);
+        allUsers.add(test4User);
+        allUsers.add(tenantUser);
+
+        adminUser.setUserName("Admin");
+        Accommodation adminAccommodation = new Accommodation();
+        adminAccommodation.setUser(adminUser);
+        Agreement adminAgreement = new Agreement();
+        *//*adminAgreement.setUsers(adminUser);*//*
+
+    }*/
 
 }

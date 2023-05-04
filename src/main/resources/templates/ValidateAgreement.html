@@ -49,7 +49,7 @@
                     <small class="text-muted">Contrat validé par le propriétaire</small>
                 </div>
                 <div>
-                    <div th:if= "${IsOwner}">
+                    <div th:if= "${IsOwner}" sec:authorize = "!hasRole('ROLE_ADMIN')">
                         <a th:href = "@{/contrat/modifier-contrat/{id} (id=${Agreement.id})}"
                            class="btn"
                            id="bouton-secondaire" >Modifier le bail</a>
@@ -72,10 +72,28 @@
                            id="bouton-secondaire" >Supprimer le contrat</a>
                     </div>
 
-                    <a class="btn" id="bouton-secondaire" th:href = "@{/contrat/voir-contrat/{id} (id=${Agreement.id})}">Voir les détails du contrat</a>
+                    <div sec:authorize = "hasRole('ROLE_ADMIN')">
+                        <a th:href = "@{/admin/ajouter-locataire/{id} (id=${Agreement.id})}"
+                           class="btn"
+                           id="bouton-secondaire">Ajouter un locataire</a>
+                        <form
+                                th:action = "@{/admin/valider-contrat-tous/{id} (id=${Agreement.id})}"
+                                th:object = "${AgreementValidation}" method = "POST" >
+
+                            <button
+                                    class="btn"
+                                    type = "submit"
+                                    id="bouton-secondaire" >Valider le contrat pour les 2 parties</button>
+                        </form>
+                    </div>
 
                     <div>
-                        <a th:if= "${IsValidated and !IsOwner}" class="btn" id="bouton-secondaire" >Payer le Loyer</a>
+                        <!--<a th:if= "${IsValidated and !IsOwner}"
+                           class="btn"
+                           id="bouton-secondaire" >Payer le Loyer</a>-->
+                        <a th:href = "@{/contrat/voir-contrat/{id} (id=${Agreement.id})}"
+                           class="btn"
+                           id="bouton-secondaire">Voir les détails du contrat</a>
                         <div th:if= "${!IsValidated}">
                             <form
                                   th:action = "@{/contrat/valider-contrat/{id} (id=${Agreement.id})}"

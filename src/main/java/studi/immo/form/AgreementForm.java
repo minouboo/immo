@@ -29,4 +29,6 @@ public class AgreementForm {
 
     private String comments;
 
+    private Long tenantUserId;
+
 }

@@ -43,13 +43,11 @@
       <td th:text="${Accommodation.user.userName}"/>
       <td>
 
-        <!--<a th:href="@{/user/modification-logement/{id} (id=${Accommodation.id})}"
+        <a th:href="@{/admin/les-annonces/{id} (id=${Accommodation.id})}"
            class = "btn btn-primary"
-           sec:authorize = "hasRole('ROLE_ADMIN')"
-        >Modifier le bien</a>-->
+        >Modifier</a>
         <a th:href="@{/admin/les-contrats/{id} (id=${Accommodation.id})}"
            class = "btn btn-primary"
-           sec:authorize = "hasRole('ROLE_ADMIN')"
         >Voir les contrats</a>
       </td>
     </tr>

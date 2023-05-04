@@ -11,10 +11,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import studi.immo.entity.*;
+import studi.immo.form.AgreementForm;
 import studi.immo.service.*;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 @Log
 @Controller
@@ -31,10 +34,12 @@ public class AdminController {
     private PasswordEncoder passwordEncoder;
     private AgencyService agencyService;
     private TenantService tenantService;
+    private ApartmentInventoryService apartmentInventoryService;
+    private PaymentRequestService paymentRequestService;
 
 
     @Autowired
-    public AdminController(AdvertisementService advertisementService, AccommodationService accommodationService, AgreementService agreementService, UserService userService, CashService cashService, PasswordEncoder passwordEncoder, AgencyService agencyService, TenantService tenantService) {
+    public AdminController(AdvertisementService advertisementService, AccommodationService accommodationService, AgreementService agreementService, UserService userService, CashService cashService, PasswordEncoder passwordEncoder, AgencyService agencyService, TenantService tenantService, ApartmentInventoryService apartmentInventoryService, PaymentRequestService paymentRequestService) {
         this.advertisementService = advertisementService;
         this.accommodationService = accommodationService;
         this.agreementService = agreementService;
@@ -43,6 +48,8 @@ public class AdminController {
         this.passwordEncoder = passwordEncoder;
         this.agencyService = agencyService;
         this.tenantService = tenantService;
+        this.apartmentInventoryService = apartmentInventoryService;
+        this.paymentRequestService = paymentRequestService;
     }
 
     @GetMapping(value = "/liste-logements")
@@ -206,11 +213,117 @@ public class AdminController {
         }
     }
 
+    @GetMapping (value = "/les-annonces/{id}")
+    public String myAdvertisements (@PathVariable Long id, Model model){
+        User targetUser = accommodationService.getAccommodationById(id).getUser();
+        model.addAttribute("MyAdvertisements",advertisementService.getAdvertisementAccommodationByUserId(targetUser.getId()));
+        model.addAttribute("MyAccommodations",accommodationService.getAccommodationByUserId(targetUser.getId()));
+        return "MyAdvertisements";
+    }
 
+    @GetMapping (value = "/creation-contrat/{id}")
+    public String pageAdminCreateAgreement (@PathVariable Long id, Model model){
+        AgreementForm newAgreement = new AgreementForm();
+        Accommodation currentAccommodation =  accommodationService.getAccommodationById(id);
+        model.addAttribute("AdminAgreement", newAgreement);
+        model.addAttribute("CurrentAccommodation", currentAccommodation);
+        return "AdminCreateAgreement";
+    }
 
+    @PostMapping (value="/nouveau-contrat/{id}")
+    public String adminAgreementCreated (@PathVariable Long id, @ModelAttribute("AdminAgreement") AgreementForm agreement){
+        User currentUser = userService.getCurrentUser();
+        Accommodation currentAccommodation = accommodationService.getAccommodationById(id);
+        Agreement newAgreement = new Agreement();
+        newAgreement.setAccommodation(currentAccommodation);
+        newAgreement.setRentalPrice(agreement.getRentalPrice());
+        newAgreement.setCharges(agreement.getCharges());
+        newAgreement.setDeposit(agreement.getDeposit());
+        newAgreement.setEntryDate(agreement.getStartAgreementDate());
+        newAgreement.setAgencyFees(agreement.getAgencyFees());
+        newAgreement.getUsers().add(currentUser);
+        agreementService.saveAgreement(newAgreement);
+        ApartmentInventory newApartmentInventory = new ApartmentInventory();
+        newApartmentInventory.setInventoryType(InventoryType.ENTRY);
+        newApartmentInventory.setAgreement(newAgreement);
+        apartmentInventoryService.saveApartmentInventory(newApartmentInventory);
+        return "redirect:/contrat/mon-contrat/"+newAgreement.getId();
+    }
 
+    @GetMapping (value = "/ajouter-locataire/{id}")
+    public String pageAddTenantToAgreement( @PathVariable Long id, Model model, String keyword){
+        if (keyword != null)
+        {
+            List<User> allUsers = userService.searchUser(keyword);
+            model.addAttribute("AllUsers", allUsers);
+        }
+        else
+        {
+            model.addAttribute("AllUsers", userService.getAllUser());
+        }
+        Agreement currentAgreement = agreementService.getAgreementById(id);
+        model.addAttribute("Agreement",currentAgreement);
+        Set<User> setUsersAgreement = currentAgreement.getUsers();
+        model.addAttribute("AgreementUsers", setUsersAgreement);
+        AgreementForm agreementForm = new AgreementForm();
+        model.addAttribute("AgreementForm", agreementForm);
+        return "AdminAddTenantAgreement";
+    }
 
+    @PostMapping (value="/locataire-ajoute/{id}")
+    public String tenantAdded (@PathVariable Long id, @ModelAttribute("AgreementForm") AgreementForm agreement){
+        User tenantUser = userService.getUserById(agreement.getTenantUserId());
+        Agreement currentAgreement = agreementService.getAgreementById(id);
+        currentAgreement.getUsers().add(tenantUser);
+        agreementService.saveAgreement(currentAgreement);
+        return "redirect:/contrat/mon-contrat/"+currentAgreement.getId();
+    }
 
+    @PostMapping (value="/retirer-locataire/{id}")
+    public String deleteUserFromAgreement (@PathVariable Long id, @ModelAttribute("AgreementForm") AgreementForm agreement){
+        User tenantUser = userService.getUserById(agreement.getTenantUserId());
+        Agreement currentAgreement = agreementService.getAgreementById(id);
+        currentAgreement.getUsers().remove(tenantUser);
+        agreementService.saveAgreement(currentAgreement);
+        return "redirect:/contrat/mon-contrat/"+currentAgreement.getId();
+    }
 
+    @PostMapping (value = "/valider-contrat-tous/{id}")
+    public String validateAgreementForAll (@PathVariable Long id, @ModelAttribute ("AgreementValidation")Agreement agreement){
+        User currentUser = userService.getCurrentUser();
+        if (!currentUser.getRoles().contains(Role.ADMIN)){
+            return "Erreur";
+        }
+        Agreement validateAgreement = agreementService.getAgreementById(id);
+        validateAgreement.setTenantValidate(Boolean.TRUE);
+        validateAgreement.setLandlordValidate(Boolean.TRUE);
+        agreementService.saveAgreement(validateAgreement);
+        return "redirect:/paiement/mon-contrat/"+validateAgreement.getId();
+    }
 
+    @PostMapping (value = "/valider-paiement/{id}")
+    public String validatePayment (@PathVariable Long id, @ModelAttribute("Payment")PaymentRequest paymentRequest){
+        User currentUser = userService.getCurrentUser();
+        if (!currentUser.getRoles().contains(Role.ADMIN)){
+            return "Erreur";
+        }
+        PaymentRequest currentPayment = paymentRequestService.getPaymentRequestById(id);
+        currentPayment.setPaymentDate(LocalDateTime.now());
+        currentPayment.setUserPayer(currentUser);
+        currentPayment.setTenantPaid(Boolean.TRUE);
+        paymentRequestService.savePaymentRequest(currentPayment);
+        return "redirect:/paiement/voir-paiement/"+currentPayment.getId();
+    }
+
+    @PostMapping (value = "/unvalider-paiement/{id}")
+    public String unvalidatePayment( @PathVariable Long id, @ModelAttribute("Payment")PaymentRequest paymentRequest){
+        User currentUser = userService.getCurrentUser();
+        if (!currentUser.getRoles().contains(Role.ADMIN)){
+            return "Erreur";
+        }
+        PaymentRequest currentPayment = paymentRequestService.getPaymentRequestById(id);
+        currentPayment.setTenantPaid(Boolean.FALSE);
+        paymentRequestService.savePaymentRequest(currentPayment);
+        return "redirect:/paiement/voir-paiement/"+currentPayment.getId();
+    }
 }

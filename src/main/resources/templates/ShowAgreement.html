@@ -46,7 +46,7 @@
                 <a class="btn" id="bouton-secondaire" th:href = "@{/contrat/voir-contrat/{id} (id=${Agreement.id})}">Voir les détails du contrat</a>
                 </div>
 
-                <div id="bouton-container" th:if = "${IsOwner}">
+                <div id="bouton-container" th:if = "${IsOwner}" sec:authorize = "!hasRole('ROLE_ADMIN')">
                     <div class="dropdown">
                         <button class="btn dropdown-toggle" type="button"  data-bs-toggle="dropdown" aria-expanded="false" id="bouton-secondaire">
                             Générer un paiement
@@ -92,8 +92,20 @@
                             <div th:if = "${IsOwner}">
                                 <a th:if = "${#bools.isFalse(Payment.tenantPaid)}" th:href = "@{/paiement/modifier-paiement/{id} (id=${Payment.id})}" class="btn " id="bouton-secondaire">Modifier le paiement</a>
                                 <a th:if = "${#bools.isFalse(Payment.tenantPaid)}" th:href = "@{/paiement/supprimer-paiement/{id} (id=${Payment.id})}" class="btn " id="bouton-secondaire">Annuler le paiement</a>
-                                <a th:if = "${#bools.isTrue(Payment.tenantPaid)}" href="ShowAccommodation.html" class="btn " id="bouton-secondaire" >Quittance en PDF</a>
+                                <a th:if = "${#bools.isTrue(Payment.tenantPaid)}" th:href = "@{/paiement/voir-paiement/{id} (id=${Payment.id})}" class="btn " id="bouton-secondaire" >Quittance en PDF</a>
+                                <div sec:authorize = "hasRole('ROLE_ADMIN')">
+                                    <form   th:if = "${#bools.isFalse(Payment.tenantPaid)}"
+                                            th:action = "@{/admin/valider-paiement/{id} (id=${Payment.id})}"
+                                            th:object = "${Payment}" method = "POST">
+
+                                        <button
+                                                class="btn"
+                                                type = "submit"
+                                                id="bouton-secondaire" >Valider le paiement</button>
+                                    </form>
+                                </div>
                             </div>
+
                             <div th:unless = "${IsOwner}">
                                 <div>
                                     <a th:if = "${#bools.isFalse(Payment.tenantPaid)}" th:href = "@{/paiement/voir-paiement/{id} (id=${Payment.id})}" class="btn " id="bouton-secondaire">Payer</a>
@@ -105,6 +117,7 @@
                                 <div sec:authorize = "hasRole('ROLE_ADMIN')">
                                     <a th:if = "${#bools.isFalse(Payment.tenantPaid)}" th:href = "@{/paiement/modifier-paiement/{id} (id=${Payment.id})}" class="btn " id="bouton-secondaire">Modifier le paiement</a>
                                     <a th:if = "${#bools.isFalse(Payment.tenantPaid)}" th:href = "@{/paiement/supprimer-paiement/{id} (id=${Payment.id})}" class="btn " id="bouton-secondaire">Annuler le paiement</a>
+
                                 </div>
                             </div>
 
