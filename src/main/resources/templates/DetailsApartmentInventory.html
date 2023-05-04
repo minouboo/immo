@@ -17,12 +17,12 @@
 <main>
 
     <div class="row" id="option">
-        <h2 id="titre">État des lieux d'entrée</h2>
+        <h2 id="titre" th:text="${Title}"/>
 
         <div class="card"  id="info-payment">
             <div class="card-body" >
                 <div class="row" id="info-container">
-                    <span id="info">Date d'entrée</span>
+                    <span id="info">Date</span>
                     <span id="info" th:text="${#dates.format(ApartmentInventory.dateInventory, 'dd-MM-yyyy')}"/>
                 </div>
                 <div class="row" id="info-container" th:each="Comment : ${CommentInventory}">

@@ -28,7 +28,6 @@ public class PaymentController {
     private UserService userService;
     private CashService cashService;
 
-
     public PaymentController(AgreementService agreementService, PaymentRequestService paymentRequestService, UserService userService, CashService cashService) {
         this.agreementService = agreementService;
         this.paymentRequestService = paymentRequestService;
@@ -228,7 +227,6 @@ public class PaymentController {
         User currentUser = userService.getCurrentUser();
         Cash tenantCash = currentUser.getCash();
         Cash landlordCash = currentPayment.getAgreement().getAccommodation().getUser().getCash();
-
 
         if (tenantCash.getAmount().compareTo(currentPayment.getTotalAmount()) >= 0 ){
             tenantCash.setAmount(tenantCash.getAmount().subtract(currentPayment.getTotalAmount()));

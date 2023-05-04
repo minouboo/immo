@@ -10,4 +10,6 @@ public interface ApartmentInventoryService {
 
     ApartmentInventory getApartmentInventoryById (Long id);
 
+    ApartmentInventory getApartmentInventoryExitByAgreementId (Long agreementId);
+
 }

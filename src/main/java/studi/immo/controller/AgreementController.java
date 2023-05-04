@@ -229,9 +229,11 @@ public class AgreementController {
     @GetMapping (value = "/voir-contrat/{id}")
     public String checkAgreement (@PathVariable Long id, Model model){
         Agreement currentAgreement = agreementService.getAgreementById(id);
-        ApartmentInventory currentApartmentInventory = apartmentInventoryService.getApartmentInventoryByAgreementId(id);
         model.addAttribute("Agreement", currentAgreement);
+        ApartmentInventory currentApartmentInventory = apartmentInventoryService.getApartmentInventoryByAgreementId(id);
         model.addAttribute("ApartmentInventory", currentApartmentInventory);
+        ApartmentInventory apartmentInventoryExit = apartmentInventoryService.getApartmentInventoryExitByAgreementId(id);
+        model.addAttribute("InventoryExit", apartmentInventoryExit);
         boolean agreementValidated = false;
         if (currentAgreement.getTenantValidate().equals(Boolean.TRUE) & currentAgreement.getLandlordValidate().equals(Boolean.TRUE))
         {
@@ -250,6 +252,7 @@ public class AgreementController {
 
     @GetMapping (value = "/voir-etat-des-lieux/{id}")
     public String checkApartmentInventory (@PathVariable Long id, Model model){
+        model.addAttribute("Title","État des lieux d'entrée");
         ApartmentInventory currentApartmentInventory = apartmentInventoryService.getApartmentInventoryById(id);
         model.addAttribute("ApartmentInventory", currentApartmentInventory);
         Agreement currentAgreement = currentApartmentInventory.getAgreement();
@@ -265,7 +268,6 @@ public class AgreementController {
         return "Erreur";
 
     }
-
 
     @GetMapping (value = "/mes-contrats")
     public String myAgreements (Model model){
@@ -340,21 +342,36 @@ public class AgreementController {
 
     @PostMapping (value = "/valider-etat-des-lieux-sortie/{id}")
     public String saveApartmentInventoryExit (@PathVariable Long id, @ModelAttribute("Inventory")ApartmentInventory apartmentInventory){
-        ApartmentInventory apartmentInventoryExit = new ApartmentInventory();
+        ApartmentInventory apartmentInventoryExit = apartmentInventoryService.getApartmentInventoryById(id);
         Agreement currentAgreement = apartmentInventoryService.getApartmentInventoryById(id).getAgreement();
         apartmentInventoryExit.setInventoryType(InventoryType.EXIT);
         apartmentInventoryExit.setAgreement(currentAgreement);
         apartmentInventoryExit.setDateInventory(apartmentInventory.getDateInventory());
-
-        /*updateApartmentInventory.setDateInventory(apartmentInventory.getDateInventory());
-        updateApartmentInventory.setInventoryType(InventoryType.EXIT);
-        updateApartmentInventory.setComment(apartmentInventory.getComment());
         User currentUser = userService.getCurrentUser();
         if (currentUser.getRoles().contains(Role.ADMIN) || apartmentInventory.getAgreement().getAccommodation().getUser() == currentUser)
         {
-            apartmentInventoryService.saveApartmentInventory(updateApartmentInventory);
-            return "redirect:/contrat/mon-contrat/"+updateApartmentInventory.getAgreement().getId();
-        }*/
+            apartmentInventoryService.saveApartmentInventory(apartmentInventoryExit);
+            return "redirect:/paiement/mon-contrat/"+apartmentInventoryExit.getAgreement().getId();
+        }
+
+        return "Erreur";
+
+    }
+
+    @GetMapping (value = "/voir-etat-des-lieux-sortie/{id}")
+    public String checkApartmentInventoryExit (@PathVariable Long id, Model model){
+        model.addAttribute("Title","État des lieux de sortie");
+        ApartmentInventory currentApartmentInventory = apartmentInventoryService.getApartmentInventoryById(id);
+        model.addAttribute("ApartmentInventory", currentApartmentInventory);
+        Agreement currentAgreement = currentApartmentInventory.getAgreement();
+        model.addAttribute("Agreement", currentAgreement);
+        List<CommentInventory> commentsCurrentInventory = commentInventoryService.getCommentInventoryByApartmentId(currentApartmentInventory.getId());
+        model.addAttribute("CommentInventory", commentsCurrentInventory);
+        User currentUser = userService.getCurrentUser();
+        if (currentUser.getRoles().contains(Role.ADMIN) || currentApartmentInventory.getAgreement().getUsers().contains(currentUser))
+        {
+            return "DetailsApartmentInventory";
+        }
 
         return "Erreur";
 

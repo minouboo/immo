@@ -30,5 +30,10 @@ public class ApartmentInventoryServiceImplement implements ApartmentInventorySer
         return apartmentInventoryRepository.findById(id).get();
     }
 
+    @Override
+    public ApartmentInventory getApartmentInventoryExitByAgreementId(Long agreementId) {
+        return apartmentInventoryRepository.getApartmentInventoryExitByAgreementId(agreementId);
+    }
+
 
 }

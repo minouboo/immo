@@ -247,6 +247,10 @@ public class AdminController {
         newApartmentInventory.setInventoryType(InventoryType.ENTRY);
         newApartmentInventory.setAgreement(newAgreement);
         apartmentInventoryService.saveApartmentInventory(newApartmentInventory);
+        ApartmentInventory newApartmentInventoryExit = new ApartmentInventory();
+        newApartmentInventoryExit.setAgreement(newAgreement);
+        newApartmentInventoryExit.setInventoryType(InventoryType.EXIT);
+        apartmentInventoryService.saveApartmentInventory(newApartmentInventoryExit);
         return "redirect:/contrat/mon-contrat/"+newAgreement.getId();
     }
 
