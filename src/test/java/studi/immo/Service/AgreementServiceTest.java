@@ -174,7 +174,7 @@ public class AgreementServiceTest {
         List<Agreement> listAgreementTerminated = new ArrayList<>();
         listAgreementTerminated.add(agreementTerminated);
 
-        when(agreementRepository.getAllAgreementTerminatedByAccommodationById(1L).thenReturn(ListAgreementTerminated));
+        when(agreementRepository.getAllAgreementTerminatedByAccommodationById(1L)).thenReturn(listAgreementTerminated);
         List<Agreement> ListAgreementTerminatedResult = agreementServiceImplement.getAllAgreementTerminatedByAccommodationById(1L);
 
         assertNotNull(ListAgreementTerminatedResult);
