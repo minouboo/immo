@@ -17,6 +17,7 @@ import java.util.Set;
 
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
@@ -49,48 +50,105 @@ public class AgreementServiceTest {
 
         Agreement agreementTest1 = new Agreement();
         agreementTest1.setUsers(agreementUserTest1);
+        agreementTest1.setTenantValidate(Boolean.TRUE);
+        agreementTest1.setLandlordValidate(Boolean.FALSE);
 
         Agreement agreementTest2 = new Agreement();
         agreementTest2.setUsers(agreementUserTest2);
+        agreementTest2.setTenantValidate(Boolean.TRUE);
+        agreementTest2.setLandlordValidate(Boolean.TRUE);
 
-        List<Agreement> tenantUserAgreement1 = new ArrayList<>();
-        tenantUserAgreement1.add(agreementTest1);
-        tenantUserAgreement1.add(agreementTest2);
+        List<Agreement> userTenantAgreement = new ArrayList<>();
+        userTenantAgreement.add(agreementTest1);
 
-
-        when(agreementServiceImplement.getMyAgreementsByUserId(tenantUserTest.getId())).thenReturn(tenantUserAgreement1);
+        when(agreementRepository.getMyAgreementsByUserId(tenantUserTest.getId())).thenReturn(userTenantAgreement);
         List<Agreement> listAgreementResult = agreementServiceImplement.getMyAgreementsByUserId(tenantUserTest.getId());
 
         assertNotNull(listAgreementResult);
-        assertEquals(2,listAgreementResult.size());
+        assertEquals(1,listAgreementResult.size());
+        assertFalse(agreementTest1.getLandlordValidate());
     }
 
-    /*@Test
-    public void testGetTenantForContract(){
-        User test1User = new User();
-        test1User.setUserName("User1");
-        User test2User = new User();
-        test1User.setUserName("User2");
-        User test3User = new User();
-        test1User.setUserName("User3");
-        User test4User = new User();
-        test1User.setUserName("User4");
-        User tenantUser = new User();
-        tenantUser.setUserName("Tenant");
-        User adminUser = new User();
-        List<User> allUsers = new ArrayList<>();
-        allUsers.add(test1User);
-        allUsers.add(test2User);
-        allUsers.add(test3User);
-        allUsers.add(test4User);
-        allUsers.add(tenantUser);
 
-        adminUser.setUserName("Admin");
-        Accommodation adminAccommodation = new Accommodation();
-        adminAccommodation.setUser(adminUser);
-        Agreement adminAgreement = new Agreement();
-        *//*adminAgreement.setUsers(adminUser);*//*
 
-    }*/
+    @Test
+    public void getMyAgreementsValidatedByUserId(){
+        User tenantUserTest = new User();
+        tenantUserTest.setUserName("Tenant");
+
+        User landlordUserTest1 = new User();
+        landlordUserTest1.setUserName("Landlord1");
+
+        User landlordUserTest2 = new User();
+        landlordUserTest1.setUserName("Landlord2");
+
+        Set<User> agreementUserTest1= new HashSet<>();
+        agreementUserTest1.add(tenantUserTest);
+        agreementUserTest1.add(landlordUserTest1);
+
+        Set<User> agreementUserTest2= new HashSet<>();
+        agreementUserTest2.add(tenantUserTest);
+        agreementUserTest2.add(landlordUserTest2);
+
+        Agreement agreementTest1 = new Agreement();
+        agreementTest1.setUsers(agreementUserTest1);
+        agreementTest1.setTenantValidate(Boolean.TRUE);
+        agreementTest1.setLandlordValidate(Boolean.FALSE);
+
+        Agreement agreementTest2 = new Agreement();
+        agreementTest2.setUsers(agreementUserTest2);
+        agreementTest2.setTenantValidate(Boolean.TRUE);
+        agreementTest2.setLandlordValidate(Boolean.TRUE);
+
+        List<Agreement> userTenantAgreement = new ArrayList<>();
+        userTenantAgreement.add(agreementTest2);
+
+        when(agreementRepository.getMyAgreementsValidatedByUserId(tenantUserTest.getId())).thenReturn(userTenantAgreement);
+        List<Agreement> listAgreementResult = agreementServiceImplement.getMyAgreementsValidatedByUserId(tenantUserTest.getId());
+
+        assertNotNull(listAgreementResult);
+        assertEquals(1,listAgreementResult.size());
+        assertTrue(agreementTest2.getLandlordValidate());
+    }
+
+    @Test
+    public void getAllAgreementsTerminatedByUserId () {
+
+        User landlordUser = new User();
+        landlordUser.setUserName("Landlord");
+
+        User tenantUser1 = new User();
+        tenantUser1.setUserName("Tenant1");
+
+        User tenantUser2 = new User();
+        tenantUser2.setUserName("Tenant2");
+
+        Set<User> agreementUsers1 = new HashSet<>();
+        agreementUsers1.add(landlordUser);
+        agreementUsers1.add(tenantUser1);
+
+        Set<User> agreementUsers2 = new HashSet<>();
+        agreementUsers2.add(landlordUser);
+        agreementUsers2.add(tenantUser2);
+
+        Agreement agreementTest1 = new Agreement();
+        agreementTest1.setUsers(agreementUsers1);
+        agreementTest1.setIsTerminated(Boolean.FALSE);
+
+        Agreement agreementTest2 = new Agreement();
+        agreementTest2.setUsers(agreementUsers2);
+        agreementTest2.setIsTerminated(Boolean.TRUE);
+
+        List<Agreement> userLandlordAgreement = new ArrayList<>();
+        userLandlordAgreement.add(agreementTest2);
+
+        when(agreementRepository.getAllAgreementsTerminatedByUserId(landlordUser.getId())).thenReturn(userLandlordAgreement);
+        List<Agreement> listAgreementResultTerminated = agreementServiceImplement.getAllAgreementsTerminatedByUserId(landlordUser.getId());
+
+        assertNotNull(listAgreementResultTerminated);
+        assertEquals(1,listAgreementResultTerminated.size());
+        assertTrue(agreementTest2.getIsTerminated());
+
+    }
 
 }
