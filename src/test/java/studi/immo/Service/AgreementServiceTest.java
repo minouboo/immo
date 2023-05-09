@@ -72,7 +72,7 @@ public class AgreementServiceTest {
 
 
     @Test
-    public void getMyAgreementsValidatedByUserId(){
+    public void testGetMyAgreementsValidatedByUserId(){
         User tenantUserTest = new User();
         tenantUserTest.setUserName("Tenant");
 
@@ -112,7 +112,7 @@ public class AgreementServiceTest {
     }
 
     @Test
-    public void getAllAgreementsTerminatedByUserId () {
+    public void testGetAllAgreementsTerminatedByUserId () {
 
         User landlordUser = new User();
         landlordUser.setUserName("Landlord");
@@ -148,6 +148,40 @@ public class AgreementServiceTest {
         assertNotNull(listAgreementResultTerminated);
         assertEquals(1,listAgreementResultTerminated.size());
         assertTrue(agreementTest2.getIsTerminated());
+
+    }
+
+    @Test
+    public void testgetAllAgreementTerminatedByAccommodationById(){
+
+        Accommodation accommodationTest = new Accommodation();
+        accommodationTest.setId(1L);
+
+        Agreement agreementWaiting = new Agreement();
+        agreementWaiting.setAccommodation(accommodationTest);
+        agreementWaiting.setTenantValidate(Boolean.TRUE);
+        agreementWaiting.setLandlordValidate(Boolean.FALSE);
+
+        Agreement agreementValidated = new Agreement();
+        agreementValidated.setAccommodation(accommodationTest);
+        agreementValidated.setLandlordValidate(Boolean.TRUE);
+        agreementValidated.setTenantValidate(Boolean.TRUE);
+
+        Agreement agreementTerminated = new Agreement();
+        agreementTerminated.setAccommodation(accommodationTest);
+        agreementTerminated.setIsTerminated(Boolean.TRUE);
+
+        List<Agreement> listAgreementTerminated = new ArrayList<>();
+        listAgreementTerminated.add(agreementTerminated);
+
+        when(agreementRepository.getAllAgreementTerminatedByAccommodationById(1L).thenReturn(ListAgreementTerminated));
+        List<Agreement> ListAgreementTerminatedResult = agreementServiceImplement.getAllAgreementTerminatedByAccommodationById(1L);
+
+        assertNotNull(ListAgreementTerminatedResult);
+        assertEquals(1,listAgreementTerminated.size());
+        assertTrue(agreementTerminated.getIsTerminated());
+
+
 
     }
 
