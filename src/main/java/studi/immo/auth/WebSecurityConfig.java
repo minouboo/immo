@@ -31,10 +31,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest().permitAll()
                 .and().formLogin().permitAll()
                 .and().logout().permitAll().logoutSuccessUrl("/");
+
     }
 
     /*@Bean
-    SecurityWebFilterChain springSecurityFilterChain(ServerHttpSecurity http) {
+    SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity http) {
         http
 
                 .redirectToHttps(redirectToHttps ->
@@ -68,4 +69,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         authorize.anyRequest().permitAll())
                 .build();
     }*/
+
+
 }

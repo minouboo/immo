@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <meta charset="UTF-8">
+    <title>Immo</title>
+    <link th:href="@{/styles/cssandjs/main-component.css}" rel="stylesheet" />
+    <link th:href="@{/styles/cssandjs/cards.css}" rel="stylesheet"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+</head>
+
+<body>
+
+<div th:replace="fragments/topnav :: navbar"></div>
+
+<main>
+    <div class="row">
+
+        <div class="row" id="option">
+
+            <h2 th:text="${Title}"/>
+            <!--<div id="bouton-container-message">
+                <a th:href = "@{/contrat/mes-contrats}" class="btn " id="bouton">Mes contrats à valider</a>
+                <a th:href = "@{/contrat/mes-contrats-valides}" class="btn " id="bouton">Mes contrats en cours</a>
+                <a th:href = "@{/contrat/mes-contrats-termines}" class="btn " id="bouton">Mes contrats terminés</a>
+            </div>-->
+
+            <div id="bouton-container-message">
+                <a th:href = "@{/admin/les-contrats/{id}(id=${Accommodation.id})}" class="btn " id="bouton">Les contrats à valider</a>
+                <a th:href = "@{/admin/les-contrats-valides/{id}(id=${Accommodation.id})}" class="btn " id="bouton">Les contrats en cours</a>
+                <a th:href = "@{/admin/les-contrats-termines/{id}(id=${Accommodation.id})}" class="btn " id="bouton">Les contrats terminés</a>
+            </div>
+
+            <div class="card"  id="card-accomodation" th:each="MyAgreements : ${MyAgreements}">
+                <div class="card-body">
+                    <h4 class="card-title" th:text="${MyAgreements.accommodation.title}"/>
+                    <p class="card-text" id="subtitle">
+                        <small class="text-muted">Contrat de bail entre:</small>
+                    <ul class="text-muted" th:each="users : ${MyAgreements.users}">
+                        <li th:text="${users.userName}"></li>
+                    </ul>
+                    </p>
+                    <p class="card-text" id="subtitle"><small class="text-muted" th:text="'Pour un logement à '+ ${MyAgreements.accommodation.address.city.name} +' '+ ${MyAgreements.accommodation.address.city.zipCode}"/></p>
+                    <ul class="list-group list-group-horizontal">
+                        <li class="list-group-item" id="data-accommodation">Nombre de pièce</li>
+                        <li class="list-group-item" id="data-accommodation">Surface (en m²) </li>
+                    </ul>
+                    <ul class="list-group list-group-horizontal">
+                        <li class="list-group-item" id="data-accommodation" th:text="${MyAgreements.accommodation.rooms}"/>
+                        <li class="list-group-item" id="data-accommodation" th:text="${MyAgreements.accommodation.squareMeter}"/>
+                    </ul>
+                    <a th:if = "${#bools.isFalse(MyAgreements.tenantValidate) or #bools.isFalse(MyAgreements.landlordValidate)}"
+                       th:href = "@{/contrat/mon-contrat/{id}(id=${MyAgreements.id})}"
+                       class="btn "
+                       id="bouton-secondaire">Voir le contrat</a>
+                    <a th:if = "${#bools.isTrue(MyAgreements.tenantValidate) and #bools.isTrue(MyAgreements.landlordValidate)}"
+                       th:href = "@{/paiement/mon-contrat/{id}(id=${MyAgreements.id})}"
+                       class="btn "
+                       id="bouton-secondaire">Voir le contrat</a>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</main>
+
+</body>
+
+</html>
