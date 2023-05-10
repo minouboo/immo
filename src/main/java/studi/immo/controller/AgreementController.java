@@ -26,13 +26,15 @@ public class AgreementController {
     private AgreementService agreementService;
     private ApartmentInventoryService apartmentInventoryService;
     private CommentInventoryService commentInventoryService;
+    private PaymentRequestService paymentRequestService;
 
-    public AgreementController(UserService userService, ChatRoomService chatRoomService, AgreementService agreementService, ApartmentInventoryService apartmentInventoryService, CommentInventoryService commentInventoryService) {
+    public AgreementController(UserService userService, ChatRoomService chatRoomService, AgreementService agreementService, ApartmentInventoryService apartmentInventoryService, CommentInventoryService commentInventoryService, PaymentRequestService paymentRequestService) {
         this.userService = userService;
         this.chatRoomService = chatRoomService;
         this.agreementService = agreementService;
         this.apartmentInventoryService = apartmentInventoryService;
         this.commentInventoryService = commentInventoryService;
+        this.paymentRequestService = paymentRequestService;
     }
 
     @GetMapping(value = "/creation-contrat/{id}")
@@ -74,6 +76,9 @@ public class AgreementController {
         User targetUser = userService.getCurrentUser();
         if (targetUser == null){
             return "redirect:/login";
+        }
+        if (id == null){
+            return "Erreur";
         }
 
         Agreement validatingAgreement = agreementService.getAgreementById(id);
@@ -169,7 +174,6 @@ public class AgreementController {
         ApartmentInventory updateApartmentInventory = apartmentInventoryService.getApartmentInventoryById(id);
         updateApartmentInventory.setDateInventory(apartmentInventory.getDateInventory());
         updateApartmentInventory.setInventoryType(InventoryType.ENTRY);
-        updateApartmentInventory.setComment(apartmentInventory.getComment());
         User currentUser = userService.getCurrentUser();
         if (currentUser.getRoles().contains(Role.ADMIN) || apartmentInventory.getAgreement().getAccommodation().getUser() == currentUser)
         {
@@ -275,18 +279,47 @@ public class AgreementController {
         if (currentUser == null){
             return "redirect:/login";
         }
+        model.addAttribute("Title","Contrats à valider");
+        model.addAttribute("Bouton1","Contrats en cours");
+        model.addAttribute("Bouton2","Contrats terminés");
         List<Agreement> myAgreements = agreementService.getMyAgreementsByUserId(currentUser.getId());
-        List<Agreement> myAgreementsValidated = agreementService.getMyAgreementsValidatedByUserId(currentUser.getId());
         model.addAttribute("MyAgreements",myAgreements);
-        model.addAttribute("MyAgreementsValidated", myAgreementsValidated);
+
+        return "ListAgreements";
+    }
+
+    @GetMapping (value = "/mes-contrats-valides")
+    public String myAgreementsValidated (Model model){
+        User currentUser = userService.getCurrentUser();
+        if (currentUser == null){
+            return "redirect:/login";
+        }
+        model.addAttribute("Title","Contrats en cours");
+        model.addAttribute("Bouton1","Contrats à valider");
+        model.addAttribute("Bouton2","Contrats terminés");
+        List<Agreement> myAgreementsValidated = agreementService.getMyAgreementsValidatedByUserId(currentUser.getId());
+        model.addAttribute("MyAgreements", myAgreementsValidated);
+
+        return "ListAgreements";
+    }
+
+    @GetMapping (value = "/mes-contrats-termines")
+    public String myAgreementsTerminated (Model model){
+        User currentUser = userService.getCurrentUser();
+        if (currentUser == null){
+            return "redirect:/login";
+        }
+        model.addAttribute("Title","Contrats terminés");
+        model.addAttribute("Bouton1","Contrats en cours");
+        model.addAttribute("Bouton2","Contrats terminés");
+        List<Agreement> myAgreementsTerminated = agreementService.getAllAgreementsTerminatedByUserId(currentUser.getId());
+        model.addAttribute("MyAgreements", myAgreementsTerminated);
+
         return "ListAgreements";
     }
 
     @GetMapping (value = "/supprimer-contrat/{id}")
     public String deleteAgreement (@PathVariable Long id){
-        ApartmentInventory currentApartmentInventory = apartmentInventoryService.getApartmentInventoryByAgreementId(id);
-        List<CommentInventory> listCurrentComments = commentInventoryService.getCommentInventoryByApartmentId(currentApartmentInventory.getId());
-
         agreementService.deleteAgreementById(id);
         return "redirect:/contrat/mes-contrats";
     }
@@ -375,6 +408,20 @@ public class AgreementController {
 
         return "Erreur";
 
+    }
+
+    @PostMapping (value = "/terminer-contrat/{id}")
+    public String agreementTerminated (@PathVariable Long id, @ModelAttribute Agreement agreement){
+        Agreement terminatedAgreement = agreementService.getAgreementById(id);
+        List<PaymentRequest> listPaymentRequest = paymentRequestService.getPaymentRequestsByAgreementId(id);
+        for (PaymentRequest paymentRequest:listPaymentRequest){
+            if (paymentRequest.getTenantPaid().equals(Boolean.FALSE)){
+                return "redirect:/paiement/mon-contrat/"+terminatedAgreement.getId();
+            }
+        }
+        terminatedAgreement.setIsTerminated(Boolean.TRUE);
+        agreementService.saveAgreement(terminatedAgreement);
+        return "redirect:/contrat/mes-contrats-termines";
     }
 
 

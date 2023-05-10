@@ -12,13 +12,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import studi.immo.entity.*;
 import studi.immo.form.AccommodationForm;
-import studi.immo.form.AddressForm;
 import studi.immo.form.UserForm;
 import studi.immo.service.*;
 
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.Set;
 
 @Log
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
@@ -39,11 +37,12 @@ public class UserController {
     private TenantService tenantService;
     private PasswordEncoder passwordEncoder;
     private ChatRoomService chatRoomService;
+    private AgreementService agreementService;
 
 
 
     @Autowired
-    public UserController (UserService userService, AccommodationService accommodationService, CityService cityService, AddressService addressService, AdvertisementService advertisementService, CashService cashService, TenantService tenantService, AgencyService agencyService, PasswordEncoder passwordEncoder, ChatRoomService chatRoomService){
+    public UserController (UserService userService, AccommodationService accommodationService, CityService cityService, AddressService addressService, AdvertisementService advertisementService, CashService cashService, TenantService tenantService, AgencyService agencyService, PasswordEncoder passwordEncoder, ChatRoomService chatRoomService, AgreementService agreementService){
         this.userService= userService;
         this.accommodationService = accommodationService;
         this.cityService = cityService;
@@ -54,6 +53,7 @@ public class UserController {
         this.agencyService = agencyService;
         this.passwordEncoder = passwordEncoder;
         this.chatRoomService = chatRoomService;
+        this.agreementService = agreementService;
     }
 
     @GetMapping (value = "/modifier-compte")
@@ -383,13 +383,20 @@ public class UserController {
     }
 
     @GetMapping (value = "/logement/suppression/{id}")
-    public String deleteAccommodation (@PathVariable Long id){
+    public String deleteAccommodation (@PathVariable Long id ,Model model){
         User currentUser = userService.getCurrentUser();
         Accommodation updateAccommodation = accommodationService.getAccommodationById(id);
+        List<Agreement> listAgreementAccommodation = agreementService.getAllAgreementWithAccommodationId(updateAccommodation.getId());
         if (currentUser.getRoles().contains(Role.ADMIN) || currentUser == updateAccommodation.getUser())
         {
-            accommodationService.deleteAccommodationById(id);
-            return "redirect:/user/mes-annonces";
+            if ( listAgreementAccommodation.size() == 0 && listAgreementAccommodation.isEmpty())
+            {
+                accommodationService.deleteAccommodationById(id);
+                return "redirect:/user/mes-annonces";
+            } else if (listAgreementAccommodation.size() != 0) {
+                return "ErreurLogementSuppression";
+            }
+
         }
         return "Erreur";
     }

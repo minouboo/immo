@@ -54,5 +54,20 @@ public class AgreementServiceImplement implements AgreementService {
         return agreementRepository.getAllAgreementValidatedByAccommodationById(accommodationId);
     }
 
+    @Override
+    public List<Agreement> getAllAgreementTerminatedByAccommodationById(Long accommodationId) {
+        return agreementRepository.getAllAgreementTerminatedByAccommodationById(accommodationId);
+    }
+
+    @Override
+    public List<Agreement> getAllAgreementWithAccommodationId(Long accommodationId) {
+        return agreementRepository.getAllAgreementWithAccommodationId(accommodationId);
+    }
+
+    @Override
+    public List<Agreement> getAllAgreementsTerminatedByUserId(Long userId) {
+        return agreementRepository.getAllAgreementsTerminatedByUserId(userId);
+    }
+
 
 }

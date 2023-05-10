@@ -69,11 +69,32 @@ public class AdminController {
 
     @GetMapping (value = "/les-contrats/{id}")
     public String allAgreements (@PathVariable Long id, Model model){
+        model.addAttribute("Title","Contrats à valider");
+        Accommodation accommodation = accommodationService.getAccommodationById(id);
+        model.addAttribute("Accommodation", accommodation);
         List<Agreement> allAgreements = agreementService.getAllAgreementByAccommodationById(id);
-        List<Agreement> allAgreementsValidated = agreementService.getAllAgreementValidatedByAccommodationById(id);
         model.addAttribute("MyAgreements",allAgreements);
-        model.addAttribute("MyAgreementsValidated", allAgreementsValidated);
-        return "ListAgreements";
+        return "AdminListAgreements";
+    }
+
+    @GetMapping (value = "/les-contrats-valides/{id}")
+    public String allAgreementsValidated (@PathVariable Long id, Model model){
+        model.addAttribute("Title","Contrats en cours");
+        Accommodation accommodation = accommodationService.getAccommodationById(id);
+        model.addAttribute("Accommodation", accommodation);
+        List<Agreement> allAgreementsValidated = agreementService.getAllAgreementValidatedByAccommodationById(id);
+        model.addAttribute("MyAgreements", allAgreementsValidated);
+        return "AdminListAgreements";
+    }
+
+    @GetMapping (value = "/les-contrats-termines/{id}")
+    public String allAgreementsTerminated (@PathVariable Long id, Model model){
+        model.addAttribute("Title","Contrats terminés");
+        Accommodation accommodation = accommodationService.getAccommodationById(id);
+        model.addAttribute("Accommodation", accommodation);
+        List<Agreement> allAgreementsTerminated = agreementService.getAllAgreementTerminatedByAccommodationById(id);
+        model.addAttribute("MyAgreements", allAgreementsTerminated);
+        return "AdminListAgreements";
     }
 
     @GetMapping (value = "/tout-users")
@@ -276,8 +297,11 @@ public class AdminController {
 
     @PostMapping (value="/locataire-ajoute/{id}")
     public String tenantAdded (@PathVariable Long id, @ModelAttribute("AgreementForm") AgreementForm agreement){
-        User tenantUser = userService.getUserById(agreement.getTenantUserId());
         Agreement currentAgreement = agreementService.getAgreementById(id);
+        User tenantUser = userService.getUserById(agreement.getTenantUserId());
+        if (tenantUser.getId() == null){
+            return "redirect:/admin/ajouter-locataire/"+currentAgreement.getId();
+        }
         currentAgreement.getUsers().add(tenantUser);
         agreementService.saveAgreement(currentAgreement);
         return "redirect:/contrat/mon-contrat/"+currentAgreement.getId();

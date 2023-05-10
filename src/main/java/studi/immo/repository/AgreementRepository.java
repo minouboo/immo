@@ -12,16 +12,27 @@ import java.util.List;
 @Repository
 public interface AgreementRepository extends JpaRepository <Agreement, Long> {
 
-    @Query(value = "select * from agreement_user au join agreement a on a.id = au.agreement_id  where user_id = :userid and (tenant_validate = false or landlord_validate = false) ", nativeQuery = true)
+    @Query(value = "select * from agreement_user au join agreement a on a.id = au.agreement_id  where user_id = :userid and is_terminated = false and (tenant_validate = false or landlord_validate = false) ", nativeQuery = true)
     List<Agreement> getMyAgreementsByUserId (@Param("userid")Long userId);
 
-    @Query (value = "select * from agreement_user au join agreement a on a.id = au.agreement_id  where tenant_validate = true and landlord_validate = true and  user_id = :userid", nativeQuery = true)
+    @Query (value = "select * from agreement_user au join agreement a on a.id = au.agreement_id  where tenant_validate = true and landlord_validate = true and is_terminated = false and  user_id = :userid", nativeQuery = true)
     List<Agreement> getMyAgreementsValidatedByUserId (@Param("userid")Long userId);
+
+    @Query (value = "select * from agreement_user au join agreement a on a.id = au.agreement_id  where is_terminated = true and  user_id = :userid", nativeQuery = true)
+    List<Agreement> getAllAgreementsTerminatedByUserId (@Param("userid")Long userId);
 
     @Query (value = "select * from agreement a where a.accommodation_id = :accommodationid and (tenant_validate = false or landlord_validate = false)", nativeQuery = true)
     List<Agreement> getAllAgreementByAccommodationById (@Param("accommodationid")Long accommodationId);
 
-    @Query(value = "select * from agreement a where a.accommodation_id = :accommodationid and tenant_validate = true and landlord_validate = true ",nativeQuery = true)
+    @Query (value = "select * from agreement a where a.accommodation_id = :accommodationid and tenant_validate = true and landlord_validate = true and is_terminated = false ",nativeQuery = true)
     List<Agreement> getAllAgreementValidatedByAccommodationById (@Param("accommodationid")Long accommodationId);
+
+    @Query (value = "select * from agreement a where a.accommodation_id = :accommodationid and is_terminated = true ",nativeQuery = true)
+    List<Agreement> getAllAgreementTerminatedByAccommodationById (@Param("accommodationid")Long accommodationId);
+
+    @Query (value = "select * from agreement a where a.accommodation_id = :accommodationid", nativeQuery = true)
+    List<Agreement> getAllAgreementWithAccommodationId (@Param("accommodationid") Long accommodationId);
+
+
 
 }

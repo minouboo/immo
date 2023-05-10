@@ -16,7 +16,7 @@ public class CommentInventory extends GenericEntity{
     @Column
     private String description;
 
-    @ManyToOne (cascade = CascadeType.REMOVE)
+    @ManyToOne
     @JoinColumn(name="apartment_inventory_id")
     private ApartmentInventory apartmentInventory;
 
