@@ -80,7 +80,6 @@ public class AgreementController {
         if (id == null){
             return "Erreur";
         }
-
         Agreement validatingAgreement = agreementService.getAgreementById(id);
         model.addAttribute("Agreement", validatingAgreement);
 
@@ -113,6 +112,12 @@ public class AgreementController {
             IsValidated = true;
         }
         model.addAttribute("IsValidated",IsValidated);
+
+        boolean CanValidate = true;
+        if (validatingAgreement.getEntryDate() == null || apartmentInventory.getDateInventory() == null){
+            CanValidate = false;
+        }
+        model.addAttribute("CanValidate", CanValidate);
 
         if (targetUser.getRoles().contains(Role.ADMIN) || validatingAgreement.getUsers().contains(targetUser))
         {
@@ -244,7 +249,17 @@ public class AgreementController {
             agreementValidated = true;
         }
         model.addAttribute("AgreementValidated", agreementValidated);
+        boolean canTerminated = true;
+        if (apartmentInventoryExit.getDateInventory() == null){
+            canTerminated = false;
+        }
+        model.addAttribute("CanTerminated", canTerminated);
         User currentUser = userService.getCurrentUser();
+        boolean isOwnerOrAdmin = false;
+        if (currentUser.getRoles().contains(Role.ADMIN) || currentAgreement.getAccommodation().getUser().equals(currentUser)){
+            isOwnerOrAdmin = true;
+        }
+        model.addAttribute("IsOwnerOrAdmin", isOwnerOrAdmin);
         if (currentUser.getRoles().contains(Role.ADMIN) || currentAgreement.getUsers().contains(currentUser))
         {
             return "DetailsAgreement";
