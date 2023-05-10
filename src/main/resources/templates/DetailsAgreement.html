@@ -48,17 +48,28 @@
                 <div class="row" id="info-container">
                     <a th:href = "@{/contrat/voir-etat-des-lieux-sortie/{id} (id=${InventoryExit.id})}" class="btn " id="bouton-secondaire">Voir l'état des lieux de sortie</a>
                 </div>
-                <div class="row" id="info-container">
-                    <a th:href = "@{/contrat/etat-des-lieux-sortie/{id} (id=${InventoryExit.id})}" class="btn " id="bouton-secondaire">Effectuer/modifier l'état des lieux de sortie</a>
-                </div>
                 <div class="row" id="info-container" th:unless= "${AgreementValidated}">
                     <a th:href = "@{/contrat/mon-contrat/{id} (id=${Agreement.id})}" class="btn " id="bouton-secondaire">Retourner à la page du contrat</a>
                 </div>
                 <div class="row" id="info-container" th:if= "${AgreementValidated}">
-                    <a th:href = "@{/paiement/terminer-contrat/{id} (id=${Agreement.id})}" class="btn " id="bouton-secondaire">Terminer le contrat</a>
+                    <a th:href = "@{/contrat/etat-des-lieux-sortie/{id} (id=${InventoryExit.id})}" class="btn " id="bouton-secondaire">Effectuer/modifier l'état des lieux de sortie</a>
+                </div>
+                <div class="row" id="info-container" th:if= "${AgreementValidated}">
+                    <form
+                            th:action = "@{/contrat/terminer-contrat/{id} (id=${Agreement.id})}"
+                            th:object = "${AgreementValidation}" method = "POST" >
+
+                        <button
+                                class="btn"
+                                type = "submit"
+                                id="bouton-secondaire" >Terminer le contrat</button>
+                    </form>
                 </div>
                 <div class="row" id="info-container" th:if= "${AgreementValidated}">
                     <a th:href = "@{/paiement/mon-contrat/{id} (id=${Agreement.id})}" class="btn " id="bouton-secondaire">Retourner à la page du contrat</a>
+                </div>
+                <div class="row" id="info-container" th:if= "${AgreementValidated}" >
+                    <a th:href = "@{/contrat/supprimer-contrat/{id} (id=${Agreement.id})}" class="btn " id="bouton-secondaire">Supprimer le contrat</a>
                 </div>
 
             </div>

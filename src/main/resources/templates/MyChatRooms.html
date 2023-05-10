@@ -26,7 +26,6 @@
 
 
         <div class="card"  id="card-accomodation" th:each="MyChatRoom : ${MyChatRoom}">
-            <img class="card-img-top" src="apartments-sample.jpeg" alt="Card image cap">
             <div class="card-body">
                 <h4 class="card-title" th:text="${MyChatRoom.accommodation.title}"/>
                 <p class="card-text" id="subtitle">

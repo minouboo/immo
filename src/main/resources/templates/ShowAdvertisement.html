@@ -64,11 +64,11 @@
 
                 <p class="card-text" id="subtitle"><small class="text-muted" th:text="'Logement proposé par '+ ${Advertisement.accommodation.user.userName}"/></p>
 
-                <div th:if= "${IsOwner}">
+                <div th:if= "${IsOwner}" sec:authorize = "!hasRole('ROLE_ADMIN')">
                     <a th:href="@{/user/modification-mon-annonce/{id} (id=${Advertisement.id})}"
                        class="btn "
                        id="bouton-secondaire">Modifier mon annonce</a>
-                    <a th:href="@{/admin/annonce/suppression/{id} (id=${Advertisement.id})}"
+                    <a th:href="@{/user/annonce/suppression/{id} (id=${Advertisement.id})}"
                        class="btn"
                        id="bouton-secondaire">Supprimer l'annonce</a>
                     <a th:href="@{/photo/selection-images/{id} (id=${Advertisement.id})}"
@@ -79,7 +79,7 @@
                     <a th:href="@{/user/modification-mon-annonce/{id} (id=${Advertisement.id})}"
                        class="btn "
                        id="bouton-secondaire">Modifier l'annonce</a>
-                    <a th:href="@{/admin/annonce/suppression/{id} (id=${Advertisement.id})}"
+                    <a th:href="@{/user/annonce/suppression/{id} (id=${Advertisement.id})}"
                        class="btn"
                        id="bouton-secondaire">Supprimer l'annonce</a>
                     <a th:href="@{/photo/selection-images/{id} (id=${Advertisement.id})}"

@@ -22,7 +22,7 @@
             <form th:action = "@{/chat/envoyer-nouveau-message/{id} (id=${Accommodation.id})}" th:object = "${SendMessage}" method = "POST">
                 <textarea th:field = "*{message}" class="form-control" rows="5" id="comment" placeholder="Ecrivez votre message"/>
                 <div id="bouton-container">
-                    <button type="submit" class="btn" id="bouton-form">Submit</button>
+                    <button type="submit" class="btn" id="bouton">Envoyer le message</button>
                 </div>
             </form>
         </div>
