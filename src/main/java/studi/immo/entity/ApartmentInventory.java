@@ -16,9 +16,6 @@ public class ApartmentInventory extends GenericEntity{
     @Column
     private Date dateInventory;
 
-    @Column
-    private String comment;
-
     @ManyToOne (cascade = CascadeType.REMOVE)
     @JoinColumn (name="agreement_id")
     private Agreement agreement;
@@ -36,5 +33,8 @@ public class ApartmentInventory extends GenericEntity{
 
     @Column (columnDefinition = "boolean default false")
     private Boolean LandlordValidate = false;
+
+    @OneToMany (mappedBy = "apartmentInventory", cascade = CascadeType.REMOVE)
+    private List<CommentInventory> commentInventories;
 
 }

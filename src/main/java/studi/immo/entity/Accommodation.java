@@ -25,7 +25,7 @@ public class Accommodation extends GenericEntity {
     @JoinColumn (name="user_id")
     private User user;
 
-    @ManyToOne
+    @ManyToOne (cascade = CascadeType.ALL)
     private Address address;
 
     @OneToMany (mappedBy = "accommodation", cascade = CascadeType.REMOVE)
