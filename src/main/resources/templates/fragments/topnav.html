@@ -38,6 +38,7 @@
                         </li>
                         <a class="nav-link active" id="menu" aria-current="page" th:href = "@{/contrat/mes-contrats}" sec:authorize="isAuthenticated()">Mes Contrats</a>
                         <a class="nav-link active" id="menu" aria-current="page" th:href = "@{/login}" sec:authorize="isAnonymous()">Je me connecte</a>
+                        <a class="nav-link active" id="menu" aria-current="page" th:href = "@{/creation-compte}" sec:authorize="isAnonymous()">S'inscrire</a>
                         <a class="nav-link active" id="menu" aria-current="page" th:href = "@{/logout}" sec:authorize="isAuthenticated()">Déconnexion</a>
 
                     </ul>
