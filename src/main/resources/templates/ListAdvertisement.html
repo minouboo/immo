@@ -44,30 +44,6 @@
                    id="bouton-secondaire">Voir l'annonce</a>
             </div>
         </div>
-        <div class="card"  id="card-accomodation">
-                <div>
-                    <img class="card-img-top" th:src="@{/pics/apartments-sample.jpeg}" id="thumbnail-image" alt="Card image cap" >
-                </div>
-            <div class="card-body" id="card-info">
-                <h4 class="card-title">Appartement Test</h4>
-                <p class="card-text" id="subtitle"><small class="text-muted">à Paris 75014</small></p>
-                <ul class="list-group list-group-horizontal">
-                    <li class="list-group-item" id="data-accommodation">Loyer (en €)</li>
-                    <li class="list-group-item" id="data-accommodation">Surface (en m²) </li>
-                </ul>
-                <ul class="list-group list-group-horizontal">
-                    <li class="list-group-item" id="data-accommodation">1234</li>
-                    <li class="list-group-item" id="data-accommodation">123</li>
-                </ul>
-                <a
-                   class="btn "
-                   id="bouton-secondaire">Voir l'annonce</a>
-                <a
-                   class="btn"
-                   sec:authorize = "hasRole('ROLE_ADMIN')"
-                   id="bouton-secondaire">Supprimer l'annonce</a>
-            </div>
-        </div>
 
 
     </div>
