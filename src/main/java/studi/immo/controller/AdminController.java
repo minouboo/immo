@@ -70,6 +70,10 @@ public class AdminController {
     @GetMapping (value = "/les-contrats/{id}")
     public String allAgreements (@PathVariable Long id, Model model){
         model.addAttribute("Title","Contrats à valider");
+        boolean isActive = true;
+        model.addAttribute("ButtonValidating", isActive);
+        model.addAttribute("ButtonValidated", !isActive);
+        model.addAttribute("ButtonTerminated", !isActive);
         Accommodation accommodation = accommodationService.getAccommodationById(id);
         model.addAttribute("Accommodation", accommodation);
         List<Agreement> allAgreements = agreementService.getAllAgreementByAccommodationById(id);
@@ -80,6 +84,10 @@ public class AdminController {
     @GetMapping (value = "/les-contrats-valides/{id}")
     public String allAgreementsValidated (@PathVariable Long id, Model model){
         model.addAttribute("Title","Contrats en cours");
+        boolean isActive = true;
+        model.addAttribute("ButtonValidated", isActive);
+        model.addAttribute("ButtonValidating", !isActive);
+        model.addAttribute("ButtonTerminated", !isActive);
         Accommodation accommodation = accommodationService.getAccommodationById(id);
         model.addAttribute("Accommodation", accommodation);
         List<Agreement> allAgreementsValidated = agreementService.getAllAgreementValidatedByAccommodationById(id);
@@ -90,6 +98,10 @@ public class AdminController {
     @GetMapping (value = "/les-contrats-termines/{id}")
     public String allAgreementsTerminated (@PathVariable Long id, Model model){
         model.addAttribute("Title","Contrats terminés");
+        boolean isActive = true;
+        model.addAttribute("ButtonTerminated", isActive);
+        model.addAttribute("ButtonValidating", !isActive);
+        model.addAttribute("ButtonValidated", !isActive);
         Accommodation accommodation = accommodationService.getAccommodationById(id);
         model.addAttribute("Accommodation", accommodation);
         List<Agreement> allAgreementsTerminated = agreementService.getAllAgreementTerminatedByAccommodationById(id);

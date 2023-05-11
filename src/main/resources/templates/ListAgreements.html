@@ -28,12 +28,6 @@
                 <a th:if ="${#bools.isTrue(ButtonTerminated)}" th:href = "@{/contrat/mes-contrats-termines}" class="btn " id="bouton">Mes contrats terminés</a>
                 <a th:unless ="${#bools.isTrue(ButtonTerminated)}" th:href = "@{/contrat/mes-contrats-termines}" class="btn " id="bouton-secondaire">Mes contrats terminés</a>
             </div>
-            <!--<div id="bouton-container-message" sec:authorize = "hasRole('ROLE_ADMIN')">
-                <a th:href = "@{/admin/les-contrats/{id}(id=${Accommodation.id})}" class="btn " id="bouton">Les contrats à valider</a>
-                <a th:href = "@{/admin/les-contrats-valides/{id}(id=${Accommodation.id})}" class="btn " id="bouton">Les contrats en cours</a>
-                <a th:href = "@{/admin/les-contrats-termines}" class="btn " id="bouton">Les contrats terminés</a>
-            </div>-->
-
 
             <div class="card"  id="card-accomodation" th:each="MyAgreements : ${MyAgreements}">
                 <div class="card-body">

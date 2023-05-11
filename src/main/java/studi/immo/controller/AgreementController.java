@@ -177,13 +177,14 @@ public class AgreementController {
     @PostMapping (value = "/valider-etat-des-lieux-entree/{id}")
     public String saveApartmentInventoryEntry (@PathVariable Long id, @ModelAttribute("Inventory")ApartmentInventory apartmentInventory){
         ApartmentInventory updateApartmentInventory = apartmentInventoryService.getApartmentInventoryById(id);
+        Agreement currentAgreement = updateApartmentInventory.getAgreement();
         updateApartmentInventory.setDateInventory(apartmentInventory.getDateInventory());
         updateApartmentInventory.setInventoryType(InventoryType.ENTRY);
         User currentUser = userService.getCurrentUser();
-        if (currentUser.getRoles().contains(Role.ADMIN) || apartmentInventory.getAgreement().getAccommodation().getUser() == currentUser)
+        if (currentUser.getRoles().contains(Role.ADMIN) || updateApartmentInventory.getAgreement().getAccommodation().getUser() == currentUser)
         {
             apartmentInventoryService.saveApartmentInventory(updateApartmentInventory);
-            return "redirect:/contrat/mon-contrat/"+updateApartmentInventory.getAgreement().getId();
+            return "redirect:/contrat/mon-contrat/"+currentAgreement.getId();
         }
 
         return "Erreur";
@@ -416,7 +417,7 @@ public class AgreementController {
         apartmentInventoryExit.setAgreement(currentAgreement);
         apartmentInventoryExit.setDateInventory(apartmentInventory.getDateInventory());
         User currentUser = userService.getCurrentUser();
-        if (currentUser.getRoles().contains(Role.ADMIN) || apartmentInventory.getAgreement().getAccommodation().getUser() == currentUser)
+        if (currentUser.getRoles().contains(Role.ADMIN) || apartmentInventoryExit.getAgreement().getAccommodation().getUser() == currentUser)
         {
             apartmentInventoryService.saveApartmentInventory(apartmentInventoryExit);
             return "redirect:/paiement/mon-contrat/"+apartmentInventoryExit.getAgreement().getId();
