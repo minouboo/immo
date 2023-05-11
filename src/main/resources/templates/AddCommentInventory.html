@@ -57,7 +57,8 @@
                 <button type="submit" class="btn" id="bouton-form">Pièces suivante</button>
             </div>
             <div id="bouton-form-container">
-                <a class="btn" id="bouton-form" th:href = "@{/contrat/etat-des-lieux-entree/{id} (id=${ApartmentInventory.id})}">Retourner à la page d'état des lieux</a>
+                <a class="btn" id="bouton-form" th:if ="${#bools.isTrue(IsInventoryEntry)}" th:href = "@{/contrat/etat-des-lieux-entree/{id} (id=${ApartmentInventory.id})}">Retourner à la page d'état des lieux d'entrée</a>
+                <a class="btn" id="bouton-form" th:if ="${#bools.isFalse(IsInventoryEntry)}" th:href = "@{/contrat/etat-des-lieux-sortie/{id} (id=${ApartmentInventory.id})}">Retourner à la page d'état des lieux de sortie</a>
             </div>
         </form>
         <img id="form-image" th:src="@{/pics/wave.svg}">

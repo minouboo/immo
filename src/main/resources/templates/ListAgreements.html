@@ -21,9 +21,12 @@
 
             <h2 th:text="${Title}"/>
             <div id="bouton-container-message">
-                <a th:href = "@{/contrat/mes-contrats}" class="btn " id="bouton">Mes contrats à valider</a>
-                <a th:href = "@{/contrat/mes-contrats-valides}" class="btn " id="bouton">Mes contrats en cours</a>
-                <a th:href = "@{/contrat/mes-contrats-termines}" class="btn " id="bouton">Mes contrats terminés</a>
+                <a th:if ="${#bools.isTrue(ButtonValidating)}" th:href = "@{/contrat/mes-contrats}" class="btn " id="bouton">Mes contrats à valider</a>
+                <a th:unless ="${#bools.isTrue(ButtonValidating)}" th:href = "@{/contrat/mes-contrats}" class="btn " id="bouton-secondaire">Mes contrats à valider</a>
+                <a th:if ="${#bools.isTrue(ButtonValidated)}" th:href = "@{/contrat/mes-contrats-valides}" class="btn " id="bouton">Mes contrats en cours</a>
+                <a th:unless ="${#bools.isTrue(ButtonValidated)}" th:href = "@{/contrat/mes-contrats-valides}" class="btn " id="bouton-secondaire">Mes contrats en cours</a>
+                <a th:if ="${#bools.isTrue(ButtonTerminated)}" th:href = "@{/contrat/mes-contrats-termines}" class="btn " id="bouton">Mes contrats terminés</a>
+                <a th:unless ="${#bools.isTrue(ButtonTerminated)}" th:href = "@{/contrat/mes-contrats-termines}" class="btn " id="bouton-secondaire">Mes contrats terminés</a>
             </div>
             <!--<div id="bouton-container-message" sec:authorize = "hasRole('ROLE_ADMIN')">
                 <a th:href = "@{/admin/les-contrats/{id}(id=${Accommodation.id})}" class="btn " id="bouton">Les contrats à valider</a>

@@ -92,7 +92,8 @@
                             <div th:if = "${IsOwner}">
                                 <a th:if = "${#bools.isFalse(Payment.tenantPaid)}" th:href = "@{/paiement/modifier-paiement/{id} (id=${Payment.id})}" class="btn " id="bouton-secondaire">Modifier le paiement</a>
                                 <a th:if = "${#bools.isFalse(Payment.tenantPaid)}" th:href = "@{/paiement/supprimer-paiement/{id} (id=${Payment.id})}" class="btn " id="bouton-secondaire">Annuler le paiement</a>
-                                <a th:if = "${#bools.isTrue(Payment.tenantPaid)}" th:href = "@{/paiement/voir-paiement/{id} (id=${Payment.id})}" class="btn " id="bouton-secondaire" >Quittance en PDF</a>
+                                <a th:if = "${#bools.isTrue(Payment.tenantPaid)}" th:href = "@{/paiement/voir-paiement/{id} (id=${Payment.id})}" class="btn " id="bouton-secondaire" >Détails du paiement</a>
+                                <a th:if = "${#bools.isTrue(Payment.tenantPaid)}" th:href = "@{/pdf/telecharger/{id} (id=${Payment.id})}" class="btn " id="bouton-secondaire" >Télécharger la facture</a>
                                 <div sec:authorize = "hasRole('ROLE_ADMIN')">
                                     <form   th:if = "${#bools.isFalse(Payment.tenantPaid)}"
                                             th:action = "@{/admin/valider-paiement/{id} (id=${Payment.id})}"

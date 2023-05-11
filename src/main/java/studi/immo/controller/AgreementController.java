@@ -196,6 +196,11 @@ public class AgreementController {
         model.addAttribute("NewComment", newCommentInventory);
         ApartmentInventory currentApartmentInventory = apartmentInventoryService.getApartmentInventoryById(id);
         model.addAttribute("ApartmentInventory", currentApartmentInventory);
+        boolean isInventoryEntry = true;
+        if(currentApartmentInventory.getInventoryType().equals(InventoryType.EXIT)){
+            isInventoryEntry = false;
+        }
+        model.addAttribute("IsInventoryEntry", isInventoryEntry);
         User currentUser = userService.getCurrentUser();
         if (currentUser.getRoles().contains(Role.ADMIN) || currentApartmentInventory.getAgreement().getAccommodation().getUser() == currentUser)
         {
@@ -243,17 +248,26 @@ public class AgreementController {
         model.addAttribute("ApartmentInventory", currentApartmentInventory);
         ApartmentInventory apartmentInventoryExit = apartmentInventoryService.getApartmentInventoryExitByAgreementId(id);
         model.addAttribute("InventoryExit", apartmentInventoryExit);
+        List<PaymentRequest> listPaymentRequest = paymentRequestService.getPaymentRequestsByAgreementId(currentAgreement.getId());
+
         boolean agreementValidated = false;
         if (currentAgreement.getTenantValidate().equals(Boolean.TRUE) & currentAgreement.getLandlordValidate().equals(Boolean.TRUE))
         {
             agreementValidated = true;
         }
         model.addAttribute("AgreementValidated", agreementValidated);
+
         boolean canTerminated = true;
+        for (PaymentRequest paymentRequest : listPaymentRequest){
+            if (paymentRequest.getTenantPaid().equals(Boolean.FALSE)){
+                canTerminated = false;
+            }
+        }
         if (apartmentInventoryExit.getDateInventory() == null){
             canTerminated = false;
         }
         model.addAttribute("CanTerminated", canTerminated);
+
         User currentUser = userService.getCurrentUser();
         boolean isOwnerOrAdmin = false;
         if (currentUser.getRoles().contains(Role.ADMIN) || currentAgreement.getAccommodation().getUser().equals(currentUser)){
@@ -295,8 +309,10 @@ public class AgreementController {
             return "redirect:/login";
         }
         model.addAttribute("Title","Contrats à valider");
-        model.addAttribute("Bouton1","Contrats en cours");
-        model.addAttribute("Bouton2","Contrats terminés");
+        boolean isActive = true;
+        model.addAttribute("ButtonValidating", isActive);
+        model.addAttribute("ButtonValidated", !isActive);
+        model.addAttribute("ButtonTerminated", !isActive);
         List<Agreement> myAgreements = agreementService.getMyAgreementsByUserId(currentUser.getId());
         model.addAttribute("MyAgreements",myAgreements);
 
@@ -310,8 +326,10 @@ public class AgreementController {
             return "redirect:/login";
         }
         model.addAttribute("Title","Contrats en cours");
-        model.addAttribute("Bouton1","Contrats à valider");
-        model.addAttribute("Bouton2","Contrats terminés");
+        boolean isActive = true;
+        model.addAttribute("ButtonValidated", isActive);
+        model.addAttribute("ButtonValidating", !isActive);
+        model.addAttribute("ButtonTerminated", !isActive);
         List<Agreement> myAgreementsValidated = agreementService.getMyAgreementsValidatedByUserId(currentUser.getId());
         model.addAttribute("MyAgreements", myAgreementsValidated);
 
@@ -325,8 +343,10 @@ public class AgreementController {
             return "redirect:/login";
         }
         model.addAttribute("Title","Contrats terminés");
-        model.addAttribute("Bouton1","Contrats en cours");
-        model.addAttribute("Bouton2","Contrats terminés");
+        boolean isActive = true;
+        model.addAttribute("ButtonTerminated", isActive);
+        model.addAttribute("ButtonValidating", !isActive);
+        model.addAttribute("ButtonValidated", !isActive);
         List<Agreement> myAgreementsTerminated = agreementService.getAllAgreementsTerminatedByUserId(currentUser.getId());
         model.addAttribute("MyAgreements", myAgreementsTerminated);
 
