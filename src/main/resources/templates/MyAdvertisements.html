@@ -73,9 +73,12 @@
                    class="btn "
                    id="bouton-secondaire">Modifier le bien</a>
                 <a th:href="@{/user/logement/suppression/{id} (id=${MyAccommodations.id})}"
-                   sec:authorize = "hasRole('ROLE_ADMIN')"
                    class="btn"
                    id="bouton-secondaire">Supprimer le logement</a>
+                <a th:href="@{/admin/creation-contrat/{id} (id=${MyAccommodations.id})}"
+                   class="btn"
+                   sec:authorize = "hasRole('ROLE_ADMIN')"
+                   id="bouton-secondaire">Créer un contrat</a>
 
             </div>
         </div>

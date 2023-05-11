@@ -5,6 +5,7 @@ import lombok.experimental.FieldDefaults;
 import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.parameters.P;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 
@@ -348,9 +349,7 @@ public class UserController {
         Accommodation updateAccommodation = accommodationService.getAccommodationById(id);
         if (currentUser.getRoles().contains(Role.ADMIN) || currentUser == updateAccommodation.getUser())
         {
-            AccommodationForm accommodationForm = new AccommodationForm();
             model.addAttribute("Accommodation", updateAccommodation);
-            model.addAttribute("AccommodationForm", accommodationForm);
             return "ModifyAccommodation";
         }
 
@@ -358,28 +357,72 @@ public class UserController {
     }
 
     @PostMapping(value = "/logement-modifie/{id}")
-    public String updateAccommodation (@PathVariable Long id, @ModelAttribute("Accommodation")AccommodationForm accommodationForm){
+    public String updateAccommodation (@PathVariable Long id, @ModelAttribute("Accommodation")Accommodation accommodation){
         User currentUser = userService.getCurrentUser();
         Accommodation updateAccommodation = accommodationService.getAccommodationById(id);
         if(currentUser.getRoles().contains(Role.ADMIN) || updateAccommodation.getUser()== currentUser)
         {
-            Address updateAccommodationAddress = addressService.getAddressByID(updateAccommodation.getAddress().getId());
-            City updateAccommodationCity = cityService.getCityById(updateAccommodationAddress.getCity().getId());
-            updateAccommodation.setTitle(accommodationForm.getTitle());
-            updateAccommodation.setRooms(accommodationForm.getRooms());
-            updateAccommodation.setSquareMeter(accommodationForm.getSquareMeter());
+            updateAccommodation.setTitle(accommodation.getTitle());
+            updateAccommodation.setRooms(accommodation.getRooms());
+            updateAccommodation.setSquareMeter(accommodation.getSquareMeter());
             accommodationService.saveAccommodation(updateAccommodation);
-            updateAccommodationAddress.setStreetNumber(accommodationForm.getStreetNumber());
-            updateAccommodationAddress.setStreetName(accommodationForm.getStreetName());
-            addressService.saveAddress(updateAccommodationAddress);
-            updateAccommodationCity.setName(accommodationForm.getCityName());
-            updateAccommodationCity.setZipCode(accommodationForm.getZipCode());
-            cityService.saveCity(updateAccommodationCity);
-
             return "redirect:/user/mes-annonces";
         }
-
         return"Erreur";
+    }
+
+    @GetMapping (value="/modification-adresse/{id}")
+    public String updateAddress (@PathVariable Long id, Model model){
+        User currentUser = userService.getCurrentUser();
+        Accommodation updateAccommodation = accommodationService.getAccommodationById(id);
+        Address updateAddress = addressService.getAddressByID(updateAccommodation.getAddress().getId());
+        if(currentUser.getRoles().contains(Role.ADMIN) || updateAccommodation.getUser() == currentUser){
+            model.addAttribute("Accommodation", updateAccommodation);
+            model.addAttribute("Address", updateAddress);
+            return "ModifyAddress";
+        }
+        return "Erreur";
+    }
+
+    @PostMapping (value ="/adresse-modifiee/{id}")
+    public String addressUpdated (@PathVariable Long id, @ModelAttribute("Address")Address address){
+        User currentUser = userService.getCurrentUser();
+        Accommodation updateAccommodation = accommodationService.getAccommodationById(id);
+        Address updateAdress = updateAccommodation.getAddress();
+        if(currentUser.getRoles().contains(Role.ADMIN) || updateAccommodation.getUser() == currentUser){
+            updateAdress.setStreetNumber(address.getStreetNumber());
+            updateAdress.setStreetName(address.getStreetName());
+            addressService.saveAddress(updateAdress);
+            return "redirect:/user/modification-logement/"+updateAccommodation.getId();
+        }
+        return "Erreur";
+    }
+
+    @GetMapping (value="/modification-ville/{id}")
+    public String updateCity (@PathVariable Long id, Model model){
+        User currentUser = userService.getCurrentUser();
+        Accommodation updateAccommodation = accommodationService.getAccommodationById(id);
+        City updateCity = accommodationService.getAccommodationById(id).getAddress().getCity();
+        if(currentUser.getRoles().contains(Role.ADMIN) || updateAccommodation.getUser() == currentUser){
+            model.addAttribute("Accommodation", updateAccommodation);
+            model.addAttribute("City", updateCity);
+            return "ModifyCity";
+        }
+        return "Erreur";
+    }
+
+    @PostMapping (value ="/ville-modifiee/{id}")
+    public String cityUpdated (@PathVariable Long id, @ModelAttribute("Address")City city){
+        User currentUser = userService.getCurrentUser();
+        Accommodation updateAccommodation = accommodationService.getAccommodationById(id);
+        City updateCity = accommodationService.getAccommodationById(id).getAddress().getCity();
+        if(currentUser.getRoles().contains(Role.ADMIN) || updateAccommodation.getUser() == currentUser){
+            updateCity.setName(city.getName());
+            updateCity.setZipCode(city.getZipCode());
+            cityService.saveCity(updateCity);
+            return "redirect:/user/modification-logement/"+updateAccommodation.getId();
+        }
+        return "Erreur";
     }
 
     @GetMapping (value = "/logement/suppression/{id}")

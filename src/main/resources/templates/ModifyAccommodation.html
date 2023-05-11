@@ -33,7 +33,7 @@
   </div>
 
   <div id="form-container">
-    <form th:action = "@{/user/logement-modifie/{id} (id=${Accommodation.id})}" th:object = "${AccommodationForm}" method = "POST">
+    <form th:action = "@{/user/logement-modifie/{id} (id=${Accommodation.id})}" th:object = "${Accommodation}" method = "POST">
       <div class="mb-3" id="form-input-container">
         <label class="form-label">Titre</label>
         <input
@@ -65,47 +65,16 @@
                 id="form-input"
                 th:field = "*{rooms}">
       </div>
-      <div class="mb-3" id="form-input-container">
-        <label class="form-label">Numéro de rue</label>
-        <input
-                type="number"
-                min="0.00"
-                max="10000.00"
-                step="1.00"
-                class="form-control"
-                id="form-input"
-                th:field = "*{streetNumber}">
-      </div>
-      <div class="mb-3" id="form-input-container">
-        <label class="form-label">Voirie</label>
-        <input
-                type="text"
-                class="form-control"
-                id="form-input"
-                th:field = "*{streetName}">
-      </div>
-      <div class="mb-3" id="form-input-container">
-        <label for="zipcode" class="form-label">Code Postal</label>
-        <input type="text"
-               name="zipcode"
-               class="form-control"
-               placeholder="Code postal"
-               id="zipcode"
-               th:field = "*{zipCode}">
-        <div style="display: none; color: #f55;" id="error-message"></div>
-      </div>
-      <div class="mb-3" id="form-input-container">
-        <label for="city" class="form-label">Ville</label>
-        <select
-                class="form-control"
-                name="city"
-                id="city"
-                th:field = "*{cityName}"
-        ></select>
-      </div>
       <div id="bouton-form-container">
         <button type="submit" class="btn" id="bouton-form">Modifier mon Logement</button>
+        <a th:href = "@{/user/modification-adresse/{id}(id=${Accommodation.id})}"
+           class="btn "
+           id="bouton-form">Modifier l'adresse</a>
+        <a th:href = "@{/user/modification-ville/{id}(id=${Accommodation.id})}"
+           class="btn "
+           id="bouton-form">Modifier la ville</a>
       </div>
+
     </form>
     <img id="form-image" th:src="@{/pics/wave.svg}">
 
