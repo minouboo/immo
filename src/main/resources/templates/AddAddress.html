@@ -39,11 +39,12 @@
                 <label class="form-label">Numéro de rue</label>
                 <input
                         type="number"
-                        min="0.00"
-                        max="10000.00"
-                        step="0.01"
+                        min="0"
+                        max="10000"
+                        step="1"
                         class="form-control"
                         id="form-input"
+                        required="required"
                         th:field = "*{streetNumber}">
             </div>
             <div class="mb-3" id="form-input-container">
@@ -52,6 +53,7 @@
                         type="text"
                         class="form-control"
                         id="form-input"
+                        required="required"
                         th:field = "*{streetName}">
             </div>
             <div class="mb-3" id="form-input-container">
@@ -61,6 +63,7 @@
                        class="form-control"
                        placeholder="Code postal"
                        id="zipcode"
+                       required="required"
                        th:field = "*{zipCode}">
                 <div style="display: none; color: #f55;" id="error-message"></div>
             </div>
@@ -70,6 +73,7 @@
                         class="form-control"
                         name="city"
                         id="city"
+                        required="required"
                         th:field = "*{cityName}"
                 ></select>
             </div>
