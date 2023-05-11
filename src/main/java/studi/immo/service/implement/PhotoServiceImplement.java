@@ -12,6 +12,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Random;
+import java.util.UUID;
 
 @Service
 public class PhotoServiceImplement implements PhotoService {
@@ -33,18 +35,17 @@ public class PhotoServiceImplement implements PhotoService {
     }
 
     @Override
-    public void saveImage(MultipartFile imageFile, Photo photo) throws IOException {
-        /*Path currentPath = Paths.get(".");
-        Path absolutePath = currentPath.toAbsolutePath();
-        photo.setPath(absolutePath + "/src/main/resources/static/images/");
-        byte [] bytes = imageFile.getBytes();
-        Path path = Paths.get(photo.getPath() + imageFile.getOriginalFilename());
-        Files.write(path, bytes);*/
+    public String saveImage(MultipartFile imageFile, Photo photo) throws IOException {
+        String originalFilename = imageFile.getOriginalFilename();
+        String extension = originalFilename.substring(originalFilename.lastIndexOf("."));
+        String randomFilename = imageFile.getOriginalFilename() + UUID.randomUUID().toString() + extension;
         String folder = pictureUploadPath;
+
         photo.setPath(folder);
         byte [] bytes = imageFile.getBytes();
-        Path path = Paths.get(folder + imageFile.getOriginalFilename());
+        Path path = Paths.get(folder + randomFilename);
         Files.write(path, bytes);
+        return randomFilename;
     }
 
     @Override

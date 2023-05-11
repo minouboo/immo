@@ -10,7 +10,7 @@ public interface PhotoService {
 
     Photo savePhoto (Photo photo);
 
-    void saveImage (MultipartFile imageFile, Photo photo) throws IOException;
+    String saveImage (MultipartFile imageFile, Photo photo) throws IOException;
 
     Photo getImageById (Long id);
 
