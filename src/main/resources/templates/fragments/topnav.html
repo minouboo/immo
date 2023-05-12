@@ -21,22 +21,23 @@
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                                 <li><a class="dropdown-item" th:href = "@{/admin/liste-logements}">Liste des logements</a></li>
                                 <li><a class="dropdown-item" th:href = "@{/admin/tout-users}">Liste des utilisateurs</a></li>
-                                <li><a class="dropdown-item" href="#">Propriétaire</a></li>
                             </ul>
                         </li>
                         <li class="nav-item dropdown" >
-                            <a class="nav-link dropdown-toggle"  role="button" data-bs-toggle="dropdown" aria-expanded="false" id="menu" sec:authorize="isAuthenticated()">Mon compte</a>
+                            <a class="nav-link dropdown-toggle"  role="button" data-bs-toggle="dropdown" aria-expanded="false" id="menu" sec:authorize="isAuthenticated()">Mon Immo</a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                <li><a class="dropdown-item" th:href = "@{/user/mes-annonces}">Mes annonces et logements</a></li>
+                                <li><a class="dropdown-item" th:href = "@{/contrat/mes-contrats}">Mes contrats</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item dropdown" >
+                            <a class="nav-link dropdown-toggle"  role="button" data-bs-toggle="dropdown" aria-expanded="false" id="menu" sec:authorize="isAuthenticated()">Mon profil</a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                                 <li><a class="dropdown-item" th:href = "@{/user/modifier-compte}">Mon profil</a></li>
                                 <li><a class="dropdown-item" th:href = "@{/user/mon-portefeuille}">Mon portefeuille</a></li>
-                                <li><a class="dropdown-item" th:href = "@{/user/mes-annonces}">Mes annonces</a></li>
                                 <li><a class="dropdown-item" th:href = "@{/chat/mes-conversations}">Mes messages</a></li>
-                                <li>
-                                    <a class="dropdown-item" th:href = "@{/logout}" sec:authorize="isAuthenticated()">Déconnexion</a>
-                                </li>
                             </ul>
                         </li>
-                        <a class="nav-link active" id="menu" aria-current="page" th:href = "@{/contrat/mes-contrats}" sec:authorize="isAuthenticated()">Mes Contrats</a>
                         <a class="nav-link active" id="menu" aria-current="page" th:href = "@{/logout}" sec:authorize="isAuthenticated()">Déconnexion</a>
                         <a class="nav-link active" id="menu" aria-current="page" th:href = "@{/creation-compte}" sec:authorize="isAnonymous()">S'inscrire</a>
                         <a class="nav-link active" id="menu" aria-current="page" th:href = "@{/login}" sec:authorize="isAnonymous()">Je me connecte</a>
