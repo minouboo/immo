@@ -49,6 +49,11 @@ public class PictureController {
             model.addAttribute("MainPhoto", mainPhoto);
             List<Photo> photosAdvertisement = photoService.getPhotosByAdvertisementId(id);
             model.addAttribute("Photo",photosAdvertisement);
+            boolean cannotUploadPhoto = false;
+            if (photosAdvertisement.size() >=3){
+                cannotUploadPhoto = true;
+            }
+            model.addAttribute("CannotUploadPhoto", cannotUploadPhoto);
             String folder = "/images/";
             model.addAttribute("Path",folder);
             if(currentUser.getRoles().contains(Role.ADMIN) || currentAdvertisement.getAccommodation().getUser().equals(currentUser)){
@@ -85,8 +90,8 @@ public class PictureController {
             try {
                 String fileName = photoService.saveImage(imageFile, photo);
                 photo.setFileName(fileName);
-                photo.setFileName(imageFile.getOriginalFilename());
                 photo.setAdvertisement(currentAdvertisement);
+                photo.setMainPhotos(Boolean.FALSE);
                 photoService.savePhoto(photo);
                 return "redirect:/photo/selection-images/"+currentAdvertisement.getId();
             } catch (IOException e) {

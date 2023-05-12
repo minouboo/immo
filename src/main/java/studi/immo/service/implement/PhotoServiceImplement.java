@@ -30,9 +30,7 @@ public class PhotoServiceImplement implements PhotoService {
 
 
     @Override
-    public Photo savePhoto(Photo photo) {
-        return photoRepository.save(photo);
-    }
+    public Photo savePhoto(Photo photo) {return photoRepository.save(photo);}
 
     @Override
     public String saveImage(MultipartFile imageFile, Photo photo) throws IOException {
@@ -59,8 +57,8 @@ public class PhotoServiceImplement implements PhotoService {
     }
 
     @Override
-    public Photo getMainPhotoByAdvertisementId(Long advertsiementId) {
-        return photoRepository.getMainPhotoByAdvertisementId(advertsiementId);
+    public Photo getMainPhotoByAdvertisementId(Long advertisementId) {
+        return photoRepository.getMainPhotoByAdvertisementId(advertisementId);
     }
 
     @Override
