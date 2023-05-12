@@ -20,10 +20,15 @@
 }
 
 #button-pic{
-    position:absolute;
-    right:10px;
-    width:100px;
-    height:30px;
+    position: absolute;
+    top: 8px;
+    right: 16px;
+
     color: white;
     background-color: #1abc9c;
+}
+
+#picture{
+    max-width: 60%;
+    height: auto;
 }
