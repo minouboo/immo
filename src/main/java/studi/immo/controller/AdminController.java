@@ -249,8 +249,10 @@ public class AdminController {
     @GetMapping (value = "/les-annonces/{id}")
     public String myAdvertisements (@PathVariable Long id, Model model){
         User targetUser = accommodationService.getAccommodationById(id).getUser();
-        model.addAttribute("MyAdvertisements",advertisementService.getAdvertisementAccommodationByUserId(targetUser.getId()));
-        model.addAttribute("MyAccommodations",accommodationService.getAccommodationByUserId(targetUser.getId()));
+        Accommodation targetAccommodation = accommodationService.getAccommodationById(id);
+        List<Advertisement> listAdvertisement = advertisementService.getAdvertisementByAccommodationId(id);
+        model.addAttribute("MyAdvertisements",listAdvertisement);
+        model.addAttribute("MyAccommodations",targetAccommodation);
         return "MyAdvertisements";
     }
 

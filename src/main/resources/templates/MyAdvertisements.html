@@ -18,36 +18,6 @@
 
     <div class="row" id="option">
 
-        <h2 id="titre">Annonces</h2>
-
-        <div class="card"  id="card-accomodation" th:each="MyAdvertisements : ${MyAdvertisements}">
-            <div th:each ="Photo:${MyAdvertisements.photos}" >
-                <div th:if="${Photo.mainPhotos == true}">
-                    <img class="card-img-top" th:src="@{'/images/'+ ${Photo.fileName}}" id="thumbnail-image" alt="Card image cap" >
-                </div>
-            </div>
-            <div class="card-body">
-                <h4 class="card-title" th:text="${MyAdvertisements.accommodation.title}"/>
-                <ul class="list-group list-group-horizontal">
-                    <li class="list-group-item" id="data-accommodation">Loyer (en €)</li>
-                    <li class="list-group-item" id="data-accommodation">Surface (en m²) </li>
-                </ul>
-                <ul class="list-group list-group-horizontal">
-                    <li class="list-group-item" id="data-accommodation" th:text="${MyAdvertisements.rentalPrice}"/>
-                    <li class="list-group-item" id="data-accommodation" th:text="${MyAdvertisements.accommodation.squareMeter}"/>
-                </ul>
-                <a th:href = "@{/logement/{id}(id=${MyAdvertisements.id})}"
-                   class="btn "
-                   id="bouton-secondaire">Modifier l'annonce</a>
-                <a th:href="@{/user/annonce/suppression/{id} (id=${MyAdvertisements.id})}"
-                   class="btn"
-                   id="bouton-secondaire">Supprimer l'annonce</a>
-            </div>
-        </div>
-    </div>
-
-    <div class="row" id="option">
-
         <h2 id="titre">Logements</h2>
 
         <div class="card"  id="card-accomodation" th:each="MyAccommodations : ${MyAccommodations}">
@@ -83,6 +53,38 @@
             </div>
         </div>
     </div>
+
+    <div class="row" id="option">
+
+        <h2 id="titre">Annonces</h2>
+
+        <div class="card"  id="card-accomodation" th:each="MyAdvertisements : ${MyAdvertisements}">
+            <div th:each ="Photo:${MyAdvertisements.photos}" >
+                <div th:if="${Photo.mainPhotos == true}">
+                    <img class="card-img-top" th:src="@{'/images/'+ ${Photo.fileName}}" id="thumbnail-image" alt="Card image cap" >
+                </div>
+            </div>
+            <div class="card-body">
+                <h4 class="card-title" th:text="${MyAdvertisements.accommodation.title}"/>
+                <ul class="list-group list-group-horizontal">
+                    <li class="list-group-item" id="data-accommodation">Loyer (en €)</li>
+                    <li class="list-group-item" id="data-accommodation">Surface (en m²) </li>
+                </ul>
+                <ul class="list-group list-group-horizontal">
+                    <li class="list-group-item" id="data-accommodation" th:text="${MyAdvertisements.rentalPrice}"/>
+                    <li class="list-group-item" id="data-accommodation" th:text="${MyAdvertisements.accommodation.squareMeter}"/>
+                </ul>
+                <a th:href = "@{/logement/{id}(id=${MyAdvertisements.id})}"
+                   class="btn "
+                   id="bouton-secondaire">Modifier l'annonce</a>
+                <a th:href="@{/user/annonce/suppression/{id} (id=${MyAdvertisements.id})}"
+                   class="btn"
+                   id="bouton-secondaire">Supprimer l'annonce</a>
+            </div>
+        </div>
+    </div>
+
+
 
 </main>
 

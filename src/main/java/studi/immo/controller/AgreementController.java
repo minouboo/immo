@@ -269,6 +269,12 @@ public class AgreementController {
         }
         model.addAttribute("CanTerminated", canTerminated);
 
+        boolean isTerminated = true;
+        if (currentAgreement.getIsTerminated().equals(Boolean.FALSE)){
+            isTerminated = false;
+        }
+        model.addAttribute("IsTerminated", isTerminated);
+
         User currentUser = userService.getCurrentUser();
         boolean isOwnerOrAdmin = false;
         if (currentUser.getRoles().contains(Role.ADMIN) || currentAgreement.getAccommodation().getUser().equals(currentUser)){
@@ -356,7 +362,16 @@ public class AgreementController {
 
     @GetMapping (value = "/supprimer-contrat/{id}")
     public String deleteAgreement (@PathVariable Long id){
+        User currentUser = userService.getCurrentUser();
+        Agreement deleteAgreement = agreementService.getAgreementById(id);
+        List<PaymentRequest> listPaymentDeleted = paymentRequestService.getPaymentRequestsByAgreementId(deleteAgreement.getId());
+        for (PaymentRequest paymentRequestDelete : listPaymentDeleted){
+            paymentRequestService.deletePaymentRequest(paymentRequestDelete.getId());
+        }
         agreementService.deleteAgreementById(id);
+        if(currentUser.getRoles().contains(Role.ADMIN)){
+            return "redirect:/admin/les-contrats/"+deleteAgreement.getAccommodation().getId();
+        }
         return "redirect:/contrat/mes-contrats";
     }
 
@@ -458,6 +473,14 @@ public class AgreementController {
         terminatedAgreement.setIsTerminated(Boolean.TRUE);
         agreementService.saveAgreement(terminatedAgreement);
         return "redirect:/contrat/mes-contrats-termines";
+    }
+
+    @PostMapping (value = "/activer-contrat/{id}")
+    public String agreementActivated (@PathVariable Long id, @ModelAttribute Agreement agreement){
+        Agreement terminatedAgreement = agreementService.getAgreementById(id);
+        terminatedAgreement.setIsTerminated(Boolean.FALSE);
+        agreementService.saveAgreement(terminatedAgreement);
+        return "redirect:/contrat/mes-contrats-valides";
     }
 
 

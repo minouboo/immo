@@ -24,5 +24,6 @@ public interface AdvertisementService {
 
     List<Advertisement> searchAdvertisement (String keyword);
 
+    List<Advertisement> getAdvertisementByAccommodationId (Long accommodationId);
 
 }

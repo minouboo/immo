@@ -12,7 +12,7 @@
 
 <body>
 
-<div th:replace="fragments/topnav :: navbar"></div>
+    <div th:replace="fragments/topnav :: navbar"></div>
 
 <main>
 
@@ -24,8 +24,13 @@
     <div class="row" id="option">
         <div class="card"  id="card-accomodation" th:each="Advertisement : ${Advertisement}">
             <div th:each ="Photo:${Advertisement.photos}" >
-                <div th:if="${Photo.mainPhotos == true}">
-                    <img class="card-img-top" th:src="@{'/images/'+ ${Photo.fileName}}" id="thumbnail-image" alt="Card image cap" >
+                <div th:if="${Photo.mainPhotos == null}">
+                    <img th:src="@{/pics/apartments-sample.jpeg}" class="w-100 shadow-1-strong rounded mb-4" id="picture" alt="...">
+                </div>
+                <div th:unless="${Photo.mainPhotos == null}">
+                    <div th:if="${Photo.mainPhotos == true}">
+                        <img class="card-img-top" th:src="@{'/images/'+ ${Photo.fileName}}" id="thumbnail-image" alt="Card image cap" >
+                    </div>
                 </div>
             </div>
             <div class="card-body" id="card-info">

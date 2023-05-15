@@ -63,5 +63,10 @@ public class AdvertisementServiceImplement implements AdvertisementService {
         return advertisementRepository.searchAdvertisement(keyword);
     }
 
+    @Override
+    public List<Advertisement> getAdvertisementByAccommodationId(Long accommodationId) {
+        return advertisementRepository.getAdvertisementByAccommodationId(accommodationId);
+    }
+
 
 }

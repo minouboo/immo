@@ -56,10 +56,10 @@
                 </div>
 
                 <div th:if="${IsOwnerOrAdmin}">
-                    <div class="row" id="info-container" th:if= "${AgreementValidated}">
+                    <div class="row" id="info-container" th:if= "${AgreementValidated && !IsTerminated}">
                         <a th:href = "@{/contrat/etat-des-lieux-sortie/{id} (id=${InventoryExit.id})}" class="btn " id="bouton-secondaire">Effectuer/modifier l'état des lieux de sortie</a>
                     </div>
-                    <div class="row" id="info-container" th:if= "${AgreementValidated}">
+                    <div class="row" id="info-container" th:if= "${AgreementValidated && !IsTerminated}">
                         <div th:if= "${CanTerminated}">
                             <form
                                     th:action = "@{/contrat/terminer-contrat/{id} (id=${Agreement.id})}"
@@ -96,9 +96,46 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row" id="info-container" th:if= "${AgreementValidated}" >
-                        <a th:href = "@{/contrat/supprimer-contrat/{id} (id=${Agreement.id})}" class="btn " id="bouton-secondaire">Supprimer le contrat</a>
+                    <div th:if= "${AgreementValidated}">
+                        <!-- Button trigger modal -->
+                        <button type="button" class="btn " id="bouton-secondaire" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                            Supprimer le contrat
+                        </button>
+
+                        <!-- Modal -->
+                        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="exampleModalLabel">Êtes vous sûr de vouloir supprimer le contrat?</h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <span>Si vous supprimez le contrat, tous les paiements, l'historique de paiement, les détails du contrat et les états des lieux seront perdus.</span>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn" data-bs-dismiss="modal" id="bouton-secondaire">Fermer</button>
+                                        <a th:href = "@{/contrat/supprimer-contrat/{id} (id=${Agreement.id})}" class="btn btn-danger ">Supprimer le contrat</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
+
+                    <div>
+                        <div th:if= "${IsTerminated}">
+                            <form
+                                    th:action = "@{/contrat/activer-contrat/{id} (id=${Agreement.id})}"
+                                    th:object = "${AgreementValidation}" method = "POST" >
+
+                                <button
+                                        class="btn"
+                                        type = "submit"
+                                        id="bouton-secondaire" >Ré-activer le contrat</button>
+                            </form>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </div>

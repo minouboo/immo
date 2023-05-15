@@ -90,6 +90,9 @@
         <div id="bouton-form-container">
             <a th:if= "${IsTenant}" th:href="@{/user/modifier-locataire}" type="submit" class="btn" id="bouton-form">Modifier mon compte Locataire</a>
             <a th:if= "${IsAgency}" th:href="@{/user/modifier-agence}" type="submit" class="btn" id="bouton-form">Modifier mon compte d'agence</a>
+            <a th:href = "@{/}"
+               class="btn"
+               id="bouton-form">Retourner sur la page d'accueil</a>
         </div>
         <img id="form-image" th:src="@{/pics/wave.svg}">
 

@@ -20,7 +20,13 @@
         <div class="row" id="option">
 
             <h2 th:text="${Title}"/>
-            <h4 class="card-title" th:text="${Accommodation.title}"/>
+            <div id="bouton-secondaire-container">
+                <a th:href = "@{/admin/liste-logements}"
+                   sec:authorize = "hasRole('ROLE_ADMIN')"
+                   class="btn"
+                   id="bouton">Liste des logements</a>
+            <div>
+            <h3 class="card-title" th:text="${Accommodation.title}"/>
 
             <div id="bouton-container-message">
                 <a th:if ="${#bools.isTrue(ButtonValidating)}" th:href = "@{/admin/les-contrats/{id}(id=${Accommodation.id})}" class="btn " id="bouton">Les contrats à valider</a>

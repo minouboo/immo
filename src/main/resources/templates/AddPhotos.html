@@ -17,7 +17,12 @@
 
 <main>
 
-    <h2 sec:authorize="isAnonymous()" id="titre">Ajouter les photos de votre bien</h2>
+    <h2 id="titre">Ajouter les photos de votre bien</h2>
+    <div id="bouton-secondaire-container">
+        <a th:href = "@{/logement/{id} (id=${MyAdvertisement.id})}"
+           class="btn"
+           id="bouton-secondaire">Retourner sur votre annonce</a>
+    </div>
     <div class="grid" >
 
         <div class="col-sm-6" id="option">
