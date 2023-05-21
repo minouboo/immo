@@ -14,6 +14,12 @@ public class Tenant extends GenericEntity{
     @Column
     private BigDecimal revenues;
 
+    @Column
+    private String maritalStatus;
+
+    @Column
+    private String professionalStatus;
+
     @ManyToOne
     private Agreement agreement;
 

@@ -40,6 +40,24 @@
                         th:field = "*{revenues}"
                         placeholder="Entrer vos revenus">
             </div>
+            <div class="mb-3" id="form-input-container">
+                <label class="form-label">Votre situation familiale</label>
+                <select name="MaritalStatus" th:field = "*{maritalStatus}">
+                    <option th:value="autre" th:text="Autre"></option>
+                    <option th:value="'celibataire'" th:text="Célibataire"></option>
+                    <option th:value="'couple'" th:text="Couple"></option>
+                    <option th:value="'marié'" th:text="Marié"></option>
+                </select>
+            </div>
+            <div class="mb-3" id="form-input-container">
+                <label class="form-label">Votre situation professionnelle</label>
+                <select name="ProfessionalStatus" th:field = "*{professionalStatus}">
+                    <option th:value="'autre'" th:text="Autre"></option>
+                    <option th:value="'employee'" th:text="Employé"></option>
+                    <option th:value="'chomage'" th:text="Chomage"></option>
+                    <option th:value="'independant'" th:text="Indépendant"></option>
+                </select>
+            </div>
 
 
             <div id="bouton-form-container">

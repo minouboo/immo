@@ -81,6 +81,14 @@
                         th:field = "*{password}"
                         placeholder="Entrer votre mot de passe">
             </div>
+            <div class="mb-3" id="form-input-container">
+                <label class="form-label">Je suis</label>
+                <select name="Role" th:field = "*{roles}">
+                    <option th:value="'LANDLORD'" th:text="Propriétaire"></option>
+                    <option th:value="'TENANT'" th:text="Locataire"></option>
+                    <option th:value="'AGENCY'" th:text="Agence"></option>
+                </select>
+            </div>
 
             <div id="bouton-form-container">
                 <button type="submit" class="btn" id="bouton-form">Je modifie le compte</button>
@@ -88,7 +96,7 @@
         </form>
         <div id="bouton-form-container">
             <a th:if= "${IsTenant}" th:href="@{/admin/creation-locataire/{id} (id=${UserToModify.id})}" type="submit" class="btn" id="bouton-form">Modifier le compte Locataire</a>
-            <a th:if= "${IsAgency}" th:href="@{/admin/modifier-agence}" type="submit" class="btn" id="bouton-form">Modifier le compte d'agence</a>
+            <!--<a th:if= "${IsAgency}" th:href="@{/admin/modifier-agence}" type="submit" class="btn" id="bouton-form">Modifier le compte d'agence</a>-->
         </div>
         <img id="form-image" th:src="@{/pics/wave.svg}">
 

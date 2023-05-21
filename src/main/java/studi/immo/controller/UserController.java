@@ -104,6 +104,8 @@ public class UserController {
         }
         tenant.setRevenues(tenant.getRevenues());
         tenant.setUser(tenantUser);
+        tenant.setMaritalStatus(tenant.getMaritalStatus());
+        tenant.setProfessionalStatus(tenant.getProfessionalStatus());
         tenantService.saveTenant(tenant);
         return "redirect:/liste-de-logement";
     }
@@ -130,6 +132,8 @@ public class UserController {
         }
         Tenant currentTenant = tenantService.getTenantByUserId(currentUser.getId());
         currentTenant.setRevenues(tenant.getRevenues());
+        currentTenant.setMaritalStatus(tenant.getMaritalStatus());
+        currentTenant.setProfessionalStatus(tenant.getProfessionalStatus());
         tenantService.saveTenant(currentTenant);
         return "redirect:/user/modifier-compte";
     }

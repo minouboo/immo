@@ -234,6 +234,8 @@ public class AdminController {
         {
             tenant.setRevenues(tenant.getRevenues());
             tenant.setUser(tenantUser);
+            tenant.setMaritalStatus(tenant.getMaritalStatus());
+            tenant.setProfessionalStatus(tenant.getProfessionalStatus());
             tenantService.saveTenant(tenant);
             return "redirect:/admin/tout-users";
         }
@@ -241,6 +243,8 @@ public class AdminController {
         {
             currentTenant.setRevenues(tenant.getRevenues());
             currentTenant.setUser(tenantUser);
+            currentTenant.setMaritalStatus(tenant.getMaritalStatus());
+            currentTenant.setProfessionalStatus(tenant.getProfessionalStatus());
             tenantService.saveTenant(currentTenant);
             return "redirect:/admin/tout-users";
         }
