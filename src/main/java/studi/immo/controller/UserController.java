@@ -429,12 +429,17 @@ public class UserController {
     public String deleteAccommodation (@PathVariable Long id ,Model model){
         User currentUser = userService.getCurrentUser();
         Accommodation updateAccommodation = accommodationService.getAccommodationById(id);
+        Address deleteAddress = updateAccommodation.getAddress();
+        ChatRoom deleteChatRoom = chatRoomService.findByAccommodationId(updateAccommodation.getId());
         List<Agreement> listAgreementAccommodation = agreementService.getAllAgreementWithAccommodationId(updateAccommodation.getId());
         if (currentUser.getRoles().contains(Role.ADMIN) || currentUser == updateAccommodation.getUser())
         {
             if ( listAgreementAccommodation.size() == 0 && listAgreementAccommodation.isEmpty())
             {
+                deleteChatRoom.setAccommodation(null);
+                chatRoomService.saveChatRoom(deleteChatRoom);
                 accommodationService.deleteAccommodationById(id);
+                addressService.deleteAddressById(deleteAddress.getId());
                 return "redirect:/user/mes-annonces";
             } else if (listAgreementAccommodation.size() != 0) {
                 return "ErreurLogementSuppression";

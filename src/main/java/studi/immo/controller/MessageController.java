@@ -100,6 +100,10 @@ public class MessageController {
         if (user == null){
             return "redirect:/login";
         }
+        model.addAttribute("Title","Mes messages");
+        boolean isActive = true;
+        model.addAttribute("ButtonMessage", isActive);
+        model.addAttribute("ButtonMessageArchived", !isActive);
         List<ChatRoom> myChatRooms = chatRoomService.getAllChatRoomByUserTenantId(user.getId());
         model.addAttribute("MyChatRoom", myChatRooms);
         return "MyChatRooms";
@@ -111,9 +115,13 @@ public class MessageController {
         if (user == null){
             return "redirect:/login";
         }
+        model.addAttribute("Title","Mes messages archivés");
+        boolean isActive = true;
+        model.addAttribute("ButtonMessage", !isActive);
+        model.addAttribute("ButtonMessageArchived", isActive);
         List<ChatRoom> myChatRooms = chatRoomService.getAllChatRoomArchivedByUserTenantId(user.getId());
         model.addAttribute("MyChatRoom", myChatRooms);
-        return "MyChatRoomsArchived";
+        return "MyChatRooms";
     }
 
     @GetMapping (value = "/conversation-message/{id}")

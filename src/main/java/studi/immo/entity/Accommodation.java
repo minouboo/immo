@@ -28,7 +28,7 @@ public class Accommodation extends GenericEntity {
     @ManyToOne (cascade = CascadeType.ALL)
     private Address address;
 
-    @OneToMany (mappedBy = "accommodation", cascade = CascadeType.REMOVE)
+    @OneToMany (mappedBy = "accommodation", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Advertisement> advertisements;
 
 }

@@ -8,4 +8,6 @@ public interface AddressService {
 
     Address getAddressByID (Long id);
 
+    void deleteAddressById (Long id);
+
 }
