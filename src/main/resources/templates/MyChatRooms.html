@@ -19,21 +19,24 @@
 
     <div class="row" id="option">
 
-        <h2 id="titre">Mes messages</h2>
+        <h2 id="titre" th:text="${Title}"/>
         <div id="bouton-container-message">
-            <a th:href = "@{/chat/mes-conversations-archivees}" class="btn" id="bouton">Mes messages archivés</a>
+            <a th:if ="${#bools.isTrue(ButtonMessage)}" th:href = "@{/chat/mes-conversations}" class="btn" id="bouton">Mes messages</a>
+            <a th:unless ="${#bools.isTrue(ButtonMessage)}" th:href = "@{/chat/mes-conversations}" class="btn" id="bouton-secondaire">Mes messages</a>
+            <a th:if ="${#bools.isTrue(ButtonMessageArchived)}" th:href = "@{/chat/mes-conversations-archivees}" class="btn" id="bouton">Mes messages archivés</a>
+            <a th:unless ="${#bools.isTrue(ButtonMessageArchived)}" th:href = "@{/chat/mes-conversations-archivees}" class="btn" id="bouton-secondaire">Mes messages archivés</a>
         </div>
 
 
         <div class="card"  id="card-accomodation" th:each="MyChatRoom : ${MyChatRoom}">
             <div class="card-body">
-                <h4 class="card-title" th:text="${MyChatRoom.accommodation.title}"/>
+                <!--<h4 class="card-title" th:text="${MyChatRoom.accommodation.title}"/>-->
                 <p class="card-text" id="subtitle">
                     <small class="text-muted">Discussion entre:</small>
                 <ul class="text-muted" th:each="users : ${MyChatRoom.users}">
                     <li th:text="${users.userName}"></li>
                 </ul>
-                </p>
+                <!--</p>
                 <p class="card-text" id="subtitle"><small class="text-muted" th:text="'Pour un logement à '+ ${MyChatRoom.accommodation.address.city.name} +' '+ ${MyChatRoom.accommodation.address.city.zipCode}"/></p>
                 <ul class="list-group list-group-horizontal">
                     <li class="list-group-item" id="data-accommodation">Nombre de pièce</li>
@@ -42,9 +45,10 @@
                 <ul class="list-group list-group-horizontal">
                     <li class="list-group-item" id="data-accommodation" th:text="${MyChatRoom.accommodation.rooms}"/>
                     <li class="list-group-item" id="data-accommodation" th:text="${MyChatRoom.accommodation.squareMeter}"/>
-                </ul>
+                </ul>-->
                 <a th:href = "@{/chat/conversation-message/{id}(id=${MyChatRoom.id})}" class="btn " id="bouton-secondaire">Voir la discussion</a>
-                <a th:href = "@{/chat/conversation/suppression/{id}(id=${MyChatRoom.id})}" class="btn " id="bouton-secondaire">Archiver la discussion</a>
+                <a th:href = "@{/chat/conversation/suppression/{id}(id=${MyChatRoom.id})}" class="btn " id="bouton-secondaire" th:if = "${#bools.isFalse(MyChatRoom.archived)}">Archiver la discussion</a>
+                <a th:href = "@{/chat/conversation/remettre/{id}(id=${MyChatRoom.id})}" class="btn " id="bouton-secondaire" th:if = "${#bools.isTrue(MyChatRoom.archived)}">Désarchiver la discussion</a>
             </div>
         </div>
     </div>

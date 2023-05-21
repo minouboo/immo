@@ -12,7 +12,7 @@ import java.util.Set;
 @Getter
 public class ChatRoom extends GenericEntity{
 
-    @ManyToOne
+    @ManyToOne (cascade = CascadeType.ALL)
     private Accommodation accommodation;
 
     @ManyToMany

@@ -42,5 +42,10 @@ public class ChatRoomServiceImplement implements ChatRoomService {
         return chatRoomRepository.getAllChatRoomArchivedByUserTenantId(userTenantId);
     }
 
+    @Override
+    public ChatRoom findByAccommodationId(Long accommodationId) {
+        return chatRoomRepository.findByAccommodationId(accommodationId).orElse(null);
+    }
+
 
 }
