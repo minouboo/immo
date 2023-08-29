@@ -1,3 +1,5 @@
+Real Estate Application developed in Java Springboot, PostgreSQL and Thymeleaf Bootstrap
+
 # immo
 commande pour création target:
     ./mvnw package
